@@ -6,4 +6,16 @@ app_name = 'clubmate'
 
 urlpatterns = [
     path('', views.index, name='index'),
+    path('about/', views.about, name='about'),
+    path('discover/', views.discover, name='discover'),
+    path('club_detail/<int:club_id>/', views.club_detail, name='club_detail'),
+    path('ratings/', views.ratings, name='ratings'),
+    path('rating_detail/<int:rating_id>/', views.rating_detail, name='rating_detail'),
+    path('rate/', views.rate, name='rate'),
+    path('add_club/', views.add_club, name='add_club'),
+    path('profile/<str:username>/', views.profile, name='profile'),
+    path('edit_club/<int:club_id>/', views.edit_club, name='edit_club'),
+    path('delete_club/<int:club_id>/', views.delete_club, name='delete_club'),
+    path('edit_rating/<int:rating_id>/', views.edit_rating, name='edit_rating'),
+    path('delete_rating/<int:rating_id>/', views.delete_rating, name='delete_rating'),
 ]
