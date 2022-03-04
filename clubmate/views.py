@@ -39,7 +39,7 @@ def rate(request):
 
 @staff_member_required
 def add_club(request):
-    pass  # Add appropriate template
+    return render(request, 'clubmate/add_club.html')
 
 
 @login_required
@@ -52,12 +52,12 @@ def profile(request, username):
 
 @staff_member_required
 def edit_club(request, club_id):
-    pass  # Add appropriate template
+    return render(request, 'clubmate/edit_club.html')
 
 
 @staff_member_required
 def delete_club(request, club_id):
-    pass  # Add appropriate template
+    return render(request, 'clubmate/delete_club.html')
 
 
 @login_required
