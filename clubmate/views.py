@@ -1,13 +1,15 @@
 from django.contrib.admin.views.decorators import staff_member_required
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import User
 from django.shortcuts import render
 
+from clubmate.models import Club, UserProfile
 
-# We will likely need views for: login, logout, register
-# based on if we are using some out-of-the-box solution or not (K).
 
 def index(request):
-    return render(request, 'clubmate/index.html')
+    clubs = sorted(Club.objects.all(), key=lambda c: c.average_rating, reverse=True)  # Ordering high to low
+    context = {'clubs': clubs}
+    return render(request, 'clubmate/index.html', context=context)
 
 
 def about(request):
@@ -42,7 +44,10 @@ def add_club(request):
 
 @login_required
 def profile(request, username):
-    pass  # Add appropriate template
+    user = User.objects.get(username=username)  # Match username from the default user
+    clubmate_user = UserProfile.objects.get(user=user)  # Match it with our custom user
+    context = {'clubmate_user': clubmate_user}
+    return render(request, 'clubmate/profile.html', context=context)
 
 
 @staff_member_required

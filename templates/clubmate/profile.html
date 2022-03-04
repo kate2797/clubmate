@@ -2,9 +2,20 @@
 {% load staticfiles %}
 
 {% block title_block %}
-    Profile Page
+    Profile
 {% endblock %}
 
+# To see demo, access: http://127.0.0.1:8000/profile/group33/
+
 {% block body_block %}
-   
+    <div class="row">
+        <div class="col-md-3">
+            <img src="{{ clubmate_user.picture.url }}" width="200" class="mb-2">
+            <p>Edit profile picture</p>
+        </div>
+        <div class="col-md-8">
+            <h1>{{ user.username }}</h1>
+            <p>{{ clubmate_user.bio }}</p>
+        </div>
+    </div>
 {% endblock %}

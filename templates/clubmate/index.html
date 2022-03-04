@@ -7,20 +7,14 @@
 
 {% block body_block %}
     <h1>Test Bootstrap</h1>
-    <p>Bonbon topping toffee gingerbread jujubes jelly-o oat cake pudding brownie. Bear claw chocolate cake
-        tootsie roll
-        marzipan gingerbread gummies. Cake bear claw croissant sweet roll candy jelly cake. Shortbread dessert
-        sesame
-        snaps cotton candy marshmallow chupa chups. Cheesecake tootsie roll cheesecake tart sesame snaps carrot
-        cake
-        lemon drops topping. Pastry cotton candy cake candy cupcake gummi bears donut. Cake muffin pudding
-        carrot cake
-        bonbon chocolate cake. Brownie sweet roll dragée cake shortbread sugar plum macaroon oat cake. Liquorice
-        muffin
-        jelly sesame snaps cotton candy sweet icing danish cake. Lemon drops jelly-o cake danish jelly beans
-        topping
-        apple pie. Carrot cake gummi bears marzipan gingerbread pie gummi bears. Caramels cake dragée gummi
-        bears halvah
-        tart topping topping gummies. Cake gummies biscuit jelly-o gummi bears sugar plum toffee.
-    </p>
+    <p>Testing rating high to low</p>
+
+    <div>
+        {% for club in clubs %}
+            <p class="mb-2">Name: {{ club.name }}</p>
+            <p class="mb-2">Avg rating: {{ club.average_rating }}</p>
+            <p class="mb-2">Reported safety: {{ club.user_reported_safety }}</p>
+            <img src="{{ club.picture.url }}" width="200" class="mb-5">
+        {% endfor %}
+    </div>
 {% endblock %}
