@@ -6,6 +6,7 @@ __pycache__
 db.sqlite3
 media
 .env
+dump.json
 secret.key
 
 # Byte-compiled / optimized / DLL files

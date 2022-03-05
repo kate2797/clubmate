@@ -7,4 +7,72 @@
 
 {% block body_block %}
     <h1>Discover</h1>
+    <p>Unsure where to go with your friends tonight? We’ve got your back. The best rated clubs are a good place to
+        start!</p>
+
+    <!-- Best Rated -->
+    <div class="d-inline-flex p-2">
+        <div class="card" style="width: 18rem;">
+            <div class="card-header">
+                Best Rated 🥇
+            </div>
+            <ul class="list-group list-group-flush">
+                {% for club in clubs_by_rating %}
+                    <li class="list-group-item"><a href="{% url 'clubmate:club_detail' club.id %}">{{ club.name }}</a>
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+    <!-- Deemed Safe -->
+    <div class="d-inline-flex p-2">
+        <div class="card" style="width: 18rem;">
+            <div class="card-header">
+                Reported Safe ❤️‍🩹
+            </div>
+            <ul class="list-group list-group-flush">
+                {% for club in safe_clubs %}
+                    <li class="list-group-item"><a href="{% url 'clubmate:club_detail' club.id %}">{{ club.name }}</a>
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+    <!-- Cheapest -->
+    <div class="d-inline-flex p-2">
+        <div class="card" style="width: 18rem;">
+            <div class="card-header">
+                Cheapest 💰
+            </div>
+            <ul class="list-group list-group-flush">
+                {% for club in cheapest_clubs %}
+                    <li class="list-group-item"><a href="{% url 'clubmate:club_detail' club.id %}">{{ club.name }}</a>
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+
+    <h2 class="mt-3 mb-3">See All</h2> <!-- Margin top and bottom on h2 headings -->
+
+    {% for club in all_clubs %}
+        <div class="card mb-3">
+            <div class="card-body">
+                <h5 class="card-title"><a href="{% url 'clubmate:club_detail' club.id %}">{{ club.name }}</a></h5>
+                <p>TODO: SHOW RATING AS STARS</p>
+                <p class="card-text">{{ club.club_description }}</p>
+                <a href="{% url 'clubmate:rate' %}" class="btn btn-primary">Rate</a>
+                <!-- TODO: prepopulated field of this club -->
+                <a href="#" class="btn btn-primary">Save</a> <!-- TODO: added to their profile -->
+            </div>
+        </div>
+
+        <!-- Limit how many shown by JS -->
+
+
+    {% endfor %}
+
+
+
+
 {% endblock %}

@@ -19,7 +19,7 @@ class Club(models.Model):
 
     @property
     def average_rating(self):
-        return self.ratings_list.aggregate(Avg('rating_score'))['rating_score__avg']  # Order on-the-fly, in views
+        return self.ratings_list.aggregate(Avg('rating_score'))['rating_score__avg']  # Order by on-the-fly in views
 
     @property
     def user_reported_safety(self):
@@ -35,7 +35,7 @@ class UserProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     picture = models.ImageField(upload_to='profile_pictures', default='profile_pictures/default_user.png', blank=True)
     bio = models.CharField(max_length=100, blank=True)
-    clubs = models.ManyToManyField(Club)  # Storing the clubs users saved/added
+    clubs = models.ManyToManyField(Club, blank=True)  # Storing the clubs users saved/added
 
     def __str__(self):
         return self.user.username

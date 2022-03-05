@@ -7,9 +7,7 @@ from clubmate.models import Club, UserProfile
 
 
 def index(request):
-    clubs = sorted(Club.objects.all(), key=lambda c: c.average_rating, reverse=True)  # Ordering high to low
-    context = {'clubs': clubs}
-    return render(request, 'clubmate/index.html', context=context)
+    return render(request, 'clubmate/index.html')
 
 
 def about(request):
@@ -17,11 +15,21 @@ def about(request):
 
 
 def discover(request):
-    return render(request, 'clubmate/discover.html')
+    all_clubs = Club.objects.all()
+    clubs_by_rating = sorted(Club.objects.all(), key=lambda c: c.average_rating, reverse=True)[:3]  #  Ordering high to low
+    safe_clubs = sorted(Club.objects.all(), key=lambda c: c.user_reported_safety)[:3]
+    cheapest_clubs = Club.objects.order_by('entry_fee')[:3]
+    context = {'all_clubs': all_clubs, 'clubs_by_rating': clubs_by_rating, 'safe_clubs': safe_clubs, 'cheapest_clubs': cheapest_clubs}
+    return render(request, 'clubmate/discover.html', context=context)
 
 
 def club_detail(request, club_id):
-    return render(request, 'clubmate/club_detail.html')
+    try:
+        club = Club.objects.get(pk=club_id)
+    except Club.DoesNotExist:
+        club = None
+    context = {'club': club}
+    return render(request, 'clubmate/club_detail.html', context=context)
 
 
 def ratings(request):
@@ -34,12 +42,12 @@ def rating_detail(request, rating_id):
 
 @login_required
 def rate(request):
-    pass  # Add appropriate template
+    return render(request, 'clubmate/edit_rating.html')
 
 
 @staff_member_required
 def add_club(request):
-    pass  # Add appropriate template
+    return render(request, 'clubmate/add_club.html')
 
 
 @login_required
@@ -52,12 +60,12 @@ def profile(request, username):
 
 @staff_member_required
 def edit_club(request, club_id):
-    pass  # Add appropriate template
+    return render(request, 'clubmate/edit_club.html')
 
 
 @staff_member_required
 def delete_club(request, club_id):
-    pass  # Add appropriate template
+    return render(request, 'clubmate/delete_club.html')
 
 
 @login_required

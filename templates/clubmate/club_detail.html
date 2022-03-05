@@ -2,9 +2,33 @@
 {% load staticfiles %}
 
 {% block title_block %}
-    club_name will appear here dynamically
+    {% if club %}
+        {{ club.name }}
+    {% else %}
+        Unknown Club
+    {% endif %}
 {% endblock %}
 
 {% block body_block %}
-    <h1>club_name will appear here dynamically</h1>
+    {% if club %}
+        <p>Add average rating</p>
+        <h1>{{ club.name }}</h1>
+        <p>{{ club.bio }}</p>
+        <img src="{{ club.picture.url }}" width="200" class="mb-5">
+        <p><strong>Entry Fee </strong>£ {{ club.entry_fee }}</p>
+        <p><strong>Genre </strong>{{ club.genre }}</p>
+        <p><strong>City </strong>{{ club.city }}</p>
+        <p><strong>Reported Safety </strong>{{ club.user_reported_safety }}</p>
+        <p><strong>Opening Hours </strong>Mon-Fri: {{ club.opening_hours_week }}, Sat-Sun: {{ club.opening_hours_weekend }}</p>
+        <p><strong>Website </strong>{{ club.website_url }}</p>
+        <p><strong>18+ Entry </strong>{{ club.underage_visitors_allowed }}</p>
+        <p><strong>COVID Test Required </strong>{{ club.covid_test_required }}</p>
+
+        <h2 class="mt-3 mb-3">Location</h2> <!-- Margin top and bottom on h2 headings -->
+        <h2 class="mt-3 mb-3">Upcoming events</h2>
+        <h2 class="mt-3 mb-3">Recent User Ratings</h2>
+
+    {% else %}
+        The specified club does not exist
+    {% endif %}
 {% endblock %}
