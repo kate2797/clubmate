@@ -12,8 +12,8 @@
 {% block body_block %}
     {% if club %}
         <!-- Display club details -->
-        <h1>{{ club.name }} <span class="badge badge-pill badge-light">⭐ {{ club.average_rating }}</span> <span
-                class="badge badge-pill badge-light">❤️‍🩹 {{ club.user_reported_safety }}</span></h1>
+        <h1>{{ club.name }} <span class="badge badge-pill badge-dark">⭐ {{ club.average_rating }}</span> <span
+                class="badge badge-pill badge-dark">❤️‍🩹 {{ club.user_reported_safety }}</span></h1>
         <p>{{ club.club_description }}</p>
         <img src="{{ club.picture.url }}" width="40%" class="mb-3">
         <p><strong>Minimum Entry Fee </strong>£{{ club.entry_fee }}</p>
@@ -52,8 +52,8 @@
             <div class="card mb-3">
                 <div class="card-body">
                     <h5 class="card-title">{{ rating.title }} <span
-                            class="badge badge-pill badge-light">⭐ {{ rating.rating_score }}</span> <span
-                            class="badge badge-pill badge-light">❤️‍🩹 {{ rating.user_reported_safety }}</span></h5>
+                            class="badge badge-pill badge-dark">⭐ {{ rating.rating_score }}</span> <span
+                            class="badge badge-pill badge-dark">❤️‍🩹 {{ rating.user_reported_safety }}</span></h5>
                     <p class="card-text">{{ rating.user_commentary }}</p>
                     <blockquote class="blockquote mb-3">
                         <footer class="blockquote-footer">said {{ rating.author }}

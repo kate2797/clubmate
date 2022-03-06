@@ -7,7 +7,17 @@
 
 {% block body_block %}
     <h1>Clubmate 👋</h1>
-  <h4>It's easy to find a good club with Clubmate</h4>
-</div>
-
+    <h4 class="mt-3 mb-3">Student clubbing made fun, safe and easy</h4>
+    <!-- Search -->
+    <div class="mt-3 mb-3">
+        <form class="form-inline my-2 my-lg-0">
+            <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+        </form>
+    </div>
+    <!-- The rest of the content -->
+    <p>Not sure what you are looking for? No problem, discover by clubs by various criteria or browse lists of clubs we
+        curated for you!</p>
+    <a href="{% url 'clubmate:discover' %}" class="btn btn-primary">Discover</a>
+    <p class="mt-3 mb-3">TODO: finish the layout/styling of this, add search</p> <!-- TODO -->
 {% endblock %}
