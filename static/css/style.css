@@ -11,3 +11,12 @@ body {
     background-repeat: no-repeat;
     background-size: cover;
 }
+
+.align-right {
+    padding: 0;
+    margin: 0;
+    float: right;
+}
+
+#map { height: 200px;
+}

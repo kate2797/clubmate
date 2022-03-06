@@ -1,8 +1,8 @@
 from django.contrib.auth.models import User
 from django.db import models
 from django.db.models import Avg
+from django.core.validators import MaxValueValidator, MinValueValidator
 
-#comment
 
 class Club(models.Model):
     name = models.CharField(max_length=30)
@@ -11,7 +11,7 @@ class Club(models.Model):
     website_url = models.URLField()
     genre = models.CharField(max_length=30)
     location_coordinates = models.CharField(max_length=30, help_text='LNG LAT')  # Will need to be parsed as two floats
-    entry_fee = models.FloatField(default=0.0)
+    entry_fee = models.FloatField(default=0.0)  # Minimum entry fee
     opening_hours_week = models.CharField(max_length=20)
     opening_hours_weekend = models.CharField(max_length=20)
     picture = models.ImageField(upload_to='club_pictures', default='club_pictures/default_club.png', blank=True)
@@ -26,7 +26,7 @@ class Club(models.Model):
     def user_reported_safety(self):
         safe_count = self.ratings_list.filter(is_safe=True).count()
         unsafe_count = self.ratings_list.filter(is_safe=False).count()
-        return "Safe" if safe_count > unsafe_count else "Unsafe"
+        return "SAFE" if safe_count > unsafe_count else "UNSAFE"
 
     def __str__(self):
         return self.name
@@ -50,7 +50,7 @@ class Event(models.Model):
     capacity = models.IntegerField(default=0)
 
     class Meta:
-        ordering = ['-happening_at']  # Default ordering is most recent to the least recent
+        ordering = ['happening_at']  # Default ordering is most recent to the least recent
 
     def __str__(self):
         return self.title
@@ -60,11 +60,15 @@ class Rating(models.Model):
     title = models.CharField(max_length=30)
     club = models.ForeignKey(Club, on_delete=models.CASCADE, related_name='ratings_list')
     author = models.ForeignKey(UserProfile, on_delete=models.CASCADE, related_name='ratings_written_list')
-    rating_score = models.FloatField(default=0.0)  # Needs to be a float
+    rating_score = models.FloatField(default=0.0, validators=[MinValueValidator(1.0), MaxValueValidator(5.0)])  # Validate
     is_safe = models.BooleanField(default=False)
     user_commentary = models.TextField()
     posted_at = models.DateTimeField(auto_now_add=True)
     number_of_upvotes = models.IntegerField(default=0)
+
+    @property
+    def user_reported_safety(self):
+        return "SAFE" if self.is_safe is True else "UNSAFE"
 
     class Meta:
         ordering = ['-number_of_upvotes']  # Default ordering is high to low
