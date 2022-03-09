@@ -70,7 +70,7 @@ def delete_club(request, club_id):
 
 @login_required
 def edit_rating(request, rating_id):
-    pass  # Add appropriate template
+    return render(request, 'clubmate/edit_rating.html')
 
 
 @login_required
@@ -85,3 +85,4 @@ def logout(request):
 
 def register(request):
     return render(request, 'clubmate/register.hmtl')
+    return render(request, 'clubmate/delete_rating.html')
