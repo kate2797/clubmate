@@ -18,4 +18,7 @@ urlpatterns = [
     path('delete_club/<int:club_id>/', views.delete_club, name='delete_club'),
     path('edit_rating/<int:rating_id>/', views.edit_rating, name='edit_rating'),
     path('delete_rating/<int:rating_id>/', views.delete_rating, name='delete_rating'),
+    path('register/', views.register, name='register'),
+    path('login/', views.login, name='login'),
+    path('logout/', views.logout, name='logout'),
 ]

@@ -76,3 +76,12 @@ def edit_rating(request, rating_id):
 @login_required
 def delete_rating(request, rating_id):
     pass  # Add appropriate template
+
+def login(request):
+    return render(request, 'clubmate/login.html')
+
+def logout(request):
+    return render(request, 'clubmate/logout.html')
+
+def register(request):
+    return render(request, 'clubmate/register.hmtl')
