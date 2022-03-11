@@ -63,16 +63,11 @@
                         </footer>
                     </blockquote>
                     <p class="card-text"><small class="text-muted">{{ rating.number_of_upvotes }} upvotes</small></p>
-
-                    <a id="upvote" href="{% url 'clubmate:upvote_rating' rating.id %}" class="btn btn-primary btn-sm">Upvote</a>
-                    <!-- TODO: Must be able to upvote -->
-
+                    <a id="upvote" href="{% url 'clubmate:upvote_rating' rating.id %}" class="btn btn-primary btn-sm">Upvote</a> <!-- Upvote Django-->
                 </div>
             </div>
         {% endfor %}
         <div class="align-right"><p>Show more</p></div> <!-- TODO: Limit how many shown with JS? -->
-
-
 
     {% else %}
         The specified club does not exist

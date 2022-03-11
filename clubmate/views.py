@@ -28,7 +28,7 @@ def discover(request):
 
 def club_detail(request, club_id):
     try:
-        club = Club.objects.get(pk=club_id)
+        club = Club.objects.get(id=club_id)
     except Club.DoesNotExist:
         club = None
     context = {'club': club}
@@ -55,11 +55,20 @@ def rate_detail(request, club_id):
 
 @login_required
 def upvote_rating(request, rating_id):
-    rating = Rating.objects.get(id=rating_id)
-    rating.number_of_upvotes += 1
+    rating = Rating.objects.get(id=rating_id)  # Get the rating to be modified
+    rating.number_of_upvotes += 1  # Increment the number of votes
     rating.save()
     club_id = rating.club.id
-    return redirect(reverse('clubmate:club_detail', kwargs={'club_id': club_id}))
+    return redirect(reverse('clubmate:club_detail', kwargs={'club_id': club_id}))  # Redirect back to club detail
+
+
+@login_required
+def save_club(request, club_id):
+    club = Club.objects.get(id=club_id)  # Get the club in question
+    user = request.user  # Get the current user
+    clubmate_user = UserProfile.objects.get(user=user)  # Map to out user
+    clubmate_user.clubs.add(club)  # Add it to the user's profile
+    return redirect(reverse('clubmate:profile', kwargs={'username': user.username}))  # Redirect to profile
 
 
 @staff_member_required
