@@ -1,9 +1,11 @@
 from django.contrib.admin.views.decorators import staff_member_required
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
-from django.shortcuts import render
+from django.http import HttpResponseRedirect, JsonResponse
+from django.shortcuts import render, redirect
+from django.urls import reverse
 
-from clubmate.models import Club, UserProfile
+from clubmate.models import Club, UserProfile, Rating
 
 
 def index(request):
@@ -49,6 +51,15 @@ def rate(request):
 @login_required
 def rate_detail(request, club_id):
     return render(request, 'clubmate/rate_club_detail.html')
+
+
+@login_required
+def upvote_rating(request, rating_id):
+    rating = Rating.objects.get(id=rating_id)
+    rating.number_of_upvotes += 1
+    rating.save()
+    club_id = rating.club.id
+    return redirect(reverse('clubmate:club_detail', kwargs={'club_id': club_id}))
 
 
 @staff_member_required

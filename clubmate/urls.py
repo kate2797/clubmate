@@ -22,4 +22,5 @@ urlpatterns = [
     path('register/', views.register, name='register'),
     path('login/', views.login, name='login'),
     path('logout/', views.logout, name='logout'),
+    path('upvote/<int:rating_id>', views.upvote_rating, name='upvote_rating'),  # New, upvoting
 ]

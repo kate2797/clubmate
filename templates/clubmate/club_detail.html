@@ -12,6 +12,9 @@
 {% block body_block %}
     {% if club %}
         <!-- Display club details -->
+
+        <!-- TODO Display success message after voting JS -->
+
         <h1>{{ club.name }} <span class="badge badge-pill badge-dark">⭐ {{ club.average_rating }}</span> <span
                 class="badge badge-pill badge-dark">❤️‍🩹 {{ club.user_reported_safety }}</span></h1>
         <p>{{ club.club_description }}</p>
@@ -59,9 +62,11 @@
                         <footer class="blockquote-footer">said {{ rating.author }}
                         </footer>
                     </blockquote>
-                    <p class="card-text"><small class="text-muted">{{ rating.number_of_upvotes }}
-                        upvotes</small></p>
-                    <a href="#" class="btn btn-primary btn-sm">Upvote</a> <!-- TODO: Must be able to upvote -->
+                    <p class="card-text"><small class="text-muted">{{ rating.number_of_upvotes }} upvotes</small></p>
+
+                    <a id="upvote" href="{% url 'clubmate:upvote_rating' rating.id %}" class="btn btn-primary btn-sm">Upvote</a>
+                    <!-- TODO: Must be able to upvote -->
+
                 </div>
             </div>
         {% endfor %}

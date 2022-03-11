@@ -76,9 +76,6 @@
                         class="badge badge-pill badge-dark">❤️‍🩹 {{ club.user_reported_safety }}</span></h5>
                 <p class="card-text">{{ club.club_description }}</p>
                 <a href="{% url 'clubmate:rate_detail' club.id %}" class="btn btn-primary">Rate</a>
-
-
-                <!-- TODO: Should be club id or pre-populated -->
                 <a href="#" class="btn btn-primary">Save</a> <!-- TODO: Must be able to add it to their profile -->
             </div>
         </div>
