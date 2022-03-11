@@ -47,7 +47,7 @@ def rate(request):
 
 
 @login_required
-def rate_detail(request):
+def rate_detail(request, club_id):
     return render(request, 'clubmate/rate_club_detail.html')
 
 

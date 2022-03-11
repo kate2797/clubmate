@@ -11,10 +11,8 @@ urlpatterns = [
     path('club_detail/<int:club_id>/', views.club_detail, name='club_detail'),
     path('ratings/', views.ratings, name='ratings'),
     path('rating_detail/<int:rating_id>/', views.rating_detail, name='rating_detail'),
-
     path('rate/', views.rate, name='rate'),
     path('rate/<int:club_id>/', views.rate_detail, name='rate_detail'),  # New, to rate a specific club
-
     path('add_club/', views.add_club, name='add_club'),
     path('profile/<str:username>/', views.profile, name='profile'),
     path('edit_club/<int:club_id>/', views.edit_club, name='edit_club'),
