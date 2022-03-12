@@ -7,6 +7,8 @@ cd clubmate_project
 $ conda create -n clubmate python=3.7.5
 $ conda activate clubmate
 (clubmate) $ pip install -r requirements.txt
+(clubmate) $ pip install python-dateutil
+(clubmate) $ pip install six
 (clubmate) $ python manage.py makemigrations
 (clubmate) $ python manage.py migrate
 (clubmate) $ python populate_clubmate.py
