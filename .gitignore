@@ -3,7 +3,10 @@
 *.pot
 *.pyc
 __pycache__
-# db.sqlite3
+
+db.sqlite3
+migrations/
+
 media
 .env
 dump.json
@@ -137,4 +140,3 @@ cmake-build-*/
 
 # https://djangowaves.com/tips-tricks/gitignore-for-a-django-project/
 # https://www.toptal.com/developers/gitignore/api/django
-# migrations/
