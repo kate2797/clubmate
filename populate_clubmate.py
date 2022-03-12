@@ -257,7 +257,6 @@ def add_club(name, club_description, city, website_url, genre, location_coordina
     c.save()
     return c
 
-# Remove DB
 def add_rating(title, club, author, rating_score, is_safe, user_commentary, posted_at, number_of_upvotes):
     r = Rating.objects.get_or_create(title=title, club=club, author=author, rating_score=rating_score,
                                      is_safe=is_safe, user_commentary=user_commentary, posted_at=posted_at,
