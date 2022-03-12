@@ -14,7 +14,7 @@
             <p>Edit profile picture</p>
         </div>
         <div class="col-md-8">
-            <h1>{{ user.username }}</h1>
+            <h1>{{ clubmate_user.user.username }}</h1>
             <p>{{ clubmate_user.bio }}</p>
         </div>
     </div>
@@ -28,8 +28,8 @@
                 <div class="card-body">
                     <h5 class="card-title"><a
                             href="{% url 'clubmate:club_detail' saved_club.id %}">{{ saved_club.name }}</a> <span
-                            class="badge badge-pill badge-dark">⭐ {{ saved_club.average_rating }}</span> <span
-                            class="badge badge-pill badge-dark">❤️‍🩹 {{ saved_club.user_reported_safety }}</span></h5>
+                            class="badge badge-pill badge-dark">⭐ {{ saved_club.average_rating_ }}</span> <span
+                            class="badge badge-pill badge-dark">❤️‍🩹 {{ saved_club.user_reported_safety_ }}</span></h5>
                     <p class="card-text">{{ saved_club.club_description }}</p>
                 </div>
             </div>

@@ -17,16 +17,23 @@ class Club(models.Model):
     picture = models.ImageField(upload_to='club_pictures', default='club_pictures/default_club.png', blank=True)
     covid_test_required = models.BooleanField(default=False)
     underage_visitors_allowed = models.BooleanField(default=False)
+    average_rating = models.FloatField(default=0.0, blank=True)
+    user_reported_safety = models.BooleanField(default=False, blank=True)
 
     @property
-    def average_rating(self):
+    def average_rating_(self):
         return self.ratings_list.aggregate(Avg('rating_score'))['rating_score__avg']  # Order by on-the-fly in views
 
     @property
-    def user_reported_safety(self):
+    def user_reported_safety_(self):
         safe_count = self.ratings_list.filter(is_safe=True).count()
         unsafe_count = self.ratings_list.filter(is_safe=False).count()
         return "SAFE" if safe_count > unsafe_count else "UNSAFE"
+
+    # def save(self, *args, **kwarg):
+    #     self.average_rating = self.average_rating_
+    #     self.user_reported_safety = self.user_reported_safety_
+    #     super(Club, self).save(*args, **kwarg)
 
     def __str__(self):
         return self.name
@@ -65,10 +72,15 @@ class Rating(models.Model):
     user_commentary = models.TextField()
     posted_at = models.DateTimeField(auto_now_add=True)
     number_of_upvotes = models.IntegerField(default=0)
+    user_reported_safety = models.BooleanField(default=False, blank=True)
 
     @property
-    def user_reported_safety(self):
+    def user_reported_safety_(self):
         return "SAFE" if self.is_safe is True else "UNSAFE"
+
+    # def save(self, *args, **kwarg):
+    #     self.user_reported_safety = self.user_reported_safety_
+    #     super(Rating, self).save(*args, **kwarg)
 
     class Meta:
         ordering = ['-number_of_upvotes']  # Default ordering is high to low
