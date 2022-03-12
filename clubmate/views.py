@@ -17,7 +17,7 @@ def about(request):
 
 def discover(request):
     all_clubs = Club.objects.all()
-    clubs_by_rating = sorted(Club.objects.all(), key=lambda c: c.average_rating_, reverse=True)[:3]  # Ordering high to low
+    clubs_by_rating = sorted(Club.objects.all(), key=lambda c: c.average_rating_, reverse=True)[:3]  # High to low
     safe_clubs = sorted(Club.objects.all(), key=lambda c: c.user_reported_safety_)[:3]
     cheapest_clubs = Club.objects.order_by('entry_fee')[:3]
     context = {'all_clubs': all_clubs, 'clubs_by_rating': clubs_by_rating, 'safe_clubs': safe_clubs,
@@ -38,13 +38,14 @@ def ratings(request):
     pass  # Add appropriate template
 
 
+@login_required
 def rating_detail(request, rating_id):
     pass  # Add appropriate template
 
 
 @login_required
 def rate(request):
-    return render(request, 'clubmate/edit_rating.html')
+    return render(request, 'clubmate/rate_club.html')  # The template that was there before was incorrect
 
 
 @login_required
