@@ -226,11 +226,13 @@ def populate():
                        rating['user_commentary'], rating['posted_at'], rating['number_of_upvotes'])
         print(f'– {r} was added')
 
-    # Shows saved clubs in user's profiles, here, all of them saved all clubs
-    for k, v in user_map.items():
-        user = user_map[k]
-        for i, j in club_map.items():
-            user.clubs.add(club_map[i])
+    # Add some clubs as "saved clubs" to some users, to make it look more natural instead of adding all to all
+    user_map['MrsDracoMalfoy'].clubs.add(club_map['SWG3'])
+    user_map['ghostfacegangsta'].clubs.add(club_map['SWG3'])
+    user_map['ghostfacegangsta'].clubs.add(club_map['Sub Club'])
+    user_map['averagestudent'].clubs.add(club_map['SWG3'])
+    user_map['averagestudent'].clubs.add(club_map['Inn Deep'])
+    user_map['emilyramo'].clubs.add(club_map['Inn Deep'])
 
 
 def add_user(username, password, email, bio, first_name, last_name):
