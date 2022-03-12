@@ -95,12 +95,23 @@ def delete_club(request, club_id):
 
 @login_required
 def edit_rating(request, rating_id):
-    return render(request, 'clubmate/edit_rating.html')
+    rating = Rating.objects.get(id=rating_id)  #Get the rating
+    # not sure should I add club id, user or just rating id is enough?
+    if request.method == 'POST':
+        new_rating = request.POST.get('user_commentary')
+        rating.user_commentary = new_rating
+        rating.save()
+        return redirect("rating:rating_detail")
+    else:
+     context = {'rating':rating}
+     return render(request, 'clubmate/edit_rating.html',context)
 
 
 @login_required
 def delete_rating(request, rating_id):
-    return render(request, 'clubmate/delete_rating.html')
+    rating = Rating.objects.get(id=rating_id)
+    rating.delete()
+    return render(request, 'clubmate/profile.html')
 
 
 def login(request):
