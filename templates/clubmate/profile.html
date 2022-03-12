@@ -34,21 +34,23 @@
                 </div>
             </div>
         {% endfor %}
-    <!-- Support for edit/delete in missing, was not my part -->
-     <!-- Edit rating/ Delete rating and display ratings without CSS(not sure are these code works)-->
-     <div> 
-        <p class="text-start">Your Ratings</p>
-        <div class="card">
-            <div class="card-body">
-                {% for rating in clubmate_user.clubs.all %}
-            </div>
-          </div>
-        <p class="text-start">{{ rating.user_commentary }}</p>
-        
-    </div>
+        <!-- Support for edit/delete in missing, was not my part -->
+        <!-- Edit rating/ Delete rating and display ratings without CSS(not sure are these code works)-->
     </div>
 
     <!-- Display ratings a user wrote -->
     <!-- ... -->
+    <div>
+        <h2 class="mt-3 mb-3">Ratings you wrote</h2>
+        {% for rating in clubmate_user.clubs.all %} <!-- Do not forget to add ".all" -->
+            <!-- Show the clubs -->
+            <div class="card mb-3">
+                <div class="card-body">
+
+                    <p class="text-start">{{ rating.user_commentary }}</p>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
 
 {% endblock %}
