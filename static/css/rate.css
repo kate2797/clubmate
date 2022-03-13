@@ -1,18 +1,16 @@
 #rate_line{
     display: flex;
+    justify-content: center;
     gap: 40px;
 }
 #author_line{
     display: flex;
-
+justify-content: center;
     gap: 50px;
 }
 
-div{
-    justify-content: center;
-}
 
-h1{
+#rate_content_title{
     display: flex;
     justify-content: center;
 }
