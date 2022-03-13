@@ -3,7 +3,6 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.shortcuts import render, redirect
 from django.urls import reverse
-
 from clubmate.models import Club, UserProfile, Rating
 
 
@@ -40,7 +39,7 @@ def ratings(request):
 
 @login_required
 def rating_detail(request, rating_id):
-    pass  # Add appropriate template
+    return render(request, 'clubmate/profile.html')
 
 
 @login_required
@@ -79,7 +78,8 @@ def add_club(request):
 def profile(request, username):
     user = User.objects.get(username=username)  # Match username from the default user
     clubmate_user = UserProfile.objects.get(user=user)  # Match it with our custom user
-    context = {'clubmate_user': clubmate_user}
+    rating_list = Rating.objects.order_by('title')[:5]   # Test for show lists, need to change another order way( can only show all the comment!!!)
+    context = {'clubmate_user': clubmate_user, 'ratingList' : rating_list}
     return render(request, 'clubmate/profile.html', context=context)
 
 
@@ -96,7 +96,7 @@ def delete_club(request, club_id):
 @login_required
 def edit_rating(request, rating_id):
     rating = Rating.objects.get(id=rating_id)  #Get the rating
-    # not sure should I add club id, user or just rating id is enough?
+    
     if request.method == 'POST':
         new_rating = request.POST.get('user_commentary')
         rating.user_commentary = new_rating
@@ -112,6 +112,7 @@ def delete_rating(request, rating_id):
     rating = Rating.objects.get(id=rating_id)
     rating.delete()
     return render(request, 'clubmate/profile.html')
+
 
 
 def login(request):
