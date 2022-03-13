@@ -11,7 +11,7 @@ def index(request):
 
 
 def about(request):
-    pass  # Add appropriate template
+    return render(request, 'clubmate/about.html')
 
 
 def discover(request):
