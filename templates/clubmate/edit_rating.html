@@ -2,9 +2,35 @@
 {% load staticfiles %}
 
 {% block title_block %}
-    Edit Rating
+    Edit Your Rating
 {% endblock %}
 
 {% block body_block %}
 
+<!-- show the title of edit rate page -->
+<div class="row">
+    <h2 class="mt-3 mb-3">Edit your Rate</h2>
+</div>
+<!-- display the form to update the rating (lost the part of rate_club)-->
+<div>
+    <form method="post" action=".">
+        {% csrf_token %}
+        <div>
+            <label for="title"> Rating Title</label>
+            <input type="text" class="form-control" id="rating_id" name="title">
+        </div>
+
+        <div>
+            <label for="user_commentary">Rating Details</label>
+            <textarea type="text" class="form-control" id="rating_id" name="user_commentary" rows="10"></textarea>
+        </div>
+        <!-- Test the button link, need to repalce with the rate_club.html -->
+        <div>
+            <a href="{% url 'clubmate:discover' %}" class="card-link">
+                <button type="button" class="btn btn-primary">Complete</button>
+              </a>
+        </div>
+    </form>
+  
+</div> 
 {% endblock %}
