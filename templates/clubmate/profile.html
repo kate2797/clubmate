@@ -40,10 +40,10 @@
 
     <!-- Can show ratings now, but can only show all ratings instead of user's-->
     <div>
-        <h2 class="mt-3 mb-3">Ratings you wrote</h2>
+        <h2 class="mt-3 mt-3 mb-3">Ratings you wrote</h2>
         <!-- display raitngs -->
         {% for rating in ratingList %}
-        <div class="card" style="width: 60rem;">
+        <div class="card mb-3">
             <div class="card-body">
               <h5 class="card-title">{{ rating.title }}</h5>
               <p class="card-text">{{ rating.user_commentary}}</p>
