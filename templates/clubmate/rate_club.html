@@ -6,27 +6,28 @@
 {% endblock %}
 
 {% block body_block %}
-    <h1>Rate1111</h1>
+    <h1>Rate</h1>
     <p>Here are the most recent reviews</p>
 
 <!-- todo maybe need js? not sure add it later-->
 
 {% for rate in all_rating_by_time %}
-
-    <div class="card mb-3" style="max-width: 1080px;">
+    <div class="card mb-4" style="max-width: 1080px;">
       <div class="row g-0">
         <div class="col-md-4">
           <img src="/media/{{rate.author.picture}}" class="img-fluid rounded-start" alt="...">
         </div>
 
-        <div class="col-md-6">
+        <div class="col-md-8">
           <div class="card-body">
-            <h5 class="card-title">{{rate.title}}</h5>
-              <span class="badge badge-pill badge-dark">⭐ {{ rating.rating_score }}</span>
-              <span class="badge badge-pill badge-dark">❤️‍🩹 {{ rating.user_reported_safety_ }}</span>
-          </h5>
-            <p class="card-text">{{ rating.user_commentary }}</p>
-            <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small> <a href="{% url 'clubmate:profile' rating.author %}">{{ rating.author }}</a><</p>
+            <h5 class="card-title"><a href="{% url 'clubmate:rate_content' rate.id %}">{{ rate.title }}</a></h5>
+              <span class="badge badge-pill badge-dark">⭐ {{ rate.rating_score }}</span>
+              <span class="badge badge-pill badge-dark">❤️‍🩹 {{ rate.user_reported_safety_ }}</span>
+            </h5>
+            <p class="card-text">{{ rate.user_commentary }}</p>
+            <p class="card-text"><small class="text-muted">Last updated 3 mins ago </small> </p>
+
+
           </div>
 
         </div>
