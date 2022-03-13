@@ -44,7 +44,29 @@ def rating_detail(request, rating_id):
 
 @login_required
 def rate(request):
-    return render(request, 'clubmate/rate_club.html')  # The template that was there before was incorrect
+    # maybe used with js
+    all_rating_by_time = sorted(Rating.objects.all(), key=lambda c: c.posted_at, reverse=True)
+    all_rating_by_upvote = sorted(Rating.objects.all(), key=lambda c: c.number_of_upvotes, reverse=True)
+
+    # use for display directly
+    default_rating_by_time = sorted(Rating.objects.all(), key=lambda c: c.posted_at, reverse=True)
+    default_rating_by_upvote = sorted(Rating.objects.all(), key=lambda c: c.number_of_upvotes, reverse=True)
+
+    context = {'all_rating_by_time': all_rating_by_time, 'all_rating_by_upvote': all_rating_by_upvote,
+               'default_rating_by_time': default_rating_by_time,
+               'default_rating_by_upvote': default_rating_by_upvote}
+
+    return render(request, 'clubmate/rate_club.html', context)  # The template that was there before was incorrect
+
+
+# new because not sure which route i should mathch the content to
+def rate_content(request, rating_id):
+    try:
+        this_rate = Rating.objects.get(id=rating_id)
+    except Rating.DoesNotExist:
+        this_rate = None
+    context = {'this_rate': this_rate}
+    return render(request, 'clubmate/rate_content.html', context=context)
 
 
 @login_required
@@ -78,8 +100,17 @@ def add_club(request):
 def profile(request, username):
     user = User.objects.get(username=username)  # Match username from the default user
     clubmate_user = UserProfile.objects.get(user=user)  # Match it with our custom user
-    rating_list = Rating.objects.order_by('title')[:5]   # Test for show lists, need to change another order way( can only show all the comment!!!)
-    context = {'clubmate_user': clubmate_user, 'ratingList' : rating_list}
+    rating_list = Rating.objects.order_by('title')[
+                  :5]  # Test for show lists, need to change another order way( can only show all the comment!!!)
+
+    # todo possible solution?
+
+    # user_rating_list = []
+    # for rate in rating_list:
+    #     if rate.author.user.username == username:
+    #         user_rating_list.append(rate)
+
+    context = {'clubmate_user': clubmate_user, 'ratingList': rating_list}
     return render(request, 'clubmate/profile.html', context=context)
 
 
@@ -95,16 +126,16 @@ def delete_club(request, club_id):
 
 @login_required
 def edit_rating(request, rating_id):
-    rating = Rating.objects.get(id=rating_id)  #Get the rating
-    
+    rating = Rating.objects.get(id=rating_id)  # Get the rating
+
     if request.method == 'POST':
         new_rating = request.POST.get('user_commentary')
         rating.user_commentary = new_rating
         rating.save()
         return redirect("rating:rating_detail")
     else:
-     context = {'rating':rating}
-     return render(request, 'clubmate/edit_rating.html',context)
+        context = {'rating': rating}
+        return render(request, 'clubmate/edit_rating.html', context)
 
 
 @login_required
@@ -112,7 +143,6 @@ def delete_rating(request, rating_id):
     rating = Rating.objects.get(id=rating_id)
     rating.delete()
     return render(request, 'clubmate/profile.html')
-
 
 
 def login(request):

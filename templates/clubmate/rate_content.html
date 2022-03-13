@@ -1,0 +1,49 @@
+{% extends 'clubmate/base.html' %}
+{% load staticfiles %}
+
+{% block title_block %}
+    Rate Content
+{% endblock %}
+
+{% block body_block %}
+
+    <h1>{{ this_rate.title }}</h1>
+
+    <div id="author_line">
+       <div id="avatar">
+          <span id="avatar" class="badge rounded-pill bg-dark">
+              <img src="/media/{{this_rate.author.picture}}" class="img-fluid rounded-start" alt="...">
+          </span>
+       </div>
+        <div id="author">
+          <p class="card-text"><small class="text-muted">{{ this_rate.author }}</small> </p>
+        </div>
+        <div id="time">
+            <p class="card-text"><small class="text-muted">{{ this_rate.posted_at }}</small> </p>
+        </div>
+    </div>
+
+    <br>
+
+    <div id="rate_line">
+        <div id="rate">
+          <span class="badge rounded-pill bg-dark">⭐ {{ this_rate.rating_score }}</span>
+        </div>
+        <div id="safety">
+          <span class="badge rounded-pill bg-dark">❤️‍🩹 {{ this_rate.user_reported_safety_ }}</span>
+        </div>
+    </div>
+
+    <br>
+
+    <div id="content" class="card " style="max-width: 1080px;">
+      <div class="card-body">
+        <p class="card-text">{{ this_rate.user_commentary }}</p>
+      </div>
+    </div>
+
+
+
+
+
+{% endblock %}
