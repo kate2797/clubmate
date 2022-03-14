@@ -74,7 +74,10 @@ def rating_detail(request, rating_id):
 
 @login_required
 def rate(request):
-    return render(request, 'clubmate/rate_club.html')  # The template that was there before was incorrect
+    all_clubs = Club.objects.all()
+    form = RatingDetailForm()
+    context = {'all_clubs': all_clubs, 'form': form}
+    return render(request, 'clubmate/rate_club.html', context=context)  # The template that was there before was incorrect
 
 
 # new because not sure which route i should mathch the content to
