@@ -20,8 +20,8 @@ urlpatterns = [
     path('edit_rating/<int:rating_id>/', views.edit_rating, name='edit_rating'),
     path('delete_rating/<int:rating_id>/', views.delete_rating, name='delete_rating'),
     path('register/', views.register, name='register'),
-    path('login/', views.login, name='login'),
-    path('logout/', views.logout, name='logout'),
+    path('login/', views.log_in, name='log_in'),
+    path('logout/', views.log_out, name='log_out'),
     path('upvote/<int:rating_id>/', views.upvote_rating, name='upvote_rating'),  # New, to upvote reviews
     path('save/<int:club_id>/', views.save_club, name='save_club'),  # New, to save club to a profile
 

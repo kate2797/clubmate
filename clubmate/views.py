@@ -1,9 +1,16 @@
+from multiprocessing import context
 from django.contrib.admin.views.decorators import staff_member_required
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.shortcuts import render, redirect
 from django.urls import reverse
 from clubmate.models import Club, UserProfile, Rating
+from django.contrib.auth import login, authenticate, logout
+from clubmate.forms import UserForm, UserProfileForm
+from django.contrib import messages
+from django.http import HttpResponseRedirect
+from django.http import HttpResponse
+from django.shortcuts import render_to_response
 
 
 def index(request):
@@ -145,13 +152,60 @@ def delete_rating(request, rating_id):
     return render(request, 'clubmate/profile.html')
 
 
-def login(request):
-    return render(request, 'clubmate/login.html')
+def log_in(request):
+    if request.method == 'POST':
+          username = request.POST['username']
+          password = request.POST['password']
+          user = authenticate(username=username, password=password)
+          if user is not None:
+              if user.is_active:
+                  login(request, user)
+                  # Redirect to index page.
+                  return redirect(reverse("clubmate:index"))
+              else:
+                  # Return a 'disabled account' error message
+                  return HttpResponse("Your account is disabled.")
+          else:
+              # Return an 'invalid login' error message.
+              print  ("invalid login details " + username + " " + password)
+    else:
+        # the login is a  GET request, so just show the user the login form.
+        return render(request, 'clubmate/login.html')
 
 
-def logout(request):
-    return render(request, 'clubmate/logout.html')
+@login_required
+def log_out(request):
+    logout(request)
+    messages.info(request, "You have successfully logged out.")
+    return redirect(reverse("clubmate:index"))
 
 
 def register(request):
-    return render(request, 'clubmate/register.html')
+    registered = False
+
+    if request.method == 'POST':
+        user_form = UserForm(request.POST)
+        profile_form = UserProfileForm(request.POST)
+
+        if user_form.is_valid() and profile_form.is_valid():
+            user=user_form.save()
+            user.set_password(user.password)
+            user.save()
+
+            profile = profile_form.save(commit=False)
+            profile.user = user
+
+            if 'picture' in request.FILES:
+                profile.picture = request.FILES['picture']
+
+            profile.save()
+            
+            registered = True
+        else:
+            print(user_form.errors, profile_form.errors)
+    else:
+        user_form = UserForm()
+        profile_form = UserProfileForm()
+
+    return render(request, 'clubmate/register.html', context = {'user_form': user_form, 'profile_form': profile_form, 'registered': registered})
+    
