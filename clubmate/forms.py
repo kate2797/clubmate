@@ -15,7 +15,7 @@ class UserProfileForm(forms.ModelForm):
 
     class Meta:
         model = UserProfile
-        fields = ('club_owner','picture',)
+        fields = ('is_club_owner', 'picture',)
 from clubmate.models import Rating
 
 
