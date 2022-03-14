@@ -35,7 +35,8 @@ def club_detail(request, club_id):
 
 
 def ratings(request):
-    pass  # Add appropriate template
+    return render(request, 'clubmate/ratings.html')  # TODO – someone flipped ratings and rate
+
 
 # not sure
 @login_required
