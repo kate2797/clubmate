@@ -100,16 +100,7 @@ def add_club(request):
 def profile(request, username):
     user = User.objects.get(username=username)  # Match username from the default user
     clubmate_user = UserProfile.objects.get(user=user)  # Match it with our custom user
-    rating_list = Rating.objects.order_by('title')[
-                  :5]  # Test for show lists, need to change another order way( can only show all the comment!!!)
-
-    # todo possible solution?
-
-    # user_rating_list = []
-    # for rate in rating_list:
-    #     if rate.author.user.username == username:
-    #         user_rating_list.append(rate)
-
+    rating_list = Rating.objects.filter(author=clubmate_user)
     context = {'clubmate_user': clubmate_user, 'ratingList': rating_list}
     return render(request, 'clubmate/profile.html', context=context)
 
@@ -140,9 +131,10 @@ def edit_rating(request, rating_id):
 
 @login_required
 def delete_rating(request, rating_id):
-    rating = Rating.objects.get(id=rating_id)
-    rating.delete()
-    return render(request, 'clubmate/profile.html')
+    ratingDelete = Rating.objects.filter(id=rating_id)
+    user=request.user
+    ratingDelete.delete()
+    return redirect(reverse('clubmate:profile', kwargs={ 'username':user.username}))
 
 
 def login(request):

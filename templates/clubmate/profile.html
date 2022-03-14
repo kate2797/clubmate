@@ -49,10 +49,10 @@
               <p class="card-text">{{ rating.user_commentary}}</p>
 
               <!-- button for delete and edit ratings -->
-              <a href="#" class="card-link">
+              <a href="{% url 'clubmate:edit_rating' rating.id %}" class="card-link">
                 <button type="button" class="btn btn-primary">Edit your ratings</button>
               </a>
-              <a href="#" class="card-link">
+              <a href="{% url 'clubmate:delete_rating' rating.id %}" class="card-link">
                 <button type="button" class="btn btn-primary">Delete your ratings</button>
               </a>
 
