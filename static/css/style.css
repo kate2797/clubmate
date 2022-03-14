@@ -41,3 +41,7 @@ body {
 #search-list li a:hover:not(.header) {
     background-color: #eee;
 }
+
+#elements {
+    display: none;
+}

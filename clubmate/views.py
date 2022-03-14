@@ -8,7 +8,8 @@ from clubmate.forms import RatingDetailForm
 
 
 def index(request):
-    return render(request, 'clubmate/index.html')
+    clubs = Club.objects.all()
+    return render(request, 'clubmate/index.html', context={'clubs': clubs})
 
 
 def about(request):

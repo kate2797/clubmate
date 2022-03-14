@@ -41,13 +41,14 @@
                 <li class="nav-item active">
                     <a class="nav-link" href="{% url 'clubmate:index' %}">Home <span
                             class="sr-only">(current)</span></a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{% url 'clubmate:discover' %}">Discover</a>
-                </li>
 
                 <li class="nav-item">
                     <a class="nav-link" href="{% url 'clubmate:about' %}">About</a>
+                </li>
+
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'clubmate:discover' %}">Discover</a>
                 </li>
 
                 <li class="nav-item">
@@ -57,9 +58,11 @@
                 <li class="nav-item">
                     <a class="nav-link" href="{% url 'clubmate:rate' %}">Rate</a>
                 </li>
+
                 <li class="nav-item">
                     <a class="nav-link" href="{% url 'clubmate:register' %}">Register</a>
                 </li>
+
                 <li class="nav-item">
                     <a class="nav-link" href="{% url 'clubmate:login' %}">Login</a>
                 </li>
@@ -90,7 +93,7 @@
         integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA=="
         crossorigin=""></script>
 
-<!-- Our JavaScript -->
+<!-- Our JavaScript files -->
 <script src="{% static 'js/script.js' %}"></script>
 
 </body>
