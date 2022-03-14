@@ -74,10 +74,22 @@ def rating_detail(request, rating_id):
 
 @login_required
 def rate(request):
-    all_clubs = Club.objects.all()
-    form = RatingDetailForm()
-    context = {'all_clubs': all_clubs, 'form': form}
-    return render(request, 'clubmate/rate_club.html', context=context)  # The template that was there before was incorrect
+
+    if request.method == 'POST':
+        form = RatingDetailForm(request.POST)
+        user = request.user
+        if form.is_valid():
+            rating=form.save(commit=False)
+            user = UserProfile.objects.get(user=user)
+            rating.author=user
+            rating.save()
+            return redirect(reverse("clubmate:index"))
+        else:
+            return HttpResponse("Something went wrong.")
+    else:
+        form=RatingDetailForm()
+        context = {'form': form}
+        return render(request, 'clubmate/rate_club.html', context=context)  # The template that was there before was incorrect
 
 
 # new because not sure which route i should mathch the content to
