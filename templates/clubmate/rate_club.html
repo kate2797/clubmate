@@ -25,7 +25,7 @@
               <span class="badge badge-pill badge-dark">❤️‍🩹 {{ rate.user_reported_safety_ }}</span>
             </h5>
             <p class="card-text">{{ rate.user_commentary }}</p>
-            <p class="card-text"><small class="text-muted">Last updated 3 mins ago </small> </p>
+            <p class="card-text"><small class="text-muted">{{ rate.posted_at }}</small> </p>
 
 
           </div>
@@ -37,4 +37,7 @@
     </div>
 
     {% endfor %}
+
+
+
 {% endblock %}
