@@ -77,14 +77,19 @@ def rate_detail(request, club_id):
 
     if request.method == 'POST':
         form = RatingDetailForm(request.POST)
-
+        user = request.user
+        this_club = Club.objects.filter(id=club_id)
         if form.is_valid():
-            this_rate = form.save(commit=False)
-            
+            if this_club:
+                this_rate = form.save(commit=False)
+                this_rate.author = user.profile
+                this_rate.club = this_club
+                this_rate.save()
         else:
             print(form.errors)
+    context = {'club_id': club_id, 'form': form}
 
-    return render(request, 'clubmate/rate_club_detail.html')
+    return render(request, 'clubmate/rate_club_detail.html', context)
 
 
 @login_required
