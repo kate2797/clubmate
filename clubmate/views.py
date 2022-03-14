@@ -6,6 +6,8 @@ from django.urls import reverse
 from clubmate.models import Club, UserProfile, Rating
 from clubmate.forms import RatingDetailForm
 
+from django.core.paginator import Paginator
+
 
 def index(request):
     return render(request, 'clubmate/index.html')
@@ -46,6 +48,7 @@ def rating_detail(request, rating_id):
 
 @login_required
 def rate(request):
+
     # maybe used with js
     all_rating_by_time = sorted(Rating.objects.all(), key=lambda c: c.posted_at, reverse=True)
     all_rating_by_upvote = sorted(Rating.objects.all(), key=lambda c: c.number_of_upvotes, reverse=True)
@@ -54,7 +57,14 @@ def rate(request):
     default_rating_by_time = sorted(Rating.objects.all(), key=lambda c: c.posted_at, reverse=True)
     default_rating_by_upvote = sorted(Rating.objects.all(), key=lambda c: c.number_of_upvotes, reverse=True)
 
-    context = {'all_rating_by_time': all_rating_by_time, 'all_rating_by_upvote': all_rating_by_upvote,
+    paginator_time = Paginator(all_rating_by_time, 3)
+    paginator_upvote = Paginator(all_rating_by_upvote, 3)
+
+    page_number = request.GET.get('page')
+    page_object_time = paginator_time.get_page(page_number)
+    page_object_upvote = paginator_upvote.get_page(page_number)
+
+    context = {'page_object_time': page_object_time, 'page_object_upvote': page_object_upvote,
                'default_rating_by_time': default_rating_by_time,
                'default_rating_by_upvote': default_rating_by_upvote}
 
