@@ -37,18 +37,6 @@ def club_detail(request, club_id):
 
 
 def ratings(request):
-    return render(request, 'clubmate/ratings.html')  # TODO – someone flipped ratings and rate
-
-
-# not sure
-@login_required
-def rating_detail(request, rating_id):
-    return render(request, 'clubmate/profile.html')
-
-
-@login_required
-def rate(request):
-
     # maybe used with js
     all_rating_by_time = sorted(Rating.objects.all(), key=lambda c: c.posted_at, reverse=True)
     all_rating_by_upvote = sorted(Rating.objects.all(), key=lambda c: c.number_of_upvotes, reverse=True)
@@ -67,8 +55,18 @@ def rate(request):
     context = {'page_object_time': page_object_time, 'page_object_upvote': page_object_upvote,
                'default_rating_by_time': default_rating_by_time,
                'default_rating_by_upvote': default_rating_by_upvote}
+    return render(request, 'clubmate/ratings.html', context)  # TODO – someone flipped ratings and rate
 
-    return render(request, 'clubmate/rate_club.html', context)  # The template that was there before was incorrect
+
+# not sure
+@login_required
+def rating_detail(request, rating_id):
+    return render(request, 'clubmate/profile.html')
+
+
+@login_required
+def rate(request):
+    return render(request, 'clubmate/rate_club.html')  # The template that was there before was incorrect
 
 
 # new because not sure which route i should mathch the content to
