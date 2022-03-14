@@ -73,7 +73,6 @@ def rate_content(request, rating_id):
 
 @login_required
 def rate_detail(request, club_id):
-
     form = RatingDetailForm()
 
     if request.method == 'POST':
@@ -151,9 +150,9 @@ def edit_rating(request, rating_id):
 @login_required
 def delete_rating(request, rating_id):
     ratingDelete = Rating.objects.filter(id=rating_id)
-    user=request.user
+    user = request.user
     ratingDelete.delete()
-    return redirect(reverse('clubmate:profile', kwargs={ 'username':user.username}))
+    return redirect(reverse('clubmate:profile', kwargs={'username': user.username}))
 
 
 def login(request):

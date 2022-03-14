@@ -58,17 +58,16 @@
     <div class="dropdown align-right">
         <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown"
                 aria-haspopup="true" aria-expanded="false">
-            Low to High
+            High to Low
         </button>
         <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-            <a class="dropdown-item" href="#">Action</a>
-            <a class="dropdown-item" href="#">Another action</a>
-            <a class="dropdown-item" href="#">Something else here</a>
+            <a class="dropdown-item" href="#">Low to High</a>
+            <a class="dropdown-item" href="#">Most Recent</a>
         </div>
     </div>
 
     <p>TODO: Filtering options, sorting options</p> <!-- TODO: Filtering options, sorting options -->
-    {% for club in all_clubs %}
+    {% for club in clubs_by_rating %}
         <div class="card mb-3">
             <div class="card-body">
                 <h5 class="card-title"><a href="{% url 'clubmate:club_detail' club.id %}">{{ club.name }}</a> <span

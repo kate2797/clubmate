@@ -68,8 +68,7 @@
                     <!-- Restrict upvoting functionality when user is not logged in -->
                     {% if user.is_authenticated %}
                         <a id="upvote" href="{% url 'clubmate:upvote_rating' rating.id %}"
-                           class="btn btn-primary btn-sm">Upvote</a>
-                        <!-- Upvote Django-->
+                           class="btn btn-primary btn-sm">Upvote</a> <!-- Upvote Django-->
                     {% endif %}
                 </div>
             </div>
