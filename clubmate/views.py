@@ -4,6 +4,7 @@ from django.contrib.auth.models import User
 from django.shortcuts import render, redirect
 from django.urls import reverse
 from clubmate.models import Club, UserProfile, Rating
+from clubmate.forms import RatingDetailForm
 
 
 def index(request):
@@ -36,7 +37,7 @@ def club_detail(request, club_id):
 def ratings(request):
     pass  # Add appropriate template
 
-
+# not sure
 @login_required
 def rating_detail(request, rating_id):
     return render(request, 'clubmate/profile.html')
@@ -71,6 +72,18 @@ def rate_content(request, rating_id):
 
 @login_required
 def rate_detail(request, club_id):
+
+    form = RatingDetailForm()
+
+    if request.method == 'POST':
+        form = RatingDetailForm(request.POST)
+
+        if form.is_valid():
+            this_rate = form.save(commit=False)
+            
+        else:
+            print(form.errors)
+
     return render(request, 'clubmate/rate_club_detail.html')
 
 
