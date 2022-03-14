@@ -1,0 +1,58 @@
+{% extends 'clubmate/base.html' %}
+{% load staticfiles %}
+
+{% block title_block %}
+    Ratings
+{% endblock %}
+
+{% block body_block %}
+    <h1>Rating</h1>
+    <p>Here are the most recent reviews</p>
+
+<!-- todo maybe need js? not sure add it later-->
+
+{% for rate in page_object_time %}
+    <div class="card mb-4" style="max-width: 1080px;">
+      <div class="row g-0">
+        <div class="col-md-4">
+          <img src="/media/{{rate.author.picture}}" class="img-fluid rounded-start" alt="...">
+        </div>
+
+        <div class="col-md-8">
+          <div class="card-body">
+            <h5 class="card-title"><a href="{% url 'clubmate:rate_content' rate.id %}">{{ rate.title }}</a></h5>
+              <span class="badge badge-pill badge-dark">⭐ {{ rate.rating_score }}</span>
+              <span class="badge badge-pill badge-dark">❤️‍🩹 {{ rate.user_reported_safety_ }}</span>
+            </h5>
+            <p class="card-text">{{ rate.user_commentary }}</p>
+            <p class="card-text"><small class="text-muted">{{ rate.posted_at }}</small> </p>
+
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+    {% endfor %}
+
+<div class="pagination">
+    <span class="step-links">
+        {% if page_object_time.has_previous %}
+            <a href="?page=1">&laquo; first</a>
+            <a href="?page={{ page_object_time.previous_page_number }}">previous</a>
+        {% endif %}
+
+        <span class="current">
+            Page {{ page_object_time.number }} of {{ page_object_time.paginator.num_pages }}.
+        </span>
+
+        {% if page_object_time.has_next %}
+            <a href="?page={{ page_object_time.next_page_number }}">next</a>
+            <a href="?page={{ page_object_time.paginator.num_pages }}">last &raquo;</a>
+        {% endif %}
+    </span>
+</div>
+{% endblock %}

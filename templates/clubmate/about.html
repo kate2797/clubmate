@@ -6,5 +6,27 @@
 {% endblock %}
 
 {% block body_block %}
-   About
+
+
+
+      <div>
+        <h1 id="about_h1">   About Our Application</h1>
+          <br>
+          <div id="about_content">
+          <p >Going clubbing during your university years can be very enjoyable but also risky. How does one know if the new club in the town is good? Club ratings to the rescue.</p>
+          <p >The aim of ClubMate is to help guide rave-seeking freshers and the student population more broadly through a plethora of venues and clubs throughout the UK not only to get their money's worth, but also ensure they are clubbing safely. Students will have to create an account to be able to leave ratings for clubs and vote for existing ratings. ClubMate also intends to help club owners get their clubs noticed amid the losses from the pandemic.</p>
+          <p >Club owners can list their venues on ClubMate and include venue address, opening times, a small description of the bar and where it is on a map, so that students can easily choose the venue of their choice for the night.​</p>
+          <p > Students can browse and select clubs depending on their location, genre, and criteria such as whether 18+ entry or COVID test are required, user reviews of the venues in terms of the club’s number of stars, user commentary, and whether a club is deemed safe by others. Through its focus on student health safety, ClubMate brings a new spin-off to traditional club rating applications. ​</p>
+          <p >
+          <a href="{% url 'clubmate:index' %}" class="btn btn-lg btn-secondary fw-bold border-white bg-white">Home Page</a>
+          </p>
+          </div>
+      </div>
+<br>
+
+    <nav class="navbar navbar-default navbar-fixed-bottom">
+          <div class="container">
+            <footer id="about_footer">Copyright © 2022 University of Glasgow - COMPSCI5012 Internet Technology M - 2021-22 - Group 33. All rights reserved.</footer>
+          </div>
+    </nav>
 {% endblock %}

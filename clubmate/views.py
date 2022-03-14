@@ -11,6 +11,9 @@ from django.contrib import messages
 from django.http import HttpResponseRedirect
 from django.http import HttpResponse
 from django.shortcuts import render_to_response
+from clubmate.forms import RatingDetailForm
+
+from django.core.paginator import Paginator
 
 
 def index(request):
@@ -41,16 +44,6 @@ def club_detail(request, club_id):
 
 
 def ratings(request):
-    pass  # Add appropriate template
-
-
-@login_required
-def rating_detail(request, rating_id):
-    return render(request, 'clubmate/profile.html')
-
-
-@login_required
-def rate(request):
     # maybe used with js
     all_rating_by_time = sorted(Rating.objects.all(), key=lambda c: c.posted_at, reverse=True)
     all_rating_by_upvote = sorted(Rating.objects.all(), key=lambda c: c.number_of_upvotes, reverse=True)
@@ -59,11 +52,28 @@ def rate(request):
     default_rating_by_time = sorted(Rating.objects.all(), key=lambda c: c.posted_at, reverse=True)
     default_rating_by_upvote = sorted(Rating.objects.all(), key=lambda c: c.number_of_upvotes, reverse=True)
 
-    context = {'all_rating_by_time': all_rating_by_time, 'all_rating_by_upvote': all_rating_by_upvote,
+    paginator_time = Paginator(all_rating_by_time, 3)
+    paginator_upvote = Paginator(all_rating_by_upvote, 3)
+
+    page_number = request.GET.get('page')
+    page_object_time = paginator_time.get_page(page_number)
+    page_object_upvote = paginator_upvote.get_page(page_number)
+
+    context = {'page_object_time': page_object_time, 'page_object_upvote': page_object_upvote,
                'default_rating_by_time': default_rating_by_time,
                'default_rating_by_upvote': default_rating_by_upvote}
+    return render(request, 'clubmate/ratings.html', context)  # TODO – someone flipped ratings and rate
 
-    return render(request, 'clubmate/rate_club.html', context)  # The template that was there before was incorrect
+
+# not sure
+@login_required
+def rating_detail(request, rating_id):
+    return render(request, 'clubmate/profile.html')
+
+
+@login_required
+def rate(request):
+    return render(request, 'clubmate/rate_club.html')  # The template that was there before was incorrect
 
 
 # new because not sure which route i should mathch the content to
@@ -78,7 +88,23 @@ def rate_content(request, rating_id):
 
 @login_required
 def rate_detail(request, club_id):
-    return render(request, 'clubmate/rate_club_detail.html')
+    form = RatingDetailForm()
+
+    if request.method == 'POST':
+        form = RatingDetailForm(request.POST)
+        user = request.user
+        this_club = Club.objects.filter(id=club_id)
+        if form.is_valid():
+            if this_club:
+                this_rate = form.save(commit=False)
+                this_rate.author = user.profile
+                this_rate.club = this_club
+                this_rate.save()
+        else:
+            print(form.errors)
+    context = {'club_id': club_id, 'form': form}
+
+    return render(request, 'clubmate/rate_club_detail.html', context)
 
 
 @login_required
@@ -107,16 +133,7 @@ def add_club(request):
 def profile(request, username):
     user = User.objects.get(username=username)  # Match username from the default user
     clubmate_user = UserProfile.objects.get(user=user)  # Match it with our custom user
-    rating_list = Rating.objects.order_by('title')[
-                  :5]  # Test for show lists, need to change another order way( can only show all the comment!!!)
-
-    # todo possible solution?
-
-    # user_rating_list = []
-    # for rate in rating_list:
-    #     if rate.author.user.username == username:
-    #         user_rating_list.append(rate)
-
+    rating_list = Rating.objects.filter(author=clubmate_user)
     context = {'clubmate_user': clubmate_user, 'ratingList': rating_list}
     return render(request, 'clubmate/profile.html', context=context)
 
@@ -147,9 +164,10 @@ def edit_rating(request, rating_id):
 
 @login_required
 def delete_rating(request, rating_id):
-    rating = Rating.objects.get(id=rating_id)
-    rating.delete()
-    return render(request, 'clubmate/profile.html')
+    ratingDelete = Rating.objects.filter(id=rating_id)
+    user = request.user
+    ratingDelete.delete()
+    return redirect(reverse('clubmate:profile', kwargs={'username': user.username}))
 
 
 def log_in(request):
@@ -199,7 +217,7 @@ def register(request):
                 profile.picture = request.FILES['picture']
 
             profile.save()
-            
+
             registered = True
         else:
             print(user_form.errors, profile_form.errors)
@@ -208,4 +226,3 @@ def register(request):
         profile_form = UserProfileForm()
 
     return render(request, 'clubmate/register.html', context = {'user_form': user_form, 'profile_form': profile_form, 'registered': registered})
-    

@@ -16,3 +16,15 @@ justify-content: center;
 }
 
 
+
+#about_content{
+    display: flex;
+    justify-content: center;
+    text-align: justify;
+}
+
+
+
+
+
+

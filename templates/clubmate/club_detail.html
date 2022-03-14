@@ -59,11 +59,17 @@
                             class="badge badge-pill badge-dark">❤️‍🩹 {{ rating.user_reported_safety_ }}</span></h5>
                     <p class="card-text">{{ rating.user_commentary }}</p>
                     <blockquote class="blockquote mb-3">
-                        <footer class="blockquote-footer">said <a href="{% url 'clubmate:profile' rating.author %}">{{ rating.author }}</a>
+                        <footer class="blockquote-footer">said <a
+                                href="{% url 'clubmate:profile' rating.author %}">{{ rating.author }}</a>
                         </footer>
                     </blockquote>
                     <p class="card-text"><small class="text-muted">{{ rating.number_of_upvotes }} upvotes</small></p>
-                    <a id="upvote" href="{% url 'clubmate:upvote_rating' rating.id %}" class="btn btn-primary btn-sm">Upvote</a> <!-- Upvote Django-->
+
+                    <!-- Restrict upvoting functionality when user is not logged in -->
+                    {% if user.is_authenticated %}
+                        <a id="upvote" href="{% url 'clubmate:upvote_rating' rating.id %}"
+                           class="btn btn-primary btn-sm">Upvote</a> <!-- Upvote Django-->
+                    {% endif %}
                 </div>
             </div>
         {% endfor %}
