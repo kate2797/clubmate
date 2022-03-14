@@ -1,10 +1,19 @@
+from multiprocessing import context
 from django.contrib.admin.views.decorators import staff_member_required
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.shortcuts import render, redirect
 from django.urls import reverse
 from clubmate.models import Club, UserProfile, Rating
+from django.contrib.auth import login, authenticate, logout
+from clubmate.forms import UserForm, UserProfileForm
+from django.contrib import messages
+from django.http import HttpResponseRedirect
+from django.http import HttpResponse
+from django.shortcuts import render_to_response
 from clubmate.forms import RatingDetailForm
+
+from django.core.paginator import Paginator
 
 
 def index(request):
@@ -36,7 +45,25 @@ def club_detail(request, club_id):
 
 
 def ratings(request):
-    return render(request, 'clubmate/ratings.html')  # TODO – someone flipped ratings and rate
+    # maybe used with js
+    all_rating_by_time = sorted(Rating.objects.all(), key=lambda c: c.posted_at, reverse=True)
+    all_rating_by_upvote = sorted(Rating.objects.all(), key=lambda c: c.number_of_upvotes, reverse=True)
+
+    # use for display directly
+    default_rating_by_time = sorted(Rating.objects.all(), key=lambda c: c.posted_at, reverse=True)
+    default_rating_by_upvote = sorted(Rating.objects.all(), key=lambda c: c.number_of_upvotes, reverse=True)
+
+    paginator_time = Paginator(all_rating_by_time, 3)
+    paginator_upvote = Paginator(all_rating_by_upvote, 3)
+
+    page_number = request.GET.get('page')
+    page_object_time = paginator_time.get_page(page_number)
+    page_object_upvote = paginator_upvote.get_page(page_number)
+
+    context = {'page_object_time': page_object_time, 'page_object_upvote': page_object_upvote,
+               'default_rating_by_time': default_rating_by_time,
+               'default_rating_by_upvote': default_rating_by_upvote}
+    return render(request, 'clubmate/ratings.html', context)  # TODO – someone flipped ratings and rate
 
 
 # not sure
@@ -47,19 +74,7 @@ def rating_detail(request, rating_id):
 
 @login_required
 def rate(request):
-    # maybe used with js
-    all_rating_by_time = sorted(Rating.objects.all(), key=lambda c: c.posted_at, reverse=True)
-    all_rating_by_upvote = sorted(Rating.objects.all(), key=lambda c: c.number_of_upvotes, reverse=True)
-
-    # use for display directly
-    default_rating_by_time = sorted(Rating.objects.all(), key=lambda c: c.posted_at, reverse=True)
-    default_rating_by_upvote = sorted(Rating.objects.all(), key=lambda c: c.number_of_upvotes, reverse=True)
-
-    context = {'all_rating_by_time': all_rating_by_time, 'all_rating_by_upvote': all_rating_by_upvote,
-               'default_rating_by_time': default_rating_by_time,
-               'default_rating_by_upvote': default_rating_by_upvote}
-
-    return render(request, 'clubmate/rate_club.html', context)  # The template that was there before was incorrect
+    return render(request, 'clubmate/rate_club.html')  # The template that was there before was incorrect
 
 
 # new because not sure which route i should mathch the content to
@@ -156,13 +171,59 @@ def delete_rating(request, rating_id):
     return redirect(reverse('clubmate:profile', kwargs={'username': user.username}))
 
 
-def login(request):
-    return render(request, 'clubmate/login.html')
+def log_in(request):
+    if request.method == 'POST':
+          username = request.POST['username']
+          password = request.POST['password']
+          user = authenticate(username=username, password=password)
+          if user is not None:
+              if user.is_active:
+                  login(request, user)
+                  # Redirect to index page.
+                  return redirect(reverse("clubmate:index"))
+              else:
+                  # Return a 'disabled account' error message
+                  return HttpResponse("Your account is disabled.")
+          else:
+              # Return an 'invalid login' error message.
+              print  ("invalid login details " + username + " " + password)
+    else:
+        # the login is a  GET request, so just show the user the login form.
+        return render(request, 'clubmate/login.html')
 
 
-def logout(request):
-    return render(request, 'clubmate/logout.html')
+@login_required
+def log_out(request):
+    logout(request)
+    messages.info(request, "You have successfully logged out.")
+    return redirect(reverse("clubmate:index"))
 
 
 def register(request):
-    return render(request, 'clubmate/register.html')
+    registered = False
+
+    if request.method == 'POST':
+        user_form = UserForm(request.POST)
+        profile_form = UserProfileForm(request.POST)
+
+        if user_form.is_valid() and profile_form.is_valid():
+            user=user_form.save()
+            user.set_password(user.password)
+            user.save()
+
+            profile = profile_form.save(commit=False)
+            profile.user = user
+
+            if 'picture' in request.FILES:
+                profile.picture = request.FILES['picture']
+
+            profile.save()
+
+            registered = True
+        else:
+            print(user_form.errors, profile_form.errors)
+    else:
+        user_form = UserForm()
+        profile_form = UserProfileForm()
+
+    return render(request, 'clubmate/register.html', context = {'user_form': user_form, 'profile_form': profile_form, 'registered': registered})

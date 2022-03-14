@@ -2,6 +2,8 @@ from django.contrib.auth.models import User
 from django.db import models
 from django.db.models import Avg
 from django.core.validators import MaxValueValidator, MinValueValidator
+from django.forms import ModelForm
+from django import forms
 
 
 class Club(models.Model):
@@ -44,6 +46,7 @@ class UserProfile(models.Model):
     picture = models.ImageField(upload_to='profile_pictures', default='profile_pictures/default_user.png', blank=True)
     bio = models.CharField(max_length=100, blank=True)
     clubs = models.ManyToManyField(Club, blank=True)  # Storing the clubs users saved/added
+    club_owner = models.BooleanField(help_text="Tick this if you're a club owner")
 
     def __str__(self):
         return self.user.username
@@ -87,3 +90,5 @@ class Rating(models.Model):
 
     def __str__(self):
         return self.title
+
+
