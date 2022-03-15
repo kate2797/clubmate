@@ -1,0 +1,17 @@
+{% extends 'clubmate/base.html' %}
+{% load staticfiles %}
+
+{% block title_block %}
+    Rate Content
+{% endblock %}
+
+{% block body_block %}
+    <h1>{{ rating.title }}</h1>
+    <p class="card-text"><small class="text-muted">{{ rating.posted_at }}</small></p>
+    <p><strong>Author </strong>{{ rating.author }}</p>
+    <p><strong>Club </strong>{{ rating.club.name }}</p>
+    <p><strong>Rating </strong><span class="badge rounded-pill bg-dark">⭐ {{ rating.rating_score }}</span></p>
+    <p><strong>Reported Safety </strong><span
+            class="badge rounded-pill bg-dark">❤️‍🩹 {{ rating.user_reported_safety_ }}</span></p>
+    <p class="card-text">{{ rating.user_commentary }}</p>
+{% endblock %}

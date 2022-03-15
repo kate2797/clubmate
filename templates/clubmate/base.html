@@ -51,15 +51,15 @@
                     <a class="nav-link" href="{% url 'clubmate:discover' %}">Discover</a>
                 </li>
 
-
                 <li class="nav-item">
                     <a class="nav-link" href="{% url 'clubmate:ratings' %}">Ratings</a>
                 </li>
 
-                <li class="nav-item">
-                    <a class="nav-link" href="{% url 'clubmate:rate' %}">Rate</a>
-                </li>
                 {% if user.is_authenticated %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'clubmate:rate' %}">Rate</a>
+                    </li>
+
                     <li class="nav-item">
                         <a class="nav-link" href="{% url 'clubmate:log_out' %}">Logout</a>
                     </li>

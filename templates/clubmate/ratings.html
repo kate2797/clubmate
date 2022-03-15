@@ -7,31 +7,32 @@
 
 {% block body_block %}
     <h1>Ratings</h1>
-    <p>Here are the most recent reviews</p> <!-- sorting should be buttons as on Discover, but also do not know how to make it work just yet –Kate -->
+    <p>Here are the most recent reviews</p>
+    <!-- sorting should be buttons as on Discover, but also do not know how to make it work just yet –Kate -->
 
     <!-- todo maybe need js? not sure add it later-->
 
-    {% for rate in page_object_time %}
-        <div class="card mb-4">
-            <div class="row g-0">
-                <div class="col-md-4">
-                    <img src="/media/{{ rate.author.picture }}" class="img-fluid rounded-start" alt="...">
-                </div>
+    {% for rating in page_object_time %}
+        <div class="card mb-3">
+            <div class="card-body">
+                <h5 class="card-title"><a
+                        href="{% url 'clubmate:rating_detail' rating.id %}">{{ rating.title }}</a>
+                    <span class="badge badge-pill badge-dark">⭐ {{ rating.rating_score }}</span>
+                    <span class="badge badge-pill badge-dark">❤️‍🩹 {{ rating.user_reported_safety_ }}</span>
+                </h5>
+                <p class="card-text"><small class="text-muted">{{ rating.posted_at }}</small></p>
+                <p class="card-text">{{ rating.user_commentary }}</p>
 
-                <div class="col-md-8">
-                    <div class="card-body">
-                        <h5 class="card-title"><a href="{% url 'clubmate:rate_content' rate.id %}">{{ rate.title }}</a>
-                            <span class="badge badge-pill badge-dark">⭐ {{ rate.rating_score }}</span>
-                            <span class="badge badge-pill badge-dark">❤️‍🩹 {{ rate.user_reported_safety_ }}</span>
-                        </h5>
-                        <p class="card-text">{{ rate.user_commentary }}</p>
-                        <p class="card-text"><small class="text-muted">{{ rate.posted_at }}</small></p>
+                <p class="card-text"><small class="text-muted">{{ rating.number_of_upvotes }} upvotes</small>
+                </p>
+                <!-- Restrict rate/save club functionality when user is not logged in -->
+                {% if user.is_authenticated %}
+                    <a id="upvote" href="{% url 'clubmate:upvote_rating' rating.id %}"
+                       class="btn btn-primary btn-sm">Upvote</a> <!-- Upvote Django-->
+                {% endif %}
 
-                    </div>
-                </div>
             </div>
         </div>
-
     {% endfor %}
 
     <div class="pagination">

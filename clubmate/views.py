@@ -68,10 +68,14 @@ def ratings(request):
     return render(request, 'clubmate/ratings.html', context)  # TODO – someone flipped ratings and rate
 
 
-# not sure
 @login_required
 def rating_detail(request, rating_id):
-    return render(request, 'clubmate/profile.html')
+    try:
+        rating = Rating.objects.get(id=rating_id)
+    except Rating.DoesNotExist:
+        rating = None
+    context = {'rating': rating}
+    return render(request, 'clubmate/rating_detail.html', context=context)
 
 
 @login_required
@@ -92,16 +96,6 @@ def rate(request):
         context = {'form': form}
         return render(request, 'clubmate/rate_club.html',
                       context=context)  # The template that was there before was incorrect
-
-
-# new because not sure which route i should mathch the content to
-def rate_content(request, rating_id):
-    try:
-        this_rate = Rating.objects.get(id=rating_id)
-    except Rating.DoesNotExist:
-        this_rate = None
-    context = {'this_rate': this_rate}
-    return render(request, 'clubmate/rate_content.html', context=context)
 
 
 @login_required
@@ -196,7 +190,7 @@ def profile(request, username):
 @staff_member_required
 def edit_club(request, club_id):
     club = Club.objects.get(id=club_id)
-    if request.user !=UserProfile.is_club_owner:
+    if request.user != UserProfile.is_club_owner:
         return HttpResponse("Sorry, you have no right to edit this club.")
 
     if request.method == "POST":
@@ -213,7 +207,7 @@ def edit_club(request, club_id):
         new_picture = request.POST.get('picture')
         club.name = new_club_name
         club.club_description = new_club_description
-        club.entry_fee =new_entry_fee
+        club.entry_fee = new_entry_fee
         club.opening_hours_week = new_opening_hours_week
         club.opening_hours_weekend = new_opening_hours_weekend
         club.genre = new_category
@@ -232,7 +226,7 @@ def edit_club(request, club_id):
 @staff_member_required
 def delete_club(request, club_id):
     club = Club.objects.get(id=club_id)
-    if request.user !=UserProfile.is_club_owner:
+    if request.user != UserProfile.is_club_owner:
         return HttpResponse("Sorry, you have no right to delete this club.")
     else:
         club.delete()
