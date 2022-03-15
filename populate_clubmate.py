@@ -240,7 +240,8 @@ def populate():
 
 
 def add_user(username, password, email, bio, first_name, last_name, is_club_owner):
-    u = User(username=username, email=email, password=password, first_name=first_name, last_name=last_name)
+    u = User(username=username, email=email, first_name=first_name, last_name=last_name)
+    u.set_password(password)
     u.save()
     cu = UserProfile.objects.get_or_create(user=u)[0]  # cu – clubmate user
     cu.bio = bio  # Set the bio
