@@ -14,6 +14,8 @@ from django.shortcuts import render_to_response
 from clubmate.forms import RatingDetailForm
 
 from django.core.paginator import Paginator
+from . import models
+from .models import Club
 
 
 def index(request):
@@ -74,22 +76,22 @@ def rating_detail(request, rating_id):
 
 @login_required
 def rate(request):
-
     if request.method == 'POST':
         form = RatingDetailForm(request.POST)
         user = request.user
         if form.is_valid():
-            rating=form.save(commit=False)
+            rating = form.save(commit=False)
             user = UserProfile.objects.get(user=user)
-            rating.author=user
+            rating.author = user
             rating.save()
             return redirect(reverse("clubmate:index"))
         else:
             return HttpResponse("Something went wrong.")
     else:
-        form=RatingDetailForm()
+        form = RatingDetailForm()
         context = {'form': form}
-        return render(request, 'clubmate/rate_club.html', context=context)  # The template that was there before was incorrect
+        return render(request, 'clubmate/rate_club.html',
+                      context=context)  # The template that was there before was incorrect
 
 
 # new because not sure which route i should mathch the content to
@@ -143,7 +145,44 @@ def save_club(request, club_id):
 
 @staff_member_required
 def add_club(request):
-    return render(request, 'clubmate/add_club.html')
+    if request.method == 'POST':
+        # new_club_name = request.POST.get('name')
+        # new_club_description = request.POST.get('club_description')
+        # new_entry_fee = request.POST.get('entry_fee')
+        # new_opening_hours_week = request.POST.get('opening_hours_week')
+        # new_opening_hours_weekend = request.POST.get('opening_hours_weekend')
+        # new_category = request.POST.get('genre')
+        # new_covid_test_required = request.POST.get('covid_test_required')
+        # new_underage_visitors_allowed = request.POST.get('underage_visitors_allowed')
+        # new_website_url = request.POST.get('website_url')
+        # new_location_coordinates = request.POST.get('location_coordinates')
+        # new_picture = request.POST.get('picture')
+        # models.Club.objects.create(name=new_club_name,
+        #                            club_description=new_club_description,
+        #                            entry_fee=new_entry_fee,
+        #                            opening_hours_week=new_opening_hours_week,
+        #                            opening_hours_weekend=new_opening_hours_weekend,
+        #                            genre=new_category,
+        #                            covid_test_required=new_covid_test_required,
+        #                            underage_visitors_allowed=new_underage_visitors_allowed,
+        #                            website_url=new_website_url,
+        #                            location_coordinates=new_location_coordinates,
+        #                            picture=new_picture)
+        Club.name = request.POST.get('name')
+        Club.club_description = request.POST.get('club_description')
+        Club.entry_fee = request.POST.get('entry_fee')
+        Club.opening_hours_week = request.POST.get('opening_hours_week')
+        Club.opening_hours_weekend = request.POST.get('opening_hours_weekend')
+        Club.genre = request.POST.get('category')
+        Club.covid_test_required = request.POST.get('covid_test_required')
+        Club.underage_visitors_allowed = request.POST.get('underage_visitors_allowed')
+        Club.website_url = request.POST.get('website_url')
+        Club.location_coordinates = request.POST.get('location_coordinates')
+        Club.picture = request.POST.get('picture')
+        Club.save()
+        return redirect("clubmate:about")
+    else:
+        return render(request, 'clubmate/add_club.html')
 
 
 def profile(request, username):
@@ -156,20 +195,56 @@ def profile(request, username):
 
 @staff_member_required
 def edit_club(request, club_id):
-    return render(request, 'clubmate/edit_club.html')
+    club = Club.objects.get(id=club_id)
+    if request.user !=UserProfile.is_club_owner:
+        return HttpResponse("Sorry, you have no right to edit this club.")
+
+    if request.method == "POST":
+        new_club_name = request.POST.get('name')
+        new_club_description = request.POST.get('club_description')
+        new_entry_fee = request.POST.get('entry_fee')
+        new_opening_hours_week = request.POST.get('opening_hours_week')
+        new_opening_hours_weekend = request.POST.get('opening_hours_weekend')
+        new_category = request.POST.get('genre')
+        new_covid_test_required = request.POST.get('covid_test_required')
+        new_underage_visitors_allowed = request.POST.get('underage_visitors_allowed')
+        new_website_url = request.POST.get('website_url')
+        new_location_coordinates = request.POST.get('location_coordinates')
+        new_picture = request.POST.get('picture')
+        club.name = new_club_name
+        club.club_description = new_club_description
+        club.entry_fee =new_entry_fee
+        club.opening_hours_week = new_opening_hours_week
+        club.opening_hours_weekend = new_opening_hours_weekend
+        club.genre = new_category
+        club.covid_test_required = new_covid_test_required
+        club.underage_visitors_allowed = new_underage_visitors_allowed
+        club.website_url = new_website_url
+        club.location_coordinates = new_location_coordinates
+        club.picture = new_picture
+        club.save()
+        return redirect("clubmate:club_detail", id=id)
+    else:
+        context = {'club': club}
+        return render(request, 'clubmate/edit_club.html', context)
 
 
 @staff_member_required
 def delete_club(request, club_id):
-    return render(request, 'clubmate/delete_club.html')
+    club = Club.objects.get(id=club_id)
+    if request.user !=UserProfile.is_club_owner:
+        return HttpResponse("Sorry, you have no right to delete this club.")
+    else:
+        club.delete()
+        return redirect('clubmate:discover')
 
 
 @login_required
-def edit_rating(request,rating_id):
+def edit_rating(request, rating_id):
     rating = Rating.objects.get(id=rating_id)  # Get the rating
 
     if request.method == 'POST':
-        user=request.user
+        user = request.user
         new__title = request.POST.get('title')
         new_score = request.POST.get('rating_score')
         new_safe = request.POST.get('is_safe')
@@ -183,11 +258,10 @@ def edit_rating(request,rating_id):
     else:
         context = {'rating': rating}
         return render(request, 'clubmate/edit_rating.html', context)
-         
 
 
 @login_required
-def delete_rating(request,rating_id):
+def delete_rating(request, rating_id):
     ratingDelete = Rating.objects.filter(id=rating_id)
     user = request.user
     ratingDelete.delete()
@@ -196,20 +270,20 @@ def delete_rating(request,rating_id):
 
 def log_in(request):
     if request.method == 'POST':
-          username = request.POST['username']
-          password = request.POST['password']
-          user = authenticate(username=username, password=password)
-          if user is not None:
-              if user.is_active:
-                  login(request, user)
-                  # Redirect to index page.
-                  return redirect(reverse("clubmate:index"))
-              else:
-                  # Return a 'disabled account' error message
-                  return HttpResponse("Your account is disabled.")
-          else:
-              # Return an 'invalid login' error message.
-              print  ("invalid login details " + username + " " + password)
+        username = request.POST['username']
+        password = request.POST['password']
+        user = authenticate(username=username, password=password)
+        if user is not None:
+            if user.is_active:
+                login(request, user)
+                # Redirect to index page.
+                return redirect(reverse("clubmate:index"))
+            else:
+                # Return a 'disabled account' error message
+                return HttpResponse("Your account is disabled.")
+        else:
+            # Return an 'invalid login' error message.
+            print("invalid login details " + username + " " + password)
     else:
         # the login is a  GET request, so just show the user the login form.
         return render(request, 'clubmate/login.html')
@@ -230,7 +304,7 @@ def register(request):
         profile_form = UserProfileForm(request.POST)
 
         if user_form.is_valid() and profile_form.is_valid():
-            user=user_form.save()
+            user = user_form.save()
             user.set_password(user.password)
             user.save()
 
@@ -249,4 +323,5 @@ def register(request):
         user_form = UserForm()
         profile_form = UserProfileForm()
 
-    return render(request, 'clubmate/register.html', context = {'user_form': user_form, 'profile_form': profile_form, 'registered': registered})
+    return render(request, 'clubmate/register.html',
+                  context={'user_form': user_form, 'profile_form': profile_form, 'registered': registered})

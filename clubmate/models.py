@@ -10,15 +10,18 @@ class Club(models.Model):
     city = models.CharField(max_length=30)
     website_url = models.URLField()
     genre = models.CharField(max_length=30)
+    # category = models.CharField(max_length=30)
     location_coordinates = models.CharField(max_length=30, help_text='LNG LAT')  # Will need to be parsed as two floats
     entry_fee = models.FloatField(default=0.0)  # Minimum entry fee
     opening_hours_week = models.CharField(max_length=20)
     opening_hours_weekend = models.CharField(max_length=20)
+    # opening_hours = models.CharField(max_length=50)
     picture = models.ImageField(upload_to='club_pictures', default='club_pictures/default_club.png', blank=True)
     covid_test_required = models.BooleanField(default=False)
     underage_visitors_allowed = models.BooleanField(default=False)
     average_rating = models.FloatField(default=0.0, blank=True)
     user_reported_safety = models.BooleanField(default=False, blank=True)
+    
 
     @property
     def average_rating_(self):
