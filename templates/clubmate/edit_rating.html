@@ -24,10 +24,22 @@
             <label for="user_commentary">Rating Details</label>
             <textarea type="text" class="form-control" id="rating_id" name="user_commentary" rows="10"></textarea>
         </div>
+
+        <div>
+            <label for="is_safe">Safe or Not</label>
+            <input type="checkbox" value="True" id="is_safe" name="is_safe">
+        </div>
+
+
+        <div>
+            <label for="rating_score">Rating score</label>
+            <input type="text" class="form-control" id="rating_score" name="rating_score">
+        </div>
+
         <!-- Test the button link, need to repalce with the rate_club.html -->
         <div>
             <a href="{% url 'clubmate:discover' %}" class="card-link">
-                <button type="button" class="btn btn-primary">Complete</button>
+                <button type="submit" class="btn btn-primary">Complete</button>
               </a>
         </div>
     </form>

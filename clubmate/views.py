@@ -165,21 +165,29 @@ def delete_club(request, club_id):
 
 
 @login_required
-def edit_rating(request, rating_id):
+def edit_rating(request,rating_id):
     rating = Rating.objects.get(id=rating_id)  # Get the rating
 
     if request.method == 'POST':
+        user=request.user
+        new__title = request.POST.get('title')
+        new_score = request.POST.get('rating_score')
+        new_safe = request.POST.get('is_safe')
         new_rating = request.POST.get('user_commentary')
+        rating.title = new__title
+        rating.rating_score = new_score
+        rating.is_safe = new_safe
         rating.user_commentary = new_rating
         rating.save()
-        return redirect("rating:rating_detail")
+        return redirect((reverse('clubmate:profile', kwargs={'username': user.username})))
     else:
         context = {'rating': rating}
         return render(request, 'clubmate/edit_rating.html', context)
+         
 
 
 @login_required
-def delete_rating(request, rating_id):
+def delete_rating(request,rating_id):
     ratingDelete = Rating.objects.filter(id=rating_id)
     user = request.user
     ratingDelete.delete()
