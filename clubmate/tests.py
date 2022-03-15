@@ -13,6 +13,7 @@ def create_dummy_club(name):
 
 class ClubModelTests(TestCase):
     """ Ensures that the default value for entry fee is zero. """
+
     def test_ensure_min_entry_free_is_zero(self):
         club = create_dummy_club('SWG3')
         self.assertEqual((club.entry_fee == 0.0), True)

@@ -132,7 +132,7 @@ def upvote_rating(request, rating_id):
 def save_club(request, club_id):
     club = Club.objects.get(id=club_id)  # Get the club in question
     user = request.user  # Get the current user
-    clubmate_user = UserProfile.objects.get(user=user)  # Map to out user
+    clubmate_user = UserProfile.objects.get(user=user)
     clubmate_user.clubs.add(club)  # Add it to the user's profile
     return redirect(reverse('clubmate:profile', kwargs={'username': user.username}))  # Redirect to profile
 
