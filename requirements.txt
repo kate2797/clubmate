@@ -4,7 +4,5 @@ Django==2.1.5
 olefile==0.46
 Pillow==8.4.0
 pycodestyle==2.6.0
-python-dateutil @ file:///tmp/build/80754af9/python-dateutil_1626374649649/work
 pytz==2021.3
-six @ file:///tmp/build/80754af9/six_1644875935023/work
 toml==0.10.1
