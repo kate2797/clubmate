@@ -20,7 +20,15 @@ from .models import Club
 
 def index(request):
     clubs = Club.objects.all()
-    return render(request, 'clubmate/index.html', context={'clubs': clubs})
+    context_dict = {'clubs': clubs}
+
+    # Club owner permissions
+    if not request.user.is_anonymous:
+        user = request.user  # Get user from the request
+        clubmate_user = UserProfile.objects.get_or_create(user=user)[0]  # Map it to our user
+        context_dict['clubmate_user'] = clubmate_user
+
+    return render(request, 'clubmate/index.html', context=context_dict)
 
 
 def about(request):
@@ -32,9 +40,9 @@ def discover(request):
     clubs_by_rating = sorted(Club.objects.all(), key=lambda c: c.average_rating_, reverse=True)[:3]  # High to low
     safe_clubs = sorted(Club.objects.all(), key=lambda c: c.user_reported_safety_)[:3]
     cheapest_clubs = Club.objects.order_by('entry_fee')[:3]
-    context = {'all_clubs': all_clubs, 'clubs_by_rating': clubs_by_rating, 'safe_clubs': safe_clubs,
-               'cheapest_clubs': cheapest_clubs}
-    return render(request, 'clubmate/discover.html', context=context)
+    context_dict = {'all_clubs': all_clubs, 'clubs_by_rating': clubs_by_rating, 'safe_clubs': safe_clubs,
+                    'cheapest_clubs': cheapest_clubs}
+    return render(request, 'clubmate/discover.html', context=context_dict)
 
 
 def club_detail(request, club_id):
@@ -42,8 +50,8 @@ def club_detail(request, club_id):
         club = Club.objects.get(id=club_id)
     except Club.DoesNotExist:
         club = None
-    context = {'club': club}
-    return render(request, 'clubmate/club_detail.html', context=context)
+    context_dict = {'club': club}
+    return render(request, 'clubmate/club_detail.html', context=context_dict)
 
 
 def ratings(request):
@@ -62,10 +70,10 @@ def ratings(request):
     page_object_time = paginator_time.get_page(page_number)
     page_object_upvote = paginator_upvote.get_page(page_number)
 
-    context = {'page_object_time': page_object_time, 'page_object_upvote': page_object_upvote,
-               'default_rating_by_time': default_rating_by_time,
-               'default_rating_by_upvote': default_rating_by_upvote}
-    return render(request, 'clubmate/ratings.html', context)  # TODO – someone flipped ratings and rate
+    context_dict = {'page_object_time': page_object_time, 'page_object_upvote': page_object_upvote,
+                    'default_rating_by_time': default_rating_by_time,
+                    'default_rating_by_upvote': default_rating_by_upvote}
+    return render(request, 'clubmate/ratings.html', context_dict)  # TODO – someone flipped ratings and rate
 
 
 @login_required
@@ -74,8 +82,8 @@ def rating_detail(request, rating_id):
         rating = Rating.objects.get(id=rating_id)
     except Rating.DoesNotExist:
         rating = None
-    context = {'rating': rating}
-    return render(request, 'clubmate/rating_detail.html', context=context)
+    context_dict = {'rating': rating}
+    return render(request, 'clubmate/rating_detail.html', context=context_dict)
 
 
 @login_required
@@ -93,9 +101,9 @@ def rate(request):
             return HttpResponse("Something went wrong.")
     else:
         form = RatingDetailForm()
-        context = {'form': form}
+        context_dict = {'form': form}
         return render(request, 'clubmate/rate_club.html',
-                      context=context)  # The template that was there before was incorrect
+                      context=context_dict)  # The template that was there before was incorrect
 
 
 @login_required
@@ -114,9 +122,9 @@ def rate_detail(request, club_id):
                 this_rate.save()
         else:
             print(form.errors)
-    context = {'club_id': club_id, 'form': form}
+    context_dict = {'club_id': club_id, 'form': form}
 
-    return render(request, 'clubmate/rate_club_detail.html', context)
+    return render(request, 'clubmate/rate_club_detail.html', context_dict)
 
 
 @login_required
@@ -137,7 +145,7 @@ def save_club(request, club_id):
     return redirect(reverse('clubmate:profile', kwargs={'username': user.username}))  # Redirect to profile
 
 
-@staff_member_required
+# Restrict to club owner
 def add_club(request):
     if request.method == 'POST':
         new_club_name = request.POST.get('name')
@@ -177,11 +185,11 @@ def profile(request, username):
     user = User.objects.get(username=username)  # Match username from the default user
     clubmate_user = UserProfile.objects.get(user=user)  # Match it with our custom user
     rating_list = Rating.objects.filter(author=clubmate_user)
-    context = {'clubmate_user': clubmate_user, 'ratingList': rating_list}
-    return render(request, 'clubmate/profile.html', context=context)
+    context_dict = {'clubmate_user': clubmate_user, 'ratingList': rating_list}
+    return render(request, 'clubmate/profile.html', context=context_dict)
 
 
-@staff_member_required
+# Restrict to club owner
 def edit_club(request, club_id):
     club = Club.objects.get(id=club_id)
     if request.user != UserProfile.is_club_owner:
@@ -213,11 +221,11 @@ def edit_club(request, club_id):
         club.save()
         return redirect("clubmate:club_detail", id=id)
     else:
-        context = {'club': club}
-        return render(request, 'clubmate/edit_club.html', context)
+        context_dict = {'club': club}
+        return render(request, 'clubmate/edit_club.html', context_dict)
 
 
-@staff_member_required
+# Restrict to club owner
 def delete_club(request, club_id):
     club = Club.objects.get(id=club_id)
     if request.user != UserProfile.is_club_owner:
@@ -244,15 +252,15 @@ def edit_rating(request, rating_id):
         rating.save()
         return redirect((reverse('clubmate:profile', kwargs={'username': user.username})))
     else:
-        context = {'rating': rating}
-        return render(request, 'clubmate/edit_rating.html', context)
+        context_dict = {'rating': rating}
+        return render(request, 'clubmate/edit_rating.html', context_dict)
 
 
 @login_required
 def delete_rating(request, rating_id):
-    ratingDelete = Rating.objects.filter(id=rating_id)
+    rating = Rating.objects.filter(id=rating_id)
     user = request.user
-    ratingDelete.delete()
+    rating.delete()
     return redirect(reverse('clubmate:profile', kwargs={'username': user.username}))
 
 

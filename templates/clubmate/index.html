@@ -28,11 +28,21 @@
                 </div>
             </div>
 
-            <!-- The rest of the content -->
-            <p class="mb-3 pt-3">Not sure what you are looking for? Discover by clubs by various criteria or browse curated
-                lists of clubs we curated for you!</p>
-            <a href="{% url 'clubmate:discover' %}" class="btn btn-primary mr-3">Discover Clubs</a>
-            <a href="{% url 'clubmate:ratings' %}" class="btn btn-primary">Read Ratings</a>
+            {% if clubmate_user.is_club_owner %}
+                <p class="mb-3 pt-3">Welcome to Clubmate, {{ request.user.username }}. We are glad that you choose to
+                    list your clubs on
+                    our website!</p>
+                <a href="{% url 'clubmate:add_club' %}" class="btn btn-primary mr-3">Add Club</a>
+                <a href="{% url 'clubmate:profile' request.user.username %}" class="btn btn-primary mr-3">Your Clubs</a>
+            {% else %}
+                <!-- The rest of the content -->
+                <p class="mb-3 pt-3">Not sure what you are looking for? Discover by clubs by various criteria or browse
+                    curated
+                    lists of clubs we curated for you!</p>
+                <a href="{% url 'clubmate:discover' %}" class="btn btn-primary mr-3">Discover Clubs</a>
+                <a href="{% url 'clubmate:ratings' %}" class="btn btn-primary">Read Ratings</a>
+            {% endif %}
+
         </div>
     </div>
 
