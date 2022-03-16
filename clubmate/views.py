@@ -21,13 +21,11 @@ from .models import Club
 def index(request):
     clubs = Club.objects.all()
     context_dict = {'clubs': clubs}
-
-    # Club owner permissions
+    # Handling club owner permissions with the code below:
     if not request.user.is_anonymous:
         user = request.user  # Get user from the request
         clubmate_user = UserProfile.objects.get_or_create(user=user)[0]  # Map it to our user
         context_dict['clubmate_user'] = clubmate_user
-
     return render(request, 'clubmate/index.html', context=context_dict)
 
 
@@ -76,7 +74,6 @@ def ratings(request):
     return render(request, 'clubmate/ratings.html', context_dict)  # TODO – someone flipped ratings and rate
 
 
-@login_required
 def rating_detail(request, rating_id):
     try:
         rating = Rating.objects.get(id=rating_id)
@@ -86,7 +83,7 @@ def rating_detail(request, rating_id):
     return render(request, 'clubmate/rating_detail.html', context=context_dict)
 
 
-@login_required
+@login_required  # Anonymous users never even get access to this URL / Restrict to students
 def rate(request):
     if request.method == 'POST':
         form = RatingDetailForm(request.POST)
@@ -106,7 +103,7 @@ def rate(request):
                       context=context_dict)  # The template that was there before was incorrect
 
 
-@login_required
+@login_required  # Anonymous users never even get access to this URL / Restrict to students
 def rate_detail(request, club_id):
     form = RatingDetailForm()
 
@@ -127,15 +124,16 @@ def rate_detail(request, club_id):
     return render(request, 'clubmate/rate_club_detail.html', context_dict)
 
 
-@login_required
+@login_required  # Anonymous users never even get access to this URL
 def upvote_rating(request, rating_id):
     rating = Rating.objects.get(id=rating_id)  # Get the rating to be modified
     rating.number_of_upvotes += 1  # Increment the number of votes
     rating.save()
-    return HttpResponseRedirect(request.META.get('HTTP_REFERER'))  # Redirects to the same page. TODO: Try handling with AJAX?
+    return HttpResponseRedirect(
+        request.META.get('HTTP_REFERER'))  # Redirects to the same page. TODO: Try handling with AJAX?
 
 
-@login_required
+@login_required  # Anonymous users never even get access to this URL
 def save_club(request, club_id):
     club = Club.objects.get(id=club_id)  # Get the club in question
     user = request.user  # Get the current user
@@ -144,7 +142,7 @@ def save_club(request, club_id):
     return redirect(reverse('clubmate:profile', kwargs={'username': user.username}))  # Redirect to profile
 
 
-# Restrict to club owner
+@login_required  # Restrict to club owner
 def add_club(request):
     if request.method == 'POST':
         new_club_name = request.POST.get('name')
@@ -180,6 +178,7 @@ def add_club(request):
         return render(request, 'clubmate/add_club.html')
 
 
+# Not restricted, so that anonymous users can see who posted ratings
 def profile(request, username):
     user = User.objects.get(username=username)  # Match username from the default user
     clubmate_user = UserProfile.objects.get(user=user)  # Match it with our custom user
@@ -188,7 +187,7 @@ def profile(request, username):
     return render(request, 'clubmate/profile.html', context=context_dict)
 
 
-# Restrict to club owner
+@login_required  # Restrict to club owner
 def edit_club(request, club_id):
     club = Club.objects.get(id=club_id)
     if request.user != UserProfile.is_club_owner:
@@ -224,7 +223,7 @@ def edit_club(request, club_id):
         return render(request, 'clubmate/edit_club.html', context_dict)
 
 
-# Restrict to club owner
+@login_required  # Restrict to club owner
 def delete_club(request, club_id):
     club = Club.objects.get(id=club_id)
     if request.user != UserProfile.is_club_owner:
@@ -234,7 +233,7 @@ def delete_club(request, club_id):
         return redirect('clubmate:discover')
 
 
-@login_required
+@login_required  # Restrict to students
 def edit_rating(request, rating_id):
     rating = Rating.objects.get(id=rating_id)  # Get the rating
 
@@ -255,7 +254,7 @@ def edit_rating(request, rating_id):
         return render(request, 'clubmate/edit_rating.html', context_dict)
 
 
-@login_required
+@login_required  # Restrict to students
 def delete_rating(request, rating_id):
     rating = Rating.objects.filter(id=rating_id)
     user = request.user
