@@ -140,41 +140,29 @@ def save_club(request, club_id):
 @staff_member_required
 def add_club(request):
     if request.method == 'POST':
-        # new_club_name = request.POST.get('name')
-        # new_club_description = request.POST.get('club_description')
-        # new_entry_fee = request.POST.get('entry_fee')
-        # new_opening_hours_week = request.POST.get('opening_hours_week')
-        # new_opening_hours_weekend = request.POST.get('opening_hours_weekend')
-        # new_category = request.POST.get('genre')
-        # new_covid_test_required = request.POST.get('covid_test_required')
-        # new_underage_visitors_allowed = request.POST.get('underage_visitors_allowed')
-        # new_website_url = request.POST.get('website_url')
-        # new_location_coordinates = request.POST.get('location_coordinates')
-        # new_picture = request.POST.get('picture')
-        # models.Club.objects.create(name=new_club_name,
-        #                            club_description=new_club_description,
-        #                            entry_fee=new_entry_fee,
-        #                            opening_hours_week=new_opening_hours_week,
-        #                            opening_hours_weekend=new_opening_hours_weekend,
-        #                            genre=new_category,
-        #                            covid_test_required=new_covid_test_required,
-        #                            underage_visitors_allowed=new_underage_visitors_allowed,
-        #                            website_url=new_website_url,
-        #                            location_coordinates=new_location_coordinates,
-        #                            picture=new_picture)
-        Club.name = request.POST.get('name')
-        Club.club_description = request.POST.get('club_description')
-        Club.entry_fee = request.POST.get('entry_fee')
-        Club.opening_hours_week = request.POST.get('opening_hours_week')
-        Club.opening_hours_weekend = request.POST.get('opening_hours_weekend')
-        Club.genre = request.POST.get('category')
-        Club.covid_test_required = request.POST.get('covid_test_required')
-        Club.underage_visitors_allowed = request.POST.get('underage_visitors_allowed')
-        Club.website_url = request.POST.get('website_url')
-        Club.location_coordinates = request.POST.get('location_coordinates')
-        Club.picture = request.POST.get('picture')
-        Club.save()
-        return redirect("clubmate:about")
+        new_club_name = request.POST.get('name')
+        new_club_description = request.POST.get('club_description')
+        new_entry_fee = request.POST.get('entry_fee')
+        new_opening_hours_week = request.POST.get('opening_hours_week')
+        new_opening_hours_weekend = request.POST.get('opening_hours_weekend')
+        new_category = request.POST.get('genre')
+        new_covid_test_required = request.POST.get('covid_test_required')
+        new_underage_visitors_allowed = request.POST.get('underage_visitors_allowed')
+        new_website_url = request.POST.get('website_url')
+        new_location_coordinates = request.POST.get('location_coordinates')
+        new_picture = request.POST.get('picture')
+        models.Club.objects.create(name=new_club_name,
+                                   club_description=new_club_description,
+                                   entry_fee=new_entry_fee,
+                                   opening_hours_week=new_opening_hours_week,
+                                   opening_hours_weekend=new_opening_hours_weekend,
+                                   genre=new_category,
+                                   covid_test_required=new_covid_test_required,
+                                   underage_visitors_allowed=new_underage_visitors_allowed,
+                                   website_url=new_website_url,
+                                   location_coordinates=new_location_coordinates,
+                                   picture=new_picture)
+        return HttpResponse("Add Successfully!")
     else:
         return render(request, 'clubmate/add_club.html')
 

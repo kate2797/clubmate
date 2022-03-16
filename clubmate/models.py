@@ -2,6 +2,7 @@ from django.contrib.auth.models import User
 from django.db import models
 from django.db.models import Avg
 from django.core.validators import MaxValueValidator, MinValueValidator
+from django.urls import reverse
 
 
 class Club(models.Model):
@@ -24,7 +25,9 @@ class Club(models.Model):
 
     def __str__(self):
         return self.name
-    
+
+    def get_absolute_url(self):
+        return reverse('clubmate:club_detail', args=[self.id])
 
     @property
     def average_rating_(self):
@@ -40,9 +43,6 @@ class Club(models.Model):
     #     self.average_rating = self.average_rating_
     #     self.user_reported_safety = self.user_reported_safety_
     #     super(Club, self).save(*args, **kwarg)
-
-    def __str__(self):
-        return self.name
 
 
 class UserProfile(models.Model):
@@ -74,7 +74,8 @@ class Rating(models.Model):
     title = models.CharField(max_length=30)
     club = models.ForeignKey(Club, on_delete=models.CASCADE, related_name='ratings_list')
     author = models.ForeignKey(UserProfile, on_delete=models.CASCADE, related_name='ratings_written_list')
-    rating_score = models.FloatField(default=0.0, validators=[MinValueValidator(1.0), MaxValueValidator(5.0)])  # Validate
+    rating_score = models.FloatField(default=0.0,
+                                     validators=[MinValueValidator(1.0), MaxValueValidator(5.0)])  # Validate
     is_safe = models.BooleanField(default=False)
     user_commentary = models.TextField()
     posted_at = models.DateTimeField(auto_now_add=True)
@@ -94,5 +95,3 @@ class Rating(models.Model):
 
     def __str__(self):
         return self.title
-
-
