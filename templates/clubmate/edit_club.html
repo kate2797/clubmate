@@ -2,11 +2,64 @@
 {% load staticfiles %}
 
 {% block title_block %}
-    Edit Your Rating
+    Edit Club
 {% endblock %}
 
 {% block body_block %}
-<div class="row">
-    <p>Edit your Rate</p>
-</div>
+    <h1>Edit Club</h1>
+    <form id="form" method="post" action="{% url 'clubmate:edit_club' club_id %}" enctype="multipart/form-data">
+        {% csrf_token %}
+
+        {{ form.as_p }}
+        <div class="form-group">
+            <label for="name">Club name</label>
+            <input type="text" class="form-control" id="name" name="name">
+        </div>
+        <div class="form-group">
+            <label for="club_description">Briefly describe your club to users</label>
+            <textarea type="text" class="form-control" id="club_description" name="club_description" rows="5"></textarea>
+        </div>
+        <div class="form-group">
+            <label for="entry_fee">Entry fee</label>
+            <input type="text" class="form-control" id="entry_fee" name="entry_fee">
+        </div>
+        <div class="form-group">
+            <label for="opening_hours_week">Opening hours on weekdays (eg: 8PM–12AM)</label>
+            <input type="text" class="form-control" id="opening_hours_week" name="opening_hours_week">
+        </div>
+        <div class="form-group">
+            <label for="opening_hours_weekend">Opening hours on weekends(eg: 12PM–12AM)</label>
+            <input type="text" class="form-control" id="opening_hours_weekend" name="opening_hours_weekend">
+        </div>
+        <div class="form-group">
+            <label for="genre">Genre</label>
+            <input type="text" class="form-control" id="genre" name="genre">
+        </div>
+        <div class="checkbox">
+            <label for="covid_test_required">COVID test required</label>
+            <input type="checkbox" name="covid_test_required" value="1">
+        </div>
+        <div class="checkbox">
+            <label for="underage_visitors_allowed">18+ entry</label>
+            <input type="checkbox" name="underage_visitors_allowed" value="1">
+        </div>
+        <div class="form-group">
+            <label for="website_url">Website</label>
+            <input type="text" class="form-control" id="website_url" name="website_url">
+        </div>
+        <div class="form-group">
+            <label for="location_coordinates">Location (Please input club's coordinates so that we can use it in our location services)</label>
+            <!-- <input type="hidden" id="location_coordinates" name="location_coordinates" value="{{ club.location_coordinates }}">
+            <div id="map"></div> -->
+            <input type="text" class="form-control" id="location_coordinates" name="location_coordinates">
+        </div>
+        <div class="form-group">
+            <label for="picture">image</label>
+            <input type="file" id="picture">
+        </div>
+        <!-- <button type="submit">Add club</button> -->
+        <!-- COVID test required <input type="checkbox" name="covid_test_required" value="1"><br>
+        18+ entry <input type="checkbox" name="underage_visitors_allowed" value="1"><br> -->
+        <input type="submit" value="Complete">
+    </form>
 {% endblock %}
