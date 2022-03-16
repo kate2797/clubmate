@@ -21,6 +21,9 @@ class Club(models.Model):
     underage_visitors_allowed = models.BooleanField(default=False)
     average_rating = models.FloatField(default=0.0, blank=True)
     user_reported_safety = models.BooleanField(default=False, blank=True)
+
+    def __str__(self):
+        return self.name
     
 
     @property
