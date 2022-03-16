@@ -6,9 +6,9 @@
 {% endblock %}
 
 {% block body_block %}
-    <h1>{{ rating.title }}</h1>
-    <p class="card-text"><small class="text-muted">{{ rating.posted_at }}</small></p>
+    <h1>{{ rating.title }} <span class="badge rounded-pill bg-dark">👍 {{ rating.number_of_upvotes }}</span></h1>
     <p><strong>Author </strong>{{ rating.author }}</p>
+    <p><strong>Created On </strong>{{ rating.posted_at }}</p>
     <p><strong>Club </strong>{{ rating.club.name }}</p>
     <p><strong>Rating </strong><span class="badge rounded-pill bg-dark">⭐ {{ rating.rating_score }}</span></p>
     <p><strong>Reported Safety </strong><span

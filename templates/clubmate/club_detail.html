@@ -52,26 +52,29 @@
         <!-- Display user ratings -->
         <h2 class="mt-3 mb-3 pt-3">Recent User Ratings</h2>
         {% for rating in club.ratings_list.all %}
+
             <div class="card mb-3">
                 <div class="card-body">
-                    <h5 class="card-title">{{ rating.title }} <span
-                            class="badge badge-pill badge-dark">⭐ {{ rating.rating_score }}</span> <span
-                            class="badge badge-pill badge-dark">❤️‍🩹 {{ rating.user_reported_safety_ }}</span></h5>
+                    <h5 class="card-title"><a
+                            href="{% url 'clubmate:rating_detail' rating.id %}">{{ rating.title }}</a>
+                        <span class="badge rounded-pill bg-dark">👍 {{ rating.number_of_upvotes }}</span>
+                    </h5>
+                    <p><strong>Author </strong><a
+                            href="{% url 'clubmate:profile' rating.author %}">{{ rating.author }}</a></p>
+                    <p class="card-text"><strong>Rating</strong> <span
+                            class="badge badge-pill badge-dark">⭐ {{ rating.rating_score }}</span>
+                        <span class="badge badge-pill badge-dark">❤️‍🩹 {{ rating.user_reported_safety_ }}</span></p>
                     <p class="card-text">{{ rating.user_commentary }}</p>
-                    <blockquote class="blockquote mb-3">
-                        <footer class="blockquote-footer">said <a
-                                href="{% url 'clubmate:profile' rating.author %}">{{ rating.author }}</a>
-                        </footer>
-                    </blockquote>
-                    <p class="card-text"><small class="text-muted">{{ rating.number_of_upvotes }} upvotes</small></p>
-
-                    <!-- Restrict upvoting functionality when user is not logged in -->
+                    <p class="card-text"><small class="text-muted">{{ rating.posted_at }}</small></p>
+                    <!-- Restrict rate/save club functionality when user is not logged in -->
                     {% if user.is_authenticated %}
                         <a id="upvote" href="{% url 'clubmate:upvote_rating' rating.id %}"
                            class="btn btn-primary btn-sm">Upvote</a> <!-- Upvote Django-->
                     {% endif %}
+
                 </div>
             </div>
+
         {% endfor %}
         <div class="align-right"><p>Show more</p></div> <!-- TODO: Limit how many shown with JS? -->
 
