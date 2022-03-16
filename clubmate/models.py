@@ -18,8 +18,8 @@ class Club(models.Model):
     opening_hours_weekend = models.CharField(max_length=20)
     # opening_hours = models.CharField(max_length=50)
     picture = models.ImageField(upload_to='club_pictures', default='club_pictures/default_club.png', blank=True)
-    covid_test_required = models.BooleanField(default=False)
-    underage_visitors_allowed = models.BooleanField(default=False)
+    covid_test_required = models.BooleanField(default=0)
+    underage_visitors_allowed = models.BooleanField(default=0)
     average_rating = models.FloatField(default=0.0, blank=True)
     user_reported_safety = models.BooleanField(default=False, blank=True)
 

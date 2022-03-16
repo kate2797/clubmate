@@ -146,11 +146,17 @@ def add_club(request):
         new_opening_hours_week = request.POST.get('opening_hours_week')
         new_opening_hours_weekend = request.POST.get('opening_hours_weekend')
         new_category = request.POST.get('genre')
+        # new_covid_test_required = request.POST.get('covid_test_required')
         new_covid_test_required = request.POST.get('covid_test_required')
+        # new_underage_visitors_allowed = request.POST.get('underage_visitors_allowed')
         new_underage_visitors_allowed = request.POST.get('underage_visitors_allowed')
         new_website_url = request.POST.get('website_url')
         new_location_coordinates = request.POST.get('location_coordinates')
         new_picture = request.POST.get('picture')
+        if new_covid_test_required == None:
+            new_covid_test_required = 0
+        if new_underage_visitors_allowed == None:
+            new_underage_visitors_allowed = 0
         models.Club.objects.create(name=new_club_name,
                                    club_description=new_club_description,
                                    entry_fee=new_entry_fee,
