@@ -18,6 +18,7 @@ function displayMap() {
     }
 }
 
+// pushing rejected?
 function search() {
     let input, filter, ul, li, a, textValue, inputValue;
     input = document.getElementById("search-input");
