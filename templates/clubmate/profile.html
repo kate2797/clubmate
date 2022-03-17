@@ -7,7 +7,76 @@
 
 # To see demo to help you with the development, access: http://127.0.0.1:8000/profile/group33/
 
-{% block body_block %}
+{% block nav_block %}
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown"
+            aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNavDropdown">
+        <ul class="navbar-nav">
+            <li class="nav-item active">
+                <a class="nav-link" href="{% url 'clubmate:index' %}">Home <span
+                        class="sr-only">(current)</span></a>
+
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'clubmate:about' %}">About</a>
+            </li>
+
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'clubmate:discover' %}">Discover</a>
+            </li>
+
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'clubmate:ratings' %}">Ratings</a>
+            </li>
+
+            {% if user.is_authenticated %}
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'clubmate:rate' %}">Rate</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'clubmate:profile' request.user.username %}">Profile</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'clubmate:log_out' %}">Logout</a>
+                </li>
+            {% else %}
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'clubmate:register' %}">Register</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'clubmate:log_in' %}">Login</a>
+                </li>
+            {% endif %}
+
+        </ul>
+    </div>
+</nav>
+{% endblock %}
+
+
+{% block body_block %}    
+    {% if clubmate_user.is_club_owner %}
+    <div class="row">
+        <div class="col-md-3">
+            <img src="{{ clubmate_user.picture.url }}" width="200" class="mb-2">
+            <p>Edit profile picture</p>
+        </div>
+        <div class="col-md-8">
+            <h1>{{ clubmate_user.user.username }}</h1>
+            <p>{{ clubmate_user.bio }}</p>
+        </div>
+    </div>
+    <p class="mb-3 pt-3">Welcome to ClubMate, {{ request.user.username }}. We are glad that you choose to
+        list your clubs on
+        our website!</p>
+    <a href="{% url 'clubmate:add_club' %}" class="btn btn-primary mr-3">Add Club</a>
+    {% else %}
+    <!-- normal user -->
     <div class="row">
         <div class="col-md-3">
             <img src="{{ clubmate_user.picture.url }}" width="200" class="mb-2">
@@ -58,7 +127,5 @@
           </div>
         {% endfor %}
     </div>
-
-        
-
+{% endif%}
 {% endblock %}

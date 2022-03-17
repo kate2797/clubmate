@@ -179,6 +179,7 @@ def add_club(request):
 
 
 # Not restricted, so that anonymous users can see who posted ratings
+@login_required
 def profile(request, username):
     user = User.objects.get(username=username)  # Match username from the default user
     clubmate_user = UserProfile.objects.get(user=user)  # Match it with our custom user
