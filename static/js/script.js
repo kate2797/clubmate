@@ -1,6 +1,4 @@
-$(document).ready(function () {
-    displayMap();
-});
+displayMap();
 
 function displayMap() {
     if (document.getElementById("coordinates") !== null) {
@@ -21,7 +19,7 @@ function displayMap() {
 }
 
 function search() {
-    let input, filter, ul, li, a, i, textValue, inputValue;
+    let input, filter, ul, li, a, textValue, inputValue;
     input = document.getElementById("search-input");
     filter = input.value.toUpperCase();
     ul = document.getElementById("elements");
@@ -29,12 +27,11 @@ function search() {
     ul.style.display = 'block'; // Starts being hidden, show it now
     inputValue = input.value;
 
-    if (!inputValue.match(/\S/)) {
-        // If input empty again, hide all search results again
+    if (!inputValue.match(/\S/)) { // If input empty again, hide all search results again
         ul.style.display = 'none';
     }
 
-    for (i = 0; i < li.length; i++) {
+    for (let i = 0; i < li.length; i++) {
         a = li[i].getElementsByTagName("a")[0];
         textValue = a.textContent || a.innerText;
         if (textValue.toUpperCase().indexOf(filter) > -1) {
@@ -43,4 +40,85 @@ function search() {
             li[i].style.display = "none";
         }
     }
+}
+
+function resetFilter() {
+    let filters = document.getElementsByClassName("filter"); // All filterable elements
+    let filtersArr = [].slice.call(filters);
+    filtersArr.forEach(function (element) {
+        if (element.style.display === "none") { // If currently hidden, display them
+            element.style.display = "block";
+        }
+    });
+}
+
+function filterBy(condition) {
+    let selection = document.getElementsByClassName(condition);
+    let filters = document.getElementsByClassName("filter"); // All filterable elements
+    let filtersArr = [].slice.call(filters); // Turn into an array
+    let selectionArr = [].slice.call(selection);
+    let difference = filtersArr.filter(x => selectionArr.indexOf(x) === -1); // Elements that do not have the given
+
+    if (selectionArr.length === 0) {
+        displayNoMatchMessage();
+    }
+
+    difference.forEach(function (element) {
+        element.style.display = "none"; // Display filtered selection
+    });
+}
+
+// TODO: If selection is empty, announce that no match was found
+function displayNoMatchMessage() {
+    // let paragraph = document.createElement("p");
+    // let text = document.createTextNode("This is new.");
+    // paragraph.appendChild(text);
+    // paragraph.setAttribute("id", "no-match-message");
+    // let child = document.getElementById('filtering');
+    // child.parentNode.insertBefore(paragraph, child);
+
+    // reset method
+    // setTimeout((paragraph) => {
+    //     paragraph.style.display = 'none';
+    // }, 70);
+}
+
+function orderReset() {
+    let filters = document.getElementsByClassName("filter");
+    let filtersArr = [].slice.call(filters);
+    filtersArr.forEach(function (element) {
+        if (element.style.display === "none") { // If currently hidden, display them
+            element.style.display = "block";
+        }
+    });
+}
+
+function orderHighToLow() {
+    let filters = document.getElementsByClassName("filter"); // All filterable elements
+    let filtersArr = [].slice.call(filters);
+    let div = document.getElementById("filtering");
+
+    let filtersArrLowToHigh = filtersArr.reverse(); // Reset the previous state
+    filtersArrLowToHigh.forEach(function (element) {
+        div.parentNode.removeChild(element);
+    });
+
+    filtersArr.forEach(function (element) { // Append in the correct order
+        div.parentNode.appendChild(element);
+    });
+}
+
+function orderLowToHigh() {
+    let filters = document.getElementsByClassName("filter"); // All filterable elements
+    let filtersArr = [].slice.call(filters);
+    let filtersArrLowToHigh = filtersArr.reverse(); // Low to High
+    let div = document.getElementById("filtering");
+
+    filtersArr.forEach(function (element) { // Reset the previous state
+        div.parentNode.removeChild(element);
+    });
+
+    filtersArrLowToHigh.forEach(function (element) { // Append in the correct order
+        div.parentNode.appendChild(element);
+    });
 }

@@ -56,93 +56,96 @@
     <!-- All Clubs -->
     <h2 class="mt-3 mb-3">See All</h2> <!-- Margin top and bottom on h2 headings -->
     <!-- Filtering options -->
-    <div class="filtering-ordering-options btn-group">
+    <div id="filtering" class="filtering-ordering-options btn-group">
         <div class="dropdown mb-3 mr-3">
             <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton"
                     data-toggle="dropdown"
+                    onclick="resetFilter()"
                     aria-haspopup="true" aria-expanded="false">
                 Genre
             </button>
             <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                <a class="dropdown-item" href="#">Alternative</a>
-                <a class="dropdown-item" href="#">House</a>
-                <a class="dropdown-item" href="#">Techno</a>
+                <a class="dropdown-item" href="#" onclick="filterBy('Alternative')">Alternative</a>
+                <a class="dropdown-item" href="#" onclick="filterBy('House')">House</a>
+                <a class="dropdown-item" href="#" onclick="filterBy('Techno')">Techno</a>
             </div>
         </div>
         <div class="dropdown mb-3 mr-3">
             <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton"
                     data-toggle="dropdown"
+                    onclick="resetFilter()"
                     aria-haspopup="true" aria-expanded="false">
                 Location
             </button>
             <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                <a class="dropdown-item" href="#">Glasgow</a>
-                <a class="dropdown-item" href="#">London</a>
-                <a class="dropdown-item" href="#">Dundee</a>
+                <a class="dropdown-item" href="#" onclick="filterBy('Glasgow')">Glasgow</a>
+                <a class="dropdown-item" href="#" onclick="filterBy('London')">London</a>
+                <a class="dropdown-item" href="#" onclick="filterBy('Brighton')">Brighton</a>
             </div>
         </div>
         <div class="dropdown mb-3 mr-3">
             <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton"
                     data-toggle="dropdown"
+                    onclick="resetFilter()"
                     aria-haspopup="true" aria-expanded="false">
                 Safety
             </button>
             <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                <a class="dropdown-item" href="#">Safe</a>
-                <a class="dropdown-item" href="#">Unsafe</a>
+                <a class="dropdown-item" href="#" onclick="filterBy('SAFE')">Safe</a>
+                <a class="dropdown-item" href="#" onclick="filterBy('UNSAFE')">Unsafe</a>
             </div>
         </div>
         <div class="dropdown mb-3 mr-3">
             <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton"
                     data-toggle="dropdown"
+                    onclick="resetFilter()"
                     aria-haspopup="true" aria-expanded="false">
                 Age Restrictions
             </button>
             <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                <a class="dropdown-item" href="#">18+ Entry</a>
-                <a class="dropdown-item" href="#">No Restriction</a>
+                <a class="dropdown-item" href="#" onclick="filterBy('True-Underage')">18+ Entry</a>
+                <a class="dropdown-item" href="#" onclick="filterBy('False-Underage')">No Restriction</a>
             </div>
         </div>
         <div class="dropdown mb-3 mr-3">
             <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton"
                     data-toggle="dropdown"
+                    onclick="resetFilter()"
                     aria-haspopup="true" aria-expanded="false">
                 COVID Test Requirements
             </button>
             <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                <a class="dropdown-item" href="#">COVID Test Required</a>
-                <a class="dropdown-item" href="#">No Requirement</a>
+                <a class="dropdown-item" href="#" onclick="filterBy('True-Test')">COVID Test Required</a>
+                <a class="dropdown-item" href="#" onclick="filterBy('False-Test')">No Requirement</a>
             </div>
         </div>
         <!-- Ordering options -->
         <div class="dropdown mb-3">
             <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton"
                     data-toggle="dropdown"
+                    onclick="orderReset()"
                     aria-haspopup="true" aria-expanded="false">
                 Ordering
             </button>
             <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                <a class="dropdown-item" href="#">High to Low</a>
-                <a class="dropdown-item" href="#">Low to High</a>
-                <a class="dropdown-item" href="#">Most Recent</a>
+                <a class="dropdown-item" href="#" onclick="orderHighToLow()">High to Low</a>
+                <a class="dropdown-item" href="#" onclick="orderLowToHigh()">Low to High</a>
             </div>
         </div>
     </div>
 
     {% for club in clubs_by_rating %}
-        <div class="card mb-3">
+        <div class="card mb-3 filter {{ club.genre }} {{ club.city }} {{ club.user_reported_safety_ }} {{ club.underage_visitors_allowed }}-Underage {{ club.covid_test_required }}-Test Rating-{{ club.average_rating_ }}">
             <div class="card-body">
                 <h5 class="card-title"><a href="{% url 'clubmate:club_detail' club.id %}">{{ club.name }}</a> <span
                         class="badge badge-pill badge-dark">⭐ {{ club.average_rating_ }}</span> <span
                         class="badge badge-pill badge-dark">❤️‍🩹 {{ club.user_reported_safety_ }}</span></h5>
                 <p class="card-text">{{ club.club_description }}</p>
-
                 <!-- Restrict rate/save club functionality when user is not logged in -->
                 {% if user.is_authenticated %}
                     <a href="{% url 'clubmate:rate_detail' club.id %}" class="btn btn-primary">Rate</a> <!-- Working -->
                     <a href="{% url 'clubmate:save_club' club.id %}" class="btn btn-primary">Save</a> <!-- Working -->
                 {% endif %}
-
             </div>
         </div>
     {% endfor %}
