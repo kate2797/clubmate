@@ -2,10 +2,10 @@ displayMap();
 
 function displayMap() {
     if (document.getElementById("coordinates") !== null) {
-        let coordinates = document.getElementById("coordinates").value;
+        let coordinates = document.getElementById("coordinates").value; // Get the coordinates
         let coordinatesArray = coordinates.split(/\s+/);
-        coordinatesArray = coordinatesArray.map(Number);
-        let map = L.map('map').setView([coordinatesArray[0], coordinatesArray[1]], 13);
+        coordinatesArray = coordinatesArray.map(Number); // Turn them into floats
+        let map = L.map('map').setView([coordinatesArray[0], coordinatesArray[1]], 13); // Display the map
         L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}', {
             attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
             maxZoom: 18,
@@ -42,14 +42,24 @@ function search() {
     }
 }
 
-function resetFilter() {
-    let filters = document.getElementsByClassName("filter"); // All filterable elements
-    let filtersArr = [].slice.call(filters);
-    filtersArr.forEach(function (element) {
+/** Helper function to conditionally show and hide elements. */
+function conditionalDisplay(array) {
+    array.forEach(function (element) {
         if (element.style.display === "none") { // If currently hidden, display them
             element.style.display = "block";
         }
     });
+}
+
+function resetFilter() {
+    let filters = document.getElementsByClassName("filter"); // All filterable elements
+    let filtersArr = [].slice.call(filters);
+    conditionalDisplay(filtersArr);
+
+    let message = document.getElementById("div-filtering-message");
+    if (message.style.display === 'block') { // Hide the error message if it is there
+        message.style.display = 'none';
+    }
 }
 
 function filterBy(condition) {
@@ -68,44 +78,25 @@ function filterBy(condition) {
     });
 }
 
-// TODO: If selection is empty, announce that no match was found
+/** Helper function that announces that no match was found if user selection is empty. */
 function displayNoMatchMessage() {
-    // let paragraph = document.createElement("p");
-    // let text = document.createTextNode("This is new.");
-    // paragraph.appendChild(text);
-    // paragraph.setAttribute("id", "no-match-message");
-    // let child = document.getElementById('filtering');
-    // child.parentNode.insertBefore(paragraph, child);
-
-    // reset method
-    // setTimeout((paragraph) => {
-    //     paragraph.style.display = 'none';
-    // }, 70);
+    let message = document.getElementById("div-filtering-message");
+    message.style.display = 'block';
 }
 
 function orderReset() {
     let filters = document.getElementsByClassName("filter");
     let filtersArr = [].slice.call(filters);
-    filtersArr.forEach(function (element) {
-        if (element.style.display === "none") { // If currently hidden, display them
-            element.style.display = "block";
-        }
-    });
+    conditionalDisplay(filtersArr);
 }
 
 function orderHighToLow() {
     let filters = document.getElementsByClassName("filter"); // All filterable elements
     let filtersArr = [].slice.call(filters);
     let div = document.getElementById("filtering");
-
-    let filtersArrLowToHigh = filtersArr.reverse(); // Reset the previous state
-    filtersArrLowToHigh.forEach(function (element) {
-        div.parentNode.removeChild(element);
-    });
-
-    filtersArr.forEach(function (element) { // Append in the correct order
-        div.parentNode.appendChild(element);
-    });
+    let filtersArrLowToHigh = filtersArr.reverse();
+    removeDiv(filtersArrLowToHigh, div); // Reset the previous state
+    appendDiv(filtersArr, div); // Append in the correct order
 }
 
 function orderLowToHigh() {
@@ -113,12 +104,20 @@ function orderLowToHigh() {
     let filtersArr = [].slice.call(filters);
     let filtersArrLowToHigh = filtersArr.reverse(); // Low to High
     let div = document.getElementById("filtering");
+    removeDiv(filtersArr, div);
+    appendDiv(filtersArrLowToHigh, div); // Append in the correct order
+}
 
-    filtersArr.forEach(function (element) { // Reset the previous state
-        div.parentNode.removeChild(element);
+/** Helper function to remove a div from another div. */
+function removeDiv(array, parent) {
+    array.forEach(function (element) {
+        parent.parentNode.appendChild(element);
     });
+}
 
-    filtersArrLowToHigh.forEach(function (element) { // Append in the correct order
-        div.parentNode.appendChild(element);
+/** Helper function to append a div to another div. */
+function appendDiv(array, parent) {
+    array.forEach(function (element) {
+        parent.parentNode.appendChild(element);
     });
 }

@@ -54,3 +54,7 @@ body {
   border-radius: 100px;
   outline: none;
 }
+
+div#div-filtering-message {
+    display: none;
+}

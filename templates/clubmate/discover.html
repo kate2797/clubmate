@@ -128,12 +128,15 @@
                 Ordering
             </button>
             <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                <a class="dropdown-item" href="#" onclick="orderHighToLow()">High to Low</a>
                 <a class="dropdown-item" href="#" onclick="orderLowToHigh()">Low to High</a>
+                <a class="dropdown-item" href="#" onclick="orderHighToLow()">High to Low</a>
             </div>
         </div>
     </div>
 
+    <div id="div-filtering-message">
+        <p id="filtering-message">Sorry, nothing here matches your filters.</p>
+    </div>
     {% for club in all_clubs %}
         <div class="card mb-3 filter {{ club.genre }} {{ club.city }} {{ club.user_reported_safety_ }} {{ club.underage_visitors_allowed }}-Underage {{ club.covid_test_required }}-Test Rating-{{ club.average_rating_ }}">
             <div class="card-body">
