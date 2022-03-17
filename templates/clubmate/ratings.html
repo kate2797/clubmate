@@ -5,6 +5,9 @@
     Ratings
 {% endblock %}
 
+{% block is_club_owner %}
+{% endblock %}
+
 {% block body_block %}
     <h1>Ratings</h1>
     <p>Here are the most recent reviews</p>
@@ -21,17 +24,20 @@
                 </h5>
                 <p><strong>Author </strong><a
                         href="{% url 'clubmate:profile' rating.author %}">{{ rating.author }}</a></p>
+                <p><strong>Created On </strong>{{ rating.posted_at }}</p>
                 <p class="card-text"><strong>Club </strong><a
                         href="{% url 'clubmate:club_detail' rating.club.id %}">{{ rating.club.name }}</a></p>
                 <p class="card-text"><strong>Rating</strong> <span
                         class="badge badge-pill badge-dark">⭐ {{ rating.rating_score }}</span>
                     <span class="badge badge-pill badge-dark">❤️‍🩹 {{ rating.user_reported_safety_ }}</span></p>
                 <p class="card-text">{{ rating.user_commentary }}</p>
-                <p class="card-text"><small class="text-muted">{{ rating.posted_at }}</small></p>
                 <!-- Restrict rate/save club functionality when user is not logged in -->
                 {% if user.is_authenticated %}
-                    <a id="upvote" href="{% url 'clubmate:upvote_rating' rating.id %}"
-                       class="btn btn-primary btn-sm">Upvote</a> <!-- Upvote Django-->
+                    {% if clubmate_user.is_club_owner %}
+                    {% else %}
+                        <a id="upvote" href="{% url 'clubmate:upvote_rating' rating.id %}"
+                           class="btn btn-primary btn">Upvote Rating</a>
+                    {% endif %}
                 {% endif %}
 
             </div>

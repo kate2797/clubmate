@@ -2,11 +2,23 @@
 {% load staticfiles %}
 
 {% block title_block %}
-    Rate Detail
+    {% if club %}
+        Rate {{ club.name }}
+    {% else %}
+        Rate Detail
+    {% endif %}
+{% endblock %}
+
+{% block is_club_owner %}
 {% endblock %}
 
 {% block body_block %}
-    <h1>Rate Detail</h1>
+
+    {% if club %}
+        <h1>Rate {{ club.name }}</h1>
+    {% else %}
+        <h1>Rate Detail</h1>
+    {% endif %}
     <div>
         <form id="rating_detail_form" method="post" action="{% url 'clubmate:rate_detail' club_id %}">
             {% csrf_token %}
@@ -21,7 +33,7 @@
                 {{ field }}
                 <br>
             {% endfor %}
-            <input type="submit" name="submit" value="Finish Rating" />
+            <input class="btn btn-primary" type="submit" name="submit" value="Submit"/>
         </form>
     </div>
 {% endblock %}

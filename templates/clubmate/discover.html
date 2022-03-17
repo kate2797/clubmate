@@ -5,6 +5,9 @@
     Discover
 {% endblock %}
 
+{% block is_club_owner %}
+{% endblock %}
+
 {% block body_block %}
     <h1>Discover</h1>
     <p>Unsure where to go with your friends tonight? We’ve got your back. The best rated clubs are a good place to
@@ -146,8 +149,11 @@
                 <p class="card-text">{{ club.club_description }}</p>
                 <!-- Restrict rate/save club functionality when user is not logged in -->
                 {% if user.is_authenticated %}
-                    <a href="{% url 'clubmate:rate_detail' club.id %}" class="btn btn-primary">Rate</a> <!-- Working -->
-                    <a href="{% url 'clubmate:save_club' club.id %}" class="btn btn-primary">Save</a> <!-- Working -->
+                    {% if clubmate_user.is_club_owner %}
+                    {% else %}
+                        <a href="{% url 'clubmate:rate_detail' club.id %}" class="btn btn-primary">Rate Club</a>
+                        <a href="{% url 'clubmate:save_club' club.id %}" class="btn btn-primary">Save Club</a>
+                    {% endif %}
                 {% endif %}
             </div>
         </div>

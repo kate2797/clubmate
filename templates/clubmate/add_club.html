@@ -5,8 +5,11 @@
     Add
 {% endblock %}
 
+{% block is_club_owner %}
+{% endblock %}
+
 {% block body_block %}
-    <h1>Add a CLub</h1>
+    <h1>Add a Club</h1>
     <form id="form" method="post" action="{% url 'clubmate:add_club' %}" enctype="multipart/form-data">
         {% csrf_token %}
 
@@ -24,11 +27,11 @@
             <input type="text" class="form-control" id="entry_fee" name="entry_fee">
         </div>
         <div class="form-group">
-            <label for="opening_hours_week">Opening hours on weekdays (eg: 8PM–12AM)</label>
+            <label for="opening_hours_week">Opening hours on weekdays (e.g.,: 8PM–12AM)</label>
             <input type="text" class="form-control" id="opening_hours_week" name="opening_hours_week">
         </div>
         <div class="form-group">
-            <label for="opening_hours_weekend">Opening hours on weekends(eg: 12PM–12AM)</label>
+            <label for="opening_hours_weekend">Opening hours on weekends(e.g.,: 12PM–12AM)</label>
             <input type="text" class="form-control" id="opening_hours_weekend" name="opening_hours_weekend">
         </div>
         <div class="form-group">
@@ -54,12 +57,12 @@
             <input type="text" class="form-control" id="location_coordinates" name="location_coordinates">
         </div>
         <div class="form-group">
-            <label for="picture">image</label>
+            <label for="picture">Picture</label>
             <input type="file" id="picture">
         </div>
         <!-- <button type="submit">Add club</button> -->
         <!-- COVID test required <input type="checkbox" name="covid_test_required" value="1"><br>
         18+ entry <input type="checkbox" name="underage_visitors_allowed" value="1"><br> -->
-        <input type="submit" value="Add club">
+        <input class="btn btn-primary" type="submit" value="Add Club">
     </form>
 {% endblock %}

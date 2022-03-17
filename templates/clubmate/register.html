@@ -5,6 +5,9 @@
     Register
 {% endblock %}
 
+{% block is_club_owner %}
+{% endblock %}
+
 {% block body_block %}
   <h1>Register</h1>
 
@@ -18,7 +21,7 @@
     {{ user_form.as_p}}
     {{ profile_form.as_p }}
 
-    <input type="submit" name="submit" value="Register" />
+    <input class="btn btn-primary" type="submit" name="submit" value="Register" />
   </form>
   {% endif %}
 {% endblock %}

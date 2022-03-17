@@ -38,21 +38,28 @@ def discover(request):
     clubs_by_rating = sorted(Club.objects.all(), key=lambda c: c.average_rating_, reverse=True)[:3]  # High to low
     safe_clubs = sorted(Club.objects.all(), key=lambda c: c.user_reported_safety_)[:3]
     cheapest_clubs = Club.objects.order_by('entry_fee')[:3]
+    user = request.user
+    clubmate_user = UserProfile.objects.get_or_create(user=user)[0]
     context_dict = {'all_clubs': all_clubs, 'clubs_by_rating': clubs_by_rating, 'safe_clubs': safe_clubs,
-                    'cheapest_clubs': cheapest_clubs}
+                    'cheapest_clubs': cheapest_clubs, 'clubmate_user': clubmate_user}
     return render(request, 'clubmate/discover.html', context=context_dict)
 
 
 def club_detail(request, club_id):
+    user = request.user
+    clubmate_user = UserProfile.objects.get_or_create(user=user)[0]  # Needed to restrict club owners
     try:
         club = Club.objects.get(id=club_id)
     except Club.DoesNotExist:
         club = None
-    context_dict = {'club': club}
+    context_dict = {'club': club, 'clubmate_user': clubmate_user}
     return render(request, 'clubmate/club_detail.html', context=context_dict)
 
 
 def ratings(request):
+    user = request.user
+    clubmate_user = UserProfile.objects.get_or_create(user=user)[0]  # Needed to restrict club owners
+
     # maybe used with js
     all_rating_by_time = sorted(Rating.objects.all(), key=lambda c: c.posted_at, reverse=True)
     all_rating_by_upvote = sorted(Rating.objects.all(), key=lambda c: c.number_of_upvotes, reverse=True)
@@ -70,7 +77,7 @@ def ratings(request):
 
     context_dict = {'page_object_time': page_object_time, 'page_object_upvote': page_object_upvote,
                     'default_rating_by_time': default_rating_by_time,
-                    'default_rating_by_upvote': default_rating_by_upvote}
+                    'default_rating_by_upvote': default_rating_by_upvote, 'clubmate_user': clubmate_user}
     return render(request, 'clubmate/ratings.html', context_dict)  # TODO – someone flipped ratings and rate
 
 
@@ -106,6 +113,7 @@ def rate(request):
 @login_required  # Anonymous users never even get access to this URL / Restrict to students
 def rate_detail(request, club_id):
     form = RatingDetailForm()
+    club = Club.objects.get_or_create(id=club_id)[0]
 
     if request.method == 'POST':
         form = RatingDetailForm(request.POST)
@@ -114,12 +122,12 @@ def rate_detail(request, club_id):
         if form.is_valid():
             if this_club:
                 this_rate = form.save(commit=False)
-                this_rate.author = user.profile
+                this_rate.author = user
                 this_rate.club = this_club
                 this_rate.save()
         else:
             print(form.errors)
-    context_dict = {'club_id': club_id, 'form': form}
+    context_dict = {'club_id': club_id, 'form': form, 'club': club}
 
     return render(request, 'clubmate/rate_club_detail.html', context_dict)
 
@@ -137,13 +145,16 @@ def upvote_rating(request, rating_id):
 def save_club(request, club_id):
     club = Club.objects.get(id=club_id)  # Get the club in question
     user = request.user  # Get the current user
-    clubmate_user = UserProfile.objects.get(user=user)
+    clubmate_user = UserProfile.objects.get_or_create(user=user)[0]
     clubmate_user.clubs.add(club)  # Add it to the user's profile
     return redirect(reverse('clubmate:profile', kwargs={'username': user.username}))  # Redirect to profile
 
 
 @login_required  # Restrict to club owner
 def add_club(request):
+    user = request.user
+    clubmate_user = UserProfile.objects.get_or_create(user=user)[0]  # FIX: Must add it to the user's profile
+
     if request.method == 'POST':
         new_club_name = request.POST.get('name')
         new_club_description = request.POST.get('club_description')
@@ -162,17 +173,19 @@ def add_club(request):
             new_covid_test_required = 0
         if new_underage_visitors_allowed == None:
             new_underage_visitors_allowed = 0
-        models.Club.objects.create(name=new_club_name,
-                                   club_description=new_club_description,
-                                   entry_fee=new_entry_fee,
-                                   opening_hours_week=new_opening_hours_week,
-                                   opening_hours_weekend=new_opening_hours_weekend,
-                                   genre=new_category,
-                                   covid_test_required=new_covid_test_required,
-                                   underage_visitors_allowed=new_underage_visitors_allowed,
-                                   website_url=new_website_url,
-                                   location_coordinates=new_location_coordinates,
-                                   picture=new_picture)
+        Club.objects.create(name=new_club_name,
+                            club_description=new_club_description,
+                            entry_fee=new_entry_fee,
+                            opening_hours_week=new_opening_hours_week,
+                            opening_hours_weekend=new_opening_hours_weekend,
+                            genre=new_category,
+                            covid_test_required=new_covid_test_required,
+                            underage_visitors_allowed=new_underage_visitors_allowed,
+                            website_url=new_website_url,
+                            location_coordinates=new_location_coordinates,
+                            picture=new_picture)
+        club = Club.objects.get(name=new_club_name)  # Get the club
+        clubmate_user.clubs.add(club)  # FIX: Add newly created club to the club owner's profile
         return HttpResponse("Add Successfully!")
     else:
         return render(request, 'clubmate/add_club.html')
@@ -182,7 +195,7 @@ def add_club(request):
 @login_required
 def profile(request, username):
     user = User.objects.get(username=username)  # Match username from the default user
-    clubmate_user = UserProfile.objects.get(user=user)  # Match it with our custom user
+    clubmate_user = UserProfile.objects.get_or_create(user=user)[0]  # Match it with our custom user
     rating_list = Rating.objects.filter(author=clubmate_user)
     context_dict = {'clubmate_user': clubmate_user, 'ratingList': rating_list}
     return render(request, 'clubmate/profile.html', context=context_dict)
