@@ -34,7 +34,7 @@ def about(request):
 
 
 def discover(request):
-    all_clubs = Club.objects.all()
+    all_clubs = sorted(Club.objects.all(), key=lambda c: c.average_rating_, reverse=True)
     clubs_by_rating = sorted(Club.objects.all(), key=lambda c: c.average_rating_, reverse=True)[:3]  # High to low
     safe_clubs = sorted(Club.objects.all(), key=lambda c: c.user_reported_safety_)[:3]
     cheapest_clubs = Club.objects.order_by('entry_fee')[:3]

@@ -12,7 +12,6 @@
 {% block body_block %}
     {% if club %}
         <!-- Display club details -->
-
         <!-- TODO Display success message after voting JS -->
 
         <h1>{{ club.name }} <span class="badge badge-pill badge-dark">⭐ {{ club.average_rating_ }}</span> <span
@@ -76,7 +75,6 @@
             </div>
 
         {% endfor %}
-        <div class="align-right"><p>Show more</p></div> <!-- TODO: Limit how many shown with JS? -->
 
     {% else %}
         The specified club does not exist

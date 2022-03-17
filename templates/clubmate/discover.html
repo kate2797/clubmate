@@ -134,7 +134,7 @@
         </div>
     </div>
 
-    {% for club in clubs_by_rating %}
+    {% for club in all_clubs %}
         <div class="card mb-3 filter {{ club.genre }} {{ club.city }} {{ club.user_reported_safety_ }} {{ club.underage_visitors_allowed }}-Underage {{ club.covid_test_required }}-Test Rating-{{ club.average_rating_ }}">
             <div class="card-body">
                 <h5 class="card-title"><a href="{% url 'clubmate:club_detail' club.id %}">{{ club.name }}</a> <span
@@ -149,6 +149,5 @@
             </div>
         </div>
     {% endfor %}
-    <div class="align-right"><p>Show more</p></div> <!-- TODO: Limit how many shown with JS? -->
 
 {% endblock %}

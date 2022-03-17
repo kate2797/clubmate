@@ -82,8 +82,8 @@ def populate():
             'genre': 'Techno',
             'location_coordinates': '55.86479 -4.29999',
             'entry_fee': '8.0',
-            'opening_hours_week': '12PM–12AM',
-            'opening_hours_weekend': '12PM–12AM',
+            'opening_hours_week': '10PM–12AM',
+            'opening_hours_weekend': '10PM–12AM',
             'picture': 'club_pictures/swg3.jpeg',
             'covid_test_required': 'True',  # Change to human-friendly names next time
             'underage_visitors_allowed': 'True',
@@ -121,6 +121,22 @@ def populate():
             'underage_visitors_allowed': 'False',
             'average_rating': '0.0',
             'user_reported_safety': 'False'},
+
+        'Fabric': {
+            'club_description': '3 massive spaces host resident and guest DJs playing drum and bass, dubstep, house and techno.',
+            'city': 'London',
+            'website_url': 'https://www.fabriclondon.com/',
+            'genre': 'House',
+            'location_coordinates': '51.5195856 -0.1024735',
+            'entry_fee': '13.0',
+            'opening_hours_week': '11PM–12AM',
+            'opening_hours_weekend': '11PM–12AM',
+            'picture': 'club_pictures/fabric.jpeg',
+            'covid_test_required': 'False',
+            'underage_visitors_allowed': 'True',
+            'average_rating': '0.0',
+            'user_reported_safety': 'False'
+        },
     }
 
     club_map = {}
@@ -166,6 +182,20 @@ def populate():
             'picture': 'event_pictures/subclub_alluneedxl.jpg',
             'happening_at': dateutil.parser.parse('06/06/22 20:00'),
             'capacity': '150'
+        },
+
+        'After Dark': {
+            'club': club_map['Fabric'],
+            'picture': 'event_pictures/fabric_afterdark.jpeg',
+            'happening_at': dateutil.parser.parse('04/17/22 23:00'),
+            'capacity': '400'
+        },
+
+        '10 Years of Livity Sound': {
+            'club': club_map['Fabric'],
+            'picture': 'event_pictures/fabric_10yearsoflivitysound.jpeg',
+            'happening_at': dateutil.parser.parse('05/04/22 23:00'),
+            'capacity': '400'
         },
     }
 
@@ -223,6 +253,26 @@ def populate():
          'posted_at': dateutil.parser.parse('01/03/22 17:00'),
          'number_of_upvotes': '7',
          },
+
+        {'title': 'Absolutely incredible night',
+         'club': club_map['Fabric'],
+         'author': user_map['emilyramo'],
+         'rating_score': '5.0',
+         'is_safe': 'True',
+         'user_commentary': "By far the best club night I have ever been too. Went to a charity night for a guy who has been a promoter for many years and is well known to the fabric and friends and boy they put on a show. The line up was insane and the sounds system was just another level. One of the doorman at the end of the night helped me find my friend and made sure I was safe… really felt like they cared about customer safety.",
+         'posted_at': dateutil.parser.parse('01/21/22 12:22'),
+         'number_of_upvotes': '341',
+         },
+
+        {'title': 'Fabric the best dance venue',
+         'club': club_map['Fabric'],
+         'author': user_map['averagestudent'],
+         'rating_score': '4.5',
+         'is_safe': 'True',
+         'user_commentary': "Fabric is one of the best clubs there is. Security staff are great friendly and thorough, love the no photos etc policy everyone really gets into the music. Never have to queue in the toilets which are mixed sex and they are round the corner from the dance floor, cloak room if you need it and constant free fresh cold water being poured beside the bar which everyone takes. It’s just one of the best clubs in the world!!",
+         'posted_at': dateutil.parser.parse('02/03/22 13:34'),
+         'number_of_upvotes': '233',
+         },
     ]
 
     for rating in ratings:
@@ -232,11 +282,15 @@ def populate():
 
     # Add some clubs as "saved clubs" to some users, to make it look more natural instead of adding all to all
     user_map['MrsDracoMalfoy'].clubs.add(club_map['SWG3'])
+    user_map['MrsDracoMalfoy'].clubs.add(club_map['Fabric'])
     user_map['ghostfacegangsta'].clubs.add(club_map['SWG3'])
     user_map['ghostfacegangsta'].clubs.add(club_map['Sub Club'])
+    user_map['ghostfacegangsta'].clubs.add(club_map['Fabric'])
     user_map['averagestudent'].clubs.add(club_map['SWG3'])
     user_map['averagestudent'].clubs.add(club_map['Inn Deep'])
+    user_map['averagestudent'].clubs.add(club_map['Fabric'])
     user_map['emilyramo'].clubs.add(club_map['Inn Deep'])
+    user_map['emilyramo'].clubs.add(club_map['Fabric'])
 
 
 def add_user(username, password, email, bio, first_name, last_name, is_club_owner):
