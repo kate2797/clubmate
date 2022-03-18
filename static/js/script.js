@@ -126,18 +126,18 @@ function rateDisplay(condition) {
     if (condition === "default_display") {
         let displayDiv = document.getElementById("default_display")
         displayDiv.style.display = "";
-        let hideDiv = document.getElementById("upvote_display")
+        let hideDiv = document.getElementById("reverse_rating_by_time")
         hideDiv.style.display = "none";
         let ele = document.getElementById("dropdownMenuButton1")
-        ele.innerText = "Published Time"
+        ele.innerText = "Now to Last"
     }
-    if (condition === "upvote_display") {
+    if (condition === "reverse_rating_by_time") {
         let displayDiv = document.getElementById("default_display")
         displayDiv.style.display = "none";
-        let hideDiv = document.getElementById("upvote_display")
+        let hideDiv = document.getElementById("reverse_rating_by_time")
         hideDiv.style.display = "";
         let ele = document.getElementById("dropdownMenuButton1")
-        ele.innerText = "Upvote"
+        ele.innerText = "Now to Last"
     }
 }
 
