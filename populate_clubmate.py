@@ -55,7 +55,7 @@ def populate():
             'email': 'RidleyRich@RidleyRich.com',
             'first_name': 'Ridley',
             'last_name': 'Preston',
-            'bio': 'Thank you, come again',
+            'bio': '99% ☕️',
             'is_club_owner': 'True'},
 
         'SuperMagnificentExtreme': {
@@ -63,7 +63,7 @@ def populate():
             'first_name': 'Konrad',
             'last_name': 'Chen',
             'email': 'SuperMagnificentExtreme@SuperMagnificentExtreme.com',
-            'bio': 'Thank you, come again',
+            'bio': 'Welcome to my 👑dom',
             'is_club_owner': 'True'},
     }
 

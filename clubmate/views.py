@@ -1,25 +1,21 @@
-from multiprocessing import context
-from django.contrib.admin.views.decorators import staff_member_required
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.shortcuts import render, redirect
 from django.urls import reverse
-from clubmate.models import Club, UserProfile, Rating
+from clubmate.models import UserProfile, Rating
 from django.contrib.auth import login, authenticate, logout
 from clubmate.forms import UserForm, UserProfileForm
 from django.contrib import messages
 from django.http import HttpResponseRedirect
 from django.http import HttpResponse
-from django.shortcuts import render_to_response
 from clubmate.forms import RatingDetailForm, RateDetailForm
 
 from django.core.paginator import Paginator
-from . import models
 from .models import Club
 
 
 def permissions_check_clubmate_user(request, context_dict):
-    """ Helper method to check user permissions. """
+    """ Helper method to allow checking user permissions within templates. """
     if not request.user.is_anonymous:
         user = request.user  # Get user from the request
         clubmate_user = UserProfile.objects.get_or_create(user=user)[0]  # Map it to our user
@@ -163,9 +159,6 @@ def save_club(request, club_id):
 
 @login_required  # Restrict to club owner
 def add_club(request):
-    user = request.user
-    clubmate_user = UserProfile.objects.get_or_create(user=user)[0]  # FIX: Must add it to the user's profile
-
     if request.method == 'POST':
         new_club_name = request.POST.get('name')
         new_club_description = request.POST.get('club_description')
@@ -198,6 +191,8 @@ def add_club(request):
                                           average_rating=0.0,
                                           user_reported_safety=True)[0]
         club.save()
+        user = request.user
+        clubmate_user = UserProfile.objects.get_or_create(user=user)[0]
         clubmate_user.clubs.add(club)  # FIX: Add newly created club to the club owner's profile
         return render(request, 'clubmate/operation_successful.html')
     else:
@@ -217,6 +212,7 @@ def profile(request, username):
 def edit_club(request, club_id):
     club = Club.objects.get(id=club_id)
     context_dict = {'club_id': club_id, 'club': club}
+    permissions_check_clubmate_user(request, context_dict)
     if request.method == 'POST':
         new_club_name = request.POST.get('name')
         new_club_description = request.POST.get('club_description')
