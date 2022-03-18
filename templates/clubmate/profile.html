@@ -20,8 +20,9 @@
     <!-- Common to both user roles -->
     <div class="row">
         <div class="col-md-3">
+            <a href="{% url 'clubmate:edit_picture' user.username %}">
             <img src="{{ clubmate_user.picture.url }}" width="200" class="mb-2" alt="Defaul Profile Image">
-                <p>Edit profile picture</p>
+                <p>Edit profile picture</p></a>
         </div>
         <div class="col-md-8">
             <h1>{{ clubmate_user.user.username }}</h1>

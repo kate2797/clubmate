@@ -24,4 +24,5 @@ urlpatterns = [
     path('logout/', views.log_out, name='log_out'),
     path('upvote/<int:rating_id>/', views.upvote_rating, name='upvote_rating'),  # New, to upvote reviews
     path('save/<int:club_id>/', views.save_club, name='save_club'),  # New, to save club to a profile
+    path('edit_picture/<str:username>/', views.edit_picture, name='edit_picture'),
 ]

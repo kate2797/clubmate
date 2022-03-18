@@ -1,0 +1,20 @@
+{% extends 'clubmate/base.html' %}
+{% load staticfiles %}
+
+{% block title_block %}
+    Edit Rating
+{% endblock %}
+
+
+
+{% block body_block %}
+<h1 class="mt-3 mb-3">Edit Rating</h1>
+<div>
+    <form method="post" action=".">
+        {% csrf_token %}
+        <div class="form-group">
+            <label for="title">Picture</label>
+            <input type="file" class="form-control" id="picture" name="picture">
+        </div>
+</div>
+{% endblock %}
