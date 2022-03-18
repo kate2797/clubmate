@@ -29,18 +29,17 @@ class Club(models.Model):
 
     @property
     def average_rating_(self):
+        if not self.ratings_list.exists():
+            return 0.0
         return self.ratings_list.aggregate(Avg('rating_score'))['rating_score__avg']  # Order by on-the-fly in views
 
     @property
     def user_reported_safety_(self):
+        if not self.ratings_list.exists():
+            return "UNSAFE"
         safe_count = self.ratings_list.filter(is_safe=True).count()
         unsafe_count = self.ratings_list.filter(is_safe=False).count()
         return "SAFE" if safe_count > unsafe_count else "UNSAFE"
-
-    # def save(self, *args, **kwarg):
-    #     self.average_rating = self.average_rating_
-    #     self.user_reported_safety = self.user_reported_safety_
-    #     super(Club, self).save(*args, **kwarg)
 
 
 class UserProfile(models.Model):
@@ -83,10 +82,6 @@ class Rating(models.Model):
     @property
     def user_reported_safety_(self):
         return "SAFE" if self.is_safe is True else "UNSAFE"
-
-    # def save(self, *args, **kwarg):
-    #     self.user_reported_safety = self.user_reported_safety_
-    #     super(Rating, self).save(*args, **kwarg)
 
     class Meta:
         ordering = ['-number_of_upvotes']  # Default ordering is high to low
