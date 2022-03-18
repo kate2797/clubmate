@@ -230,9 +230,9 @@ def edit_club(request, club_id):
         new_picture = request.FILES.get('picture')
         new_covid_test_required = request.POST.get('covid_test_required')
         new_underage_visitors_allowed = request.POST.get('underage_visitors_allowed')
-        if new_covid_test_required == None:
+        if new_covid_test_required is None:
             new_covid_test_required = False
-        if new_underage_visitors_allowed == None:
+        if new_underage_visitors_allowed is None:
             new_underage_visitors_allowed = False
         club.name = new_club_name
         club.club_description = new_club_description
