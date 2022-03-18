@@ -106,7 +106,7 @@ def rate(request):
             user = UserProfile.objects.get(user=user)
             rating.author = user
             rating.save()
-            return redirect(reverse("clubmate:index"))
+            return redirect(reverse("clubmate:ratings"))
         else:
             return HttpResponse("Something went wrong.")
     else:
@@ -208,8 +208,6 @@ def profile(request, username):
     context_dict = {'clubmate_user': clubmate_user, 'ratingList': rating_list}
     return render(request, 'clubmate/profile.html', context=context_dict)
 
-
-
 # @login_required
 # def edit_picture(request, username):
 #     if  request.method == 'POST':
@@ -222,6 +220,7 @@ def profile(request, username):
 #     else:
 #         context_dict = {'clubmate_user': clubmate_user}
 #         return render(request, 'clubmate/edit_picture.html', context_dict)
+
 
 @login_required
 def edit_picture(request, username):
