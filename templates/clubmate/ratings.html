@@ -28,8 +28,8 @@
                 Display By
             </button>
             <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                <a class="dropdown-item" href="#" onclick="rateDisplay('upvote_display')">Upvote</a>
-                <a class="dropdown-item" href="#" onclick="rateDisplay('default_display')">Published Time</a>
+                <a class="dropdown-item" href="#" onclick="rateDisplay('default_display')">Now to Last</a>
+                <a class="dropdown-item" href="#" onclick="rateDisplay('reverse_rating_by_time')">Last to Now</a>
             </div>
         </div>
 
@@ -97,8 +97,8 @@
         </div>
     </div>
 
-    <div id="upvote_display" style="display: none">
-        {% for rating in page_object_upvote %}
+    <div id="reverse_rating_by_time" style="display: none">
+        {% for rating in reverse_rating_by_time %}
             <div class="card mb-3 filter">
                 <div class="card-body">
                     <h5 class="card-title"><a
@@ -127,20 +127,21 @@
             </div>
         {% endfor %}
 
+
         <div class="pagination">
             <span class="step-links">
-                {% if page_object_upvote.has_previous %}
+                {% if reverse_rating_by_time.has_previous %}
                     <a href="?page=1">&laquo; first</a>
-                    <a href="?page={{ page_object_upvote.previous_page_number }}">previous</a>
+                    <a href="?page={{ reverse_rating_by_time.previous_page_number }}">previous</a>
                 {% endif %}
 
                 <span class="current">
-                    Page {{ page_object_upvote.number }} of {{ page_object_upvote.paginator.num_pages }}.
+                    Page {{ reverse_rating_by_time.number }} of {{ reverse_rating_by_time.paginator.num_pages }}.
                 </span>
 
-                {% if page_object_upvote.has_next %}
-                    <a href="?page={{ page_object_upvote.next_page_number }}">next</a>
-                    <a href="?page={{ page_object_upvote.paginator.num_pages }}">last &raquo;</a>
+                {% if reverse_rating_by_time.has_next %}
+                    <a href="?page={{ reverse_rating_by_time.next_page_number }}">next</a>
+                    <a href="?page={{ reverse_rating_by_time.paginator.num_pages }}">last &raquo;</a>
                 {% endif %}
             </span>
         </div>
