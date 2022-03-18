@@ -1,5 +1,6 @@
 {% extends 'clubmate/base.html' %}
 {% load staticfiles %}
+{% load social_share %}
 
 {% block title_block %}
     {% if club %}
@@ -33,6 +34,7 @@
                 {{ field }}
                 <br>
             {% endfor %}
+            {% post_to_twitter object_or_url "Post to Twitter" %}
             <input class="btn btn-primary" type="submit" name="submit" value="Submit"/>
         </form>
     </div>
