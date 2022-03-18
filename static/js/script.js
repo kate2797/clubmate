@@ -129,7 +129,7 @@ function rateDisplay(condition) {
         let hideDiv = document.getElementById("reverse_rating_by_time")
         hideDiv.style.display = "none";
         let ele = document.getElementById("dropdownMenuButton1")
-        ele.innerText = "Now to Last"
+        ele.innerText = "Ordering" // Changed to "Ordering" so that it behaves like Discover. Before was: "Now to Last"
     }
     if (condition === "reverse_rating_by_time") {
         let displayDiv = document.getElementById("default_display")
@@ -137,7 +137,7 @@ function rateDisplay(condition) {
         let hideDiv = document.getElementById("reverse_rating_by_time")
         hideDiv.style.display = "";
         let ele = document.getElementById("dropdownMenuButton1")
-        ele.innerText = "Now to Last"
+        ele.innerText = "Ordering" // Before was: "Now to Last"
     }
 }
 

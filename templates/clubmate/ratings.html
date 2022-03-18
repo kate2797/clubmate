@@ -17,19 +17,19 @@
 {% endblock %}
 
 {% block body_block %}
-    <h1>Ratings</h1>
+    <h1 class="mb-3">Ratings</h1>
+    <p>All ratings ever posted on ClubMate, ready to help you decide where to go with your friends tonight!</p>
     <div id="filtering" class="filtering-ordering-options btn-group">
-
         <div class="dropdown mb-3 mr-3">
             <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1"
                     data-toggle="dropdown"
                     onclick="resetFilter()"
                     aria-haspopup="true" aria-expanded="false">
-                Order By
+                Ordering
             </button>
             <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                <a class="dropdown-item" href="#" onclick="rateDisplay('default_display')">Now to Last</a>
-                <a class="dropdown-item" href="#" onclick="rateDisplay('reverse_rating_by_time')">Last to Now</a>
+                <a class="dropdown-item" href="#" onclick="rateDisplay('default_display')">Newest to Oldest</a>
+                <a class="dropdown-item" href="#" onclick="rateDisplay('reverse_rating_by_time')">Oldest to Newest</a>
             </div>
         </div>
 
