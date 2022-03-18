@@ -5,6 +5,17 @@
     Edit Club
 {% endblock %}
 
+{% block is_club_owner %}
+    {% if clubmate_user.is_club_owner %}
+        <!-- Empty, remove the Rate link -->
+    {% else %}
+        <!-- Student, show Rate -->
+        <li class="nav-item">
+            <a class="nav-link" href="{% url 'clubmate:rate' %}">Rate</a>
+        </li>
+    {% endif %}
+{% endblock %}
+
 {% block body_block %}
     <h1>Edit Club</h1>
     <form id="form" method="post" action="{% url 'clubmate:edit_club' club_id %}" enctype="multipart/form-data">
