@@ -31,7 +31,7 @@ class Club(models.Model):
     def average_rating_(self):
         if not self.ratings_list.exists():
             return 0.0
-        return self.ratings_list.aggregate(Avg('rating_score'))['rating_score__avg']  # Order by on-the-fly in views
+        return round(self.ratings_list.aggregate(Avg('rating_score'))['rating_score__avg'], 1)  # Order by on-the-fly in views
 
     @property
     def user_reported_safety_(self):

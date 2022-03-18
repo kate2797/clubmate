@@ -1,10 +1,7 @@
-from secrets import choice
 from django import forms
-from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
-from django.core.validators import MaxValueValidator, MinValueValidator
 
-from clubmate.models import Club, UserProfile
+from clubmate.models import Club, UserProfile, Rating
 
 
 class UserForm(forms.ModelForm):
@@ -19,9 +16,6 @@ class UserProfileForm(forms.ModelForm):
     class Meta:
         model = UserProfile
         fields = ('is_club_owner', 'picture',)
-
-
-from clubmate.models import Rating
 
 
 class RatingDetailForm(forms.ModelForm):
@@ -40,6 +34,7 @@ class RatingDetailForm(forms.ModelForm):
         model = Rating
         fields = ('title', 'club', 'rating_score', 'is_safe', 'user_commentary')
 
+
 class RateDetailForm(forms.ModelForm):
     title = forms.CharField(label='Title', max_length=30)
     # help_text="Please enter the rate title.")
@@ -54,4 +49,3 @@ class RateDetailForm(forms.ModelForm):
     class Meta:
         model = Rating
         fields = ('title', 'rating_score', 'is_safe', 'user_commentary')
-
