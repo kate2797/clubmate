@@ -169,39 +169,36 @@ def add_club(request):
     if request.method == 'POST':
         new_club_name = request.POST.get('name')
         new_club_description = request.POST.get('club_description')
+        new_city = request.POST.get('city')
+        new_website_url = request.POST.get('website_url')
+        new_genre = request.POST.get('genre')
+        new_location_coordinates = request.POST.get('location_coordinates')
         new_entry_fee = request.POST.get('entry_fee')
         new_opening_hours_week = request.POST.get('opening_hours_week')
         new_opening_hours_weekend = request.POST.get('opening_hours_weekend')
-        new_category = request.POST.get('genre')
+        new_picture = request.FILES.get('picture')
         new_covid_test_required = request.POST.get('covid_test_required')
         new_underage_visitors_allowed = request.POST.get('underage_visitors_allowed')
-        new_website_url = request.POST.get('website_url')
-        new_city = request.POST.get('city')
-        new_location_coordinates = request.POST.get('location_coordinates')
-        new_picture = request.FILES.get('picture')
-
         if new_covid_test_required is None:
             new_covid_test_required = False
         if new_underage_visitors_allowed is None:
             new_underage_visitors_allowed = False
-
         club = Club.objects.get_or_create(name=new_club_name,
                                           club_description=new_club_description,
                                           city=new_city,
                                           website_url=new_website_url,
-                                          genre=new_category,
+                                          genre=new_genre,
                                           location_coordinates=new_location_coordinates,
                                           entry_fee=new_entry_fee,
                                           opening_hours_week=new_opening_hours_week,
                                           opening_hours_weekend=new_opening_hours_weekend,
                                           picture=new_picture,
-                                          covid_test_required=False,
-                                          underage_visitors_allowed=False,
+                                          covid_test_required=new_covid_test_required,
+                                          underage_visitors_allowed=new_underage_visitors_allowed,
                                           average_rating=0.0,
                                           user_reported_safety=True)[0]
         club.save()
         clubmate_user.clubs.add(club)  # FIX: Add newly created club to the club owner's profile
-
         return render(request, 'clubmate/operation_successful.html')
     else:
         return render(request, 'clubmate/add_club.html')
@@ -223,34 +220,33 @@ def edit_club(request, club_id):
     if request.method == 'POST':
         new_club_name = request.POST.get('name')
         new_club_description = request.POST.get('club_description')
+        new_city = request.POST.get('city')
+        new_website_url = request.POST.get('website_url')
+        new_genre = request.POST.get('genre')
+        new_location_coordinates = request.POST.get('location_coordinates')
         new_entry_fee = request.POST.get('entry_fee')
         new_opening_hours_week = request.POST.get('opening_hours_week')
         new_opening_hours_weekend = request.POST.get('opening_hours_weekend')
-        new_category = request.POST.get('genre')
+        new_picture = request.FILES.get('picture')
         new_covid_test_required = request.POST.get('covid_test_required')
         new_underage_visitors_allowed = request.POST.get('underage_visitors_allowed')
-        new_website_url = request.POST.get('website_url')
-        new_city = request.POST.get('city')
-        new_location_coordinates = request.POST.get('location_coordinates')
-        new_picture = request.FILES.get('picture')
         if new_covid_test_required == None:
-            new_covid_test_required = 0
+            new_covid_test_required = False
         if new_underage_visitors_allowed == None:
-            new_underage_visitors_allowed = 0
-        club.name = new_club_name,
+            new_underage_visitors_allowed = False
+        club.name = new_club_name
         club.club_description = new_club_description
+        club.city = new_city
+        club.website_url = new_website_url
+        club.genre = new_genre
+        club.location_coordinates = new_location_coordinates
         club.entry_fee = new_entry_fee
         club.opening_hours_week = new_opening_hours_week
         club.opening_hours_weekend = new_opening_hours_weekend
-        club.genre = new_category
+        club.picture = new_picture
         club.covid_test_required = new_covid_test_required
         club.underage_visitors_allowed = new_underage_visitors_allowed
-        club.website_url = new_website_url
-        club.city = new_city
-        club.location_coordinates = new_location_coordinates
-        club.picture = new_picture
         club.save()
-        # club.objects.create(picture=new_picture)
         return render(request, 'clubmate/operation_successful.html')
     else:
         return render(request, 'clubmate/edit_club.html', context=context_dict)

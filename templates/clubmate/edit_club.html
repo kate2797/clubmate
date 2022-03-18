@@ -21,6 +21,22 @@
             <textarea type="text" class="form-control" id="club_description" name="club_description" rows="5">{{ club.club_description }}</textarea>
         </div>
         <div class="form-group">
+            <label for="city">City</label>
+            <input type="text" class="form-control" id="city" name="city" value="{{ club.city }}">
+        </div>
+        <div class="form-group">
+            <label for="website_url">Website</label>
+            <input type="url" class="form-control" id="website_url" name="website_url" value="{{ club.website_url }}">
+        </div>
+        <div class="form-group">
+            <label for="genre">Genre</label>
+            <input type="text" class="form-control" id="genre" name="genre" value="{{ club.genre }}">
+        </div>
+        <div class="form-group">
+            <label for="location_coordinates">Location (Please input club's coordinates so that we can use it in our location services)</label>
+            <input type="text" class="form-control" id="location_coordinates" name="location_coordinates" value="{{ club.location_coordinates }}">
+        </div>
+        <div class="form-group">
             <label for="entry_fee">Entry fee</label>
             <input type="text" class="form-control" id="entry_fee" name="entry_fee" value="{{ club.entry_fee }}">
         </div>
@@ -33,8 +49,8 @@
             <input type="text" class="form-control" id="opening_hours_weekend" name="opening_hours_weekend" value="{{ club.opening_hours_weekend }}">
         </div>
         <div class="form-group">
-            <label for="genre">Genre</label>
-            <input type="text" class="form-control" id="genre" name="genre" value="{{ club.genre }}">
+            <label for="picture">image</label>
+            <input type="file" id="picture">
         </div>
         <div class="checkbox">
             <label for="covid_test_required">COVID test required</label>
@@ -42,24 +58,8 @@
         </div>
         <div class="checkbox">
             <label for="underage_visitors_allowed">18+ entry</label>
-            <input type="checkbox" name="underage_visitors_allowed" value="1">
+            <input type="checkbox" name="underage_visitors_allowed" value="{{ club.underage_visitors_allowed }}">
         </div>
-        <div class="form-group">
-            <label for="website_url">Website</label>
-            <input type="text" class="form-control" id="website_url" name="website_url" value="1">
-        </div>
-        <div class="form-group">
-            <label for="city">City</label>
-            <input type="text" class="form-control" id="city" name="city" value="{{ club.city }}">
-        </div>
-        <div class="form-group">
-            <label for="location_coordinates">Location (Please input club's coordinates so that we can use it in our location services)</label>
-            <input type="text" class="form-control" id="location_coordinates" name="location_coordinates" value="{{ club.location_coordinates }}">
-        </div>
-        <div class="form-group">
-            <label for="picture">image</label>
-            <input type="file" id="picture">
-        </div>
-        <input type="submit" value="Complete">
+        <input class="btn btn-primary" type="submit" value="Complete">
     </form>
 {% endblock %}
