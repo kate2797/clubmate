@@ -280,7 +280,7 @@ def populate():
                        rating['user_commentary'], rating['posted_at'], rating['number_of_upvotes'])
         print(f'– {r} was added')
 
-    # Add some clubs as "saved clubs" to some users, to make it look more natural instead of adding all to all
+    # Add some clubs as "saved clubs" to some student users, to make it look more natural instead of adding all to all
     user_map['MrsDracoMalfoy'].clubs.add(club_map['SWG3'])
     user_map['MrsDracoMalfoy'].clubs.add(club_map['Fabric'])
     user_map['ghostfacegangsta'].clubs.add(club_map['SWG3'])
@@ -291,6 +291,11 @@ def populate():
     user_map['averagestudent'].clubs.add(club_map['Fabric'])
     user_map['emilyramo'].clubs.add(club_map['Inn Deep'])
     user_map['emilyramo'].clubs.add(club_map['Fabric'])
+
+    # Add some clubs to club owners, the clubs they added
+    user_map['SuperMagnificentExtreme'].clubs.add(club_map['Sub Club'])
+    user_map['RidleyRich'].clubs.add(club_map['SWG3'])
+    user_map['RidleyRich'].clubs.add(club_map['Inn Deep'])
 
 
 def add_user(username, password, email, bio, first_name, last_name, is_club_owner):
