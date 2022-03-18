@@ -17,6 +17,7 @@ from django.core.paginator import Paginator
 from . import models
 from .models import Club
 
+
 # Push
 def permissions_check_clubmate_user(request, context_dict):
     """ Helper method to check user permissions. """
@@ -179,24 +180,29 @@ def add_club(request):
         new_city = request.POST.get('city')
         new_location_coordinates = request.POST.get('location_coordinates')
         new_picture = request.FILES.get('picture')
-        if new_covid_test_required == None:
-            new_covid_test_required = 0
-        if new_underage_visitors_allowed == None:
-            new_underage_visitors_allowed = 0
-        Club.objects.create(name=new_club_name,
-                            club_description=new_club_description,
-                            entry_fee=new_entry_fee,
-                            opening_hours_week=new_opening_hours_week,
-                            opening_hours_weekend=new_opening_hours_weekend,
-                            genre=new_category,
-                            covid_test_required=new_covid_test_required,
-                            underage_visitors_allowed=new_underage_visitors_allowed,
-                            website_url=new_website_url,
-                            city=new_city,
-                            location_coordinates=new_location_coordinates,
-                            picture=new_picture)
-        club = Club.objects.get(name=new_club_name)  # Get the club
+
+        if new_covid_test_required is None:
+            new_covid_test_required = False
+        if new_underage_visitors_allowed is None:
+            new_underage_visitors_allowed = False
+
+        club = Club.objects.get_or_create(name=new_club_name,
+                                          club_description=new_club_description,
+                                          city=new_city,
+                                          website_url=new_website_url,
+                                          genre=new_category,
+                                          location_coordinates=new_location_coordinates,
+                                          entry_fee=new_entry_fee,
+                                          opening_hours_week=new_opening_hours_week,
+                                          opening_hours_weekend=new_opening_hours_weekend,
+                                          picture=new_picture,
+                                          covid_test_required=False,
+                                          underage_visitors_allowed=False,
+                                          average_rating=0.0,
+                                          user_reported_safety=True)[0]
+        club.save()
         clubmate_user.clubs.add(club)  # FIX: Add newly created club to the club owner's profile
+
         return render(request, 'clubmate/operation_successful.html')
     else:
         return render(request, 'clubmate/add_club.html')
