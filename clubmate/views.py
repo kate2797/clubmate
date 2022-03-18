@@ -11,7 +11,7 @@ from django.contrib import messages
 from django.http import HttpResponseRedirect
 from django.http import HttpResponse
 from django.shortcuts import render_to_response
-from clubmate.forms import RatingDetailForm
+from clubmate.forms import RatingDetailForm, RateDetailForm
 
 from django.core.paginator import Paginator
 from . import models
@@ -121,11 +121,11 @@ def rate(request):
 
 @login_required  # Anonymous users never even get access to this URL / Restrict to students
 def rate_detail(request, club_id):
-    form = RatingDetailForm()
+    form = RateDetailForm()
     club = Club.objects.get_or_create(id=club_id)[0]
 
     if request.method == 'POST':
-        form = RatingDetailForm(request.POST)
+        form = RateDetailForm(request.POST)
         user = request.user
         user_pro = UserProfile.objects.get(user=user)
         this_club = Club.objects.get(id=club_id)

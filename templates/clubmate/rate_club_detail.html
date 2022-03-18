@@ -30,7 +30,7 @@
         <h1>Rate Detail</h1>
     {% endif %}
     <div>
-        <form id="rating_detail_form" method="post" action="{% url 'clubmate:rate_detail' club_id %}">
+        <form id="form" method="post" action="{% url 'clubmate:rate_detail' club_id %}">
             {% csrf_token %}
             {{ form|crispy }}
             {% post_to_twitter object_or_url "Post to Twitter" %}
