@@ -15,7 +15,8 @@ from .models import Club
 
 
 def permissions_check_clubmate_user(request, context_dict):
-    """ Helper method to allow checking user permissions within templates. """
+    """ Helper method to allow rendering of content based on user permissions within templates by passing our custom
+    user into the context dictionary. """
     if not request.user.is_anonymous:
         user = request.user  # Get user from the request
         clubmate_user = UserProfile.objects.get_or_create(user=user)[0]  # Map it to our user

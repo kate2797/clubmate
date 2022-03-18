@@ -18,11 +18,12 @@
 
 {% block body_block %}
     <h1>Discover</h1>
+
+    <!-- Curated Content -->
     <p>Unsure where to go with your friends tonight? We’ve got your back. The best rated clubs are a good place to
         start!</p>
-
     <!-- Best Rated -->
-    <div class="d-inline-flex p-2">
+    <div class="d-inline-flex pt-2 pb-2 pr-2">
         <div class="card" style="width: 18rem;">
             <div class="card-header">
                 Best Rated 🥇
@@ -144,10 +145,10 @@
             </div>
         </div>
     </div>
-
     <div id="div-filtering-message">
         <p id="filtering-message">Sorry, nothing here matches your filters.</p>
     </div>
+    <!-- Display Clubs -->
     {% for club in all_clubs %}
         <div class="card mb-3 filter {{ club.genre }} {{ club.city }} {{ club.user_reported_safety_ }} {{ club.underage_visitors_allowed }}-Underage {{ club.covid_test_required }}-Test Rating-{{ club.average_rating_ }}">
             <div class="card-body">
