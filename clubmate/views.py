@@ -186,7 +186,8 @@ def add_club(request):
                             picture=new_picture)
         club = Club.objects.get(name=new_club_name)  # Get the club
         clubmate_user.clubs.add(club)  # FIX: Add newly created club to the club owner's profile
-        return HttpResponse("Add Successfully!")
+        return render(request, 'clubmate/operation_successful.html')
+        # return HttpResponse("Add Successfully!")
     else:
         return render(request, 'clubmate/add_club.html')
 

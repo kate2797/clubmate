@@ -1,0 +1,11 @@
+{% extends 'clubmate/base.html' %}
+{% load staticfiles %}
+
+{% block title_block %}
+    Successful operation
+{% endblock %}
+
+{% block body_block %}
+    Operation succeeded!
+    <a href="{% url 'clubmate:index' %}">Return to the homepage.</a>
+{% endblock %}
