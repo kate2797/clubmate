@@ -18,19 +18,25 @@ from . import models
 from .models import Club
 
 
-def index(request):
-    clubs = Club.objects.all()
-    context_dict = {'clubs': clubs}
-    # Handling club owner permissions with the code below:
+def permissions_check_clubmate_user(request, context_dict):
+    """ Helper method to check user permissions. """
     if not request.user.is_anonymous:
         user = request.user  # Get user from the request
         clubmate_user = UserProfile.objects.get_or_create(user=user)[0]  # Map it to our user
         context_dict['clubmate_user'] = clubmate_user
+
+
+def index(request):
+    clubs = Club.objects.all()
+    context_dict = {'clubs': clubs}
+    permissions_check_clubmate_user(request, context_dict)
     return render(request, 'clubmate/index.html', context=context_dict)
 
 
 def about(request):
-    return render(request, 'clubmate/about.html')
+    context_dict = {}
+    permissions_check_clubmate_user(request, context_dict)
+    return render(request, 'clubmate/about.html', context=context_dict)
 
 
 def discover(request):
@@ -38,47 +44,49 @@ def discover(request):
     clubs_by_rating = sorted(Club.objects.all(), key=lambda c: c.average_rating_, reverse=True)[:3]  # High to low
     safe_clubs = sorted(Club.objects.all(), key=lambda c: c.user_reported_safety_)[:3]
     cheapest_clubs = Club.objects.order_by('entry_fee')[:3]
-    user = request.user
-    clubmate_user = UserProfile.objects.get_or_create(user=user)[0]
     context_dict = {'all_clubs': all_clubs, 'clubs_by_rating': clubs_by_rating, 'safe_clubs': safe_clubs,
-                    'cheapest_clubs': cheapest_clubs, 'clubmate_user': clubmate_user}
+                    'cheapest_clubs': cheapest_clubs}
+    permissions_check_clubmate_user(request, context_dict)
     return render(request, 'clubmate/discover.html', context=context_dict)
 
 
 def club_detail(request, club_id):
-    user = request.user
-    clubmate_user = UserProfile.objects.get_or_create(user=user)[0]  # Needed to restrict club owners
     try:
         club = Club.objects.get(id=club_id)
     except Club.DoesNotExist:
         club = None
-    context_dict = {'club': club, 'clubmate_user': clubmate_user}
+    context_dict = {'club': club}
+    permissions_check_clubmate_user(request, context_dict)
     return render(request, 'clubmate/club_detail.html', context=context_dict)
 
 
 def ratings(request):
-    user = request.user
-    clubmate_user = UserProfile.objects.get_or_create(user=user)[0]  # Needed to restrict club owners
-
-    # maybe used with js
+    # use for reverse
     all_rating_by_time = sorted(Rating.objects.all(), key=lambda c: c.posted_at, reverse=True)
     all_rating_by_upvote = sorted(Rating.objects.all(), key=lambda c: c.number_of_upvotes, reverse=True)
 
-    # use for display directly
-    default_rating_by_time = sorted(Rating.objects.all(), key=lambda c: c.posted_at, reverse=True)
-    default_rating_by_upvote = sorted(Rating.objects.all(), key=lambda c: c.number_of_upvotes, reverse=True)
+    # use for not reverse
+    reverse_rating_by_time = sorted(Rating.objects.all(), key=lambda c: c.posted_at, reverse=False)
+    reverse_rating_by_upvote = sorted(Rating.objects.all(), key=lambda c: c.number_of_upvotes, reverse=False)
 
     paginator_time = Paginator(all_rating_by_time, 3)
     paginator_upvote = Paginator(all_rating_by_upvote, 3)
+
+    reverse_paginator_time = Paginator(reverse_rating_by_time, 3)
+    reverse_paginator_upvote = Paginator(reverse_rating_by_upvote, 3)
 
     page_number = request.GET.get('page')
     page_object_time = paginator_time.get_page(page_number)
     page_object_upvote = paginator_upvote.get_page(page_number)
 
+    page_reverse_object_time = reverse_paginator_time.get_page(page_number)
+    page_reverse_object_upvote = reverse_paginator_upvote.get_page(page_number)
+
     context_dict = {'page_object_time': page_object_time, 'page_object_upvote': page_object_upvote,
-                    'default_rating_by_time': default_rating_by_time,
-                    'default_rating_by_upvote': default_rating_by_upvote, 'clubmate_user': clubmate_user}
-    return render(request, 'clubmate/ratings.html', context_dict)  # TODO – someone flipped ratings and rate
+                    'reverse_rating_by_time': page_reverse_object_time,
+                    'reverse_rating_by_upvote': page_reverse_object_upvote}
+    permissions_check_clubmate_user(request, context_dict)
+    return render(request, 'clubmate/ratings.html', context_dict)
 
 
 def rating_detail(request, rating_id):
@@ -87,6 +95,7 @@ def rating_detail(request, rating_id):
     except Rating.DoesNotExist:
         rating = None
     context_dict = {'rating': rating}
+    permissions_check_clubmate_user(request, context_dict)
     return render(request, 'clubmate/rating_detail.html', context=context_dict)
 
 
@@ -191,7 +200,6 @@ def add_club(request):
         return render(request, 'clubmate/add_club.html')
 
 
-# Not restricted, so that anonymous users can see who posted ratings
 @login_required
 def profile(request, username):
     user = User.objects.get(username=username)  # Match username from the default user

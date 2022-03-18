@@ -6,12 +6,19 @@
 {% endblock %}
 
 {% block is_club_owner %}
+    {% if clubmate_user.is_club_owner %}
+        <!-- Empty, remove the Rate link -->
+    {% else %}
+        <!-- Student, show Rate -->
+        <li class="nav-item">
+            <a class="nav-link" href="{% url 'clubmate:rate' %}">Rate</a>
+        </li>
+    {% endif %}
 {% endblock %}
 
 {% block body_block %}
     <h1>{{ rating.title }} <span class="badge rounded-pill bg-dark">👍 {{ rating.number_of_upvotes }}</span></h1>
-    <p><strong>Author </strong><a
-            href="{% url 'clubmate:profile' rating.author %}">{{ rating.author }}</a></p>
+    <p><strong>Author </strong>{{ rating.author }}</p>
     <p><strong>Created On </strong>{{ rating.posted_at }}</p>
     <p class="card-text"><strong>Club </strong><a
             href="{% url 'clubmate:club_detail' rating.club.id %}">{{ rating.club.name }}</a></p>
