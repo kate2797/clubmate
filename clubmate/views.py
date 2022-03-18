@@ -18,7 +18,6 @@ from . import models
 from .models import Club
 
 
-# Push, push
 def permissions_check_clubmate_user(request, context_dict):
     """ Helper method to check user permissions. """
     if not request.user.is_anonymous:
