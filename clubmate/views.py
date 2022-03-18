@@ -212,47 +212,47 @@ def profile(request, username):
 @login_required  # Restrict to club owner
 def edit_club(request, club_id):
     club = Club.objects.get(id=club_id)
-    if request.user != UserProfile.is_club_owner:
-        return HttpResponse("Sorry, you have no right to edit this club.")
-
-    # if request.method == "POST":
-    #     new_club_name = request.POST.get('name')
-    #     new_club_description = request.POST.get('club_description')
-    #     new_entry_fee = request.POST.get('entry_fee')
-    #     new_opening_hours_week = request.POST.get('opening_hours_week')
-    #     new_opening_hours_weekend = request.POST.get('opening_hours_weekend')
-    #     new_category = request.POST.get('genre')
-    #     new_covid_test_required = request.POST.get('covid_test_required')
-    #     new_underage_visitors_allowed = request.POST.get('underage_visitors_allowed')
-    #     new_website_url = request.POST.get('website_url')
-    #     new_location_coordinates = request.POST.get('location_coordinates')
-    #     new_picture = request.POST.get('picture')
-    #     club.name = new_club_name
-    #     club.club_description = new_club_description
-    #     club.entry_fee = new_entry_fee
-    #     club.opening_hours_week = new_opening_hours_week
-    #     club.opening_hours_weekend = new_opening_hours_weekend
-    #     club.genre = new_category
-    #     club.covid_test_required = new_covid_test_required
-    #     club.underage_visitors_allowed = new_underage_visitors_allowed
-    #     club.website_url = new_website_url
-    #     club.location_coordinates = new_location_coordinates
-    #     club.picture = new_picture
-    #     club.save()
-    #     return redirect("clubmate:club_detail", id=id)
-    # else:
-    #     context_dict = {'club': club}
-    #     return render(request, 'clubmate/edit_club.html', context_dict)
+    context_dict = {'club_id': club_id, 'club': club}
+    if request.method == 'POST':
+        new_club_name = request.POST.get('name')
+        new_club_description = request.POST.get('club_description')
+        new_entry_fee = request.POST.get('entry_fee')
+        new_opening_hours_week = request.POST.get('opening_hours_week')
+        new_opening_hours_weekend = request.POST.get('opening_hours_weekend')
+        new_category = request.POST.get('genre')
+        new_covid_test_required = request.POST.get('covid_test_required')
+        new_underage_visitors_allowed = request.POST.get('underage_visitors_allowed')
+        new_website_url = request.POST.get('website_url')
+        new_location_coordinates = request.POST.get('location_coordinates')
+        new_picture = request.FILES.get('picture')
+        if new_covid_test_required == None:
+            new_covid_test_required = 0
+        if new_underage_visitors_allowed == None:
+            new_underage_visitors_allowed = 0
+        club.name = new_club_name,
+        club.club_description = new_club_description
+        club.entry_fee = new_entry_fee
+        club.opening_hours_week = new_opening_hours_week
+        club.opening_hours_weekend = new_opening_hours_weekend
+        club.genre = new_category
+        club.covid_test_required = new_covid_test_required
+        club.underage_visitors_allowed = new_underage_visitors_allowed
+        club.website_url = new_website_url
+        club.location_coordinates = new_location_coordinates
+        club.picture = new_picture
+        club.save()
+        # club.objects.create(picture=new_picture)
+        return render(request, 'clubmate/operation_successful.html')
+    else:
+        return render(request, 'clubmate/edit_club.html', context=context_dict)
 
 
 @login_required  # Restrict to club owner
 def delete_club(request, club_id):
+    user = request.user
     club = Club.objects.get(id=club_id)
-    if request.user != UserProfile.is_club_owner:
-        return HttpResponse("Sorry, you have no right to delete this club.")
-    else:
-        club.delete()
-        return redirect('clubmate:discover')
+    club.delete()
+    return redirect(reverse('clubmate:profile', kwargs={'username': user.username}))
 
 
 @login_required  # Restrict to students
