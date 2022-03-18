@@ -121,3 +121,18 @@ function appendDiv(array, parent) {
         parent.parentNode.appendChild(element);
     });
 }
+
+function rateDisplay(condition) {
+    if (condition === "default_display") {
+        let displayDiv = document.getElementById("default_display")
+        displayDiv.style.display = "none";
+        let hideDiv = document.getElementById("upvote_display")
+        hideDiv.style.display = "";
+    }
+    if (condition === "upvote_display") {
+        let displayDiv = document.getElementById("default_display")
+        displayDiv.style.display = "";
+        let hideDiv = document.getElementById("upvote_display")
+        hideDiv.style.display = "none";
+    }
+}

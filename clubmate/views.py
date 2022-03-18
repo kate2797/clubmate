@@ -60,24 +60,32 @@ def ratings(request):
     user = request.user
     clubmate_user = UserProfile.objects.get_or_create(user=user)[0]  # Needed to restrict club owners
 
-    # maybe used with js
+    # use for reverse
     all_rating_by_time = sorted(Rating.objects.all(), key=lambda c: c.posted_at, reverse=True)
     all_rating_by_upvote = sorted(Rating.objects.all(), key=lambda c: c.number_of_upvotes, reverse=True)
 
-    # use for display directly
-    default_rating_by_time = sorted(Rating.objects.all(), key=lambda c: c.posted_at, reverse=True)
-    default_rating_by_upvote = sorted(Rating.objects.all(), key=lambda c: c.number_of_upvotes, reverse=True)
+    # use for not reverse
+    reverse_rating_by_time = sorted(Rating.objects.all(), key=lambda c: c.posted_at, reverse=False)
+    reverse_rating_by_upvote = sorted(Rating.objects.all(), key=lambda c: c.number_of_upvotes, reverse=False)
 
     paginator_time = Paginator(all_rating_by_time, 3)
     paginator_upvote = Paginator(all_rating_by_upvote, 3)
+
+    reverse_paginator_time = Paginator(reverse_rating_by_time, 3)
+    reverse_paginator_upvote = Paginator(reverse_rating_by_upvote, 3)
 
     page_number = request.GET.get('page')
     page_object_time = paginator_time.get_page(page_number)
     page_object_upvote = paginator_upvote.get_page(page_number)
 
+    page_reverse_object_time = reverse_paginator_time.get_page(page_number)
+    page_reverse_object_upvote = reverse_paginator_upvote.get_page(page_number)
+
+
+
     context_dict = {'page_object_time': page_object_time, 'page_object_upvote': page_object_upvote,
-                    'default_rating_by_time': default_rating_by_time,
-                    'default_rating_by_upvote': default_rating_by_upvote, 'clubmate_user': clubmate_user}
+                    'reverse_rating_by_time': page_reverse_object_time,
+                    'reverse_rating_by_upvote': page_reverse_object_upvote, 'clubmate_user': clubmate_user}
     return render(request, 'clubmate/ratings.html', context_dict)  # TODO – someone flipped ratings and rate
 
 
