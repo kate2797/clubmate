@@ -23,17 +23,7 @@
     <div>
         <form id="rating_detail_form" method="post" action="{% url 'clubmate:rate_detail' club_id %}">
             {% csrf_token %}
-            {% for hidden in form.hidden_fields %}
-                {{ hidden }}
-            {% endfor %}
-
-            {% for field in form.visible_fields %}
-                {{ field.errors }}
-
-                {{ field.help_text }}
-                {{ field }}
-                <br>
-            {% endfor %}
+            {{ form.as_p }}
             {% post_to_twitter object_or_url "Post to Twitter" %}
             <input class="btn btn-primary" type="submit" name="submit" value="Submit"/>
         </form>

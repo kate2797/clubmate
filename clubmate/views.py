@@ -118,13 +118,15 @@ def rate_detail(request, club_id):
     if request.method == 'POST':
         form = RatingDetailForm(request.POST)
         user = request.user
-        this_club = Club.objects.filter(id=club_id)
+        user_pro = UserProfile.objects.get(user=user)
+        this_club = Club.objects.get(id=club_id)
         if form.is_valid():
             if this_club:
                 this_rate = form.save(commit=False)
-                this_rate.author = user
+                this_rate.author = user_pro
                 this_rate.club = this_club
                 this_rate.save()
+                return redirect(reverse("clubmate:ratings"))
         else:
             print(form.errors)
     context_dict = {'club_id': club_id, 'form': form, 'club': club}
