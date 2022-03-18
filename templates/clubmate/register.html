@@ -1,5 +1,6 @@
 {% extends 'clubmate/base.html' %}
 {% load staticfiles %}
+{% load crispy_forms_tags %}
 
 {% block title_block %}
     Register
@@ -18,8 +19,8 @@
   <form id="user_form" method="post" action="{% url 'clubmate:register' %}" enctype="multipart/form-data">
     {% csrf_token %}
     
-    {{ user_form.as_p}}
-    {{ profile_form.as_p }}
+    {{ user_form|crispy}}
+    {{ profile_form|crispy }}
 
     <input class="btn btn-primary" type="submit" name="submit" value="Register" />
   </form>

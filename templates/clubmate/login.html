@@ -1,5 +1,6 @@
 {% extends 'clubmate/base.html' %}
 {% load staticfiles %}
+{% load crispy_forms_tags %}
 
 {% block title_block %}
     Login
@@ -12,12 +13,16 @@
     <h1>Login</h1>
     <FORM id="login_form" method="post" action="{% url 'clubmate:log_in' %}">
         {% csrf_token %}
-        <strong>Username</strong>
-        <input type="text" name="username" value="" id="username" size="50"/>
-        <br/> <br/>
-        <strong>Password</strong>
-        <input type="password" name="password" value="" id="password" size="50"/>
-        <br/> <br/>
+        <div>
+            <label for="username">Username</label>
+            <input type="text" class="form-control" id="username" name="username">
+        </div>
+
+        <div>
+            <label for="password">Password</label>
+            <input type="password" class="form-control" id="password" name="password">
+        </div>
+        <br>
         <INPUT class="btn btn-primary" type="submit" name="submit" value="Submit"/>
     </FORM>
 {% endblock %}

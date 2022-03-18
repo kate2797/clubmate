@@ -1,6 +1,7 @@
 {% extends 'clubmate/base.html' %}
 {% load staticfiles %}
 {% load social_share %}
+{% load crispy_forms_tags %}
 
 {% block title_block %}
     {% if club %}
@@ -31,7 +32,7 @@
     <div>
         <form id="rating_detail_form" method="post" action="{% url 'clubmate:rate_detail' club_id %}">
             {% csrf_token %}
-            {{ form.as_p }}
+            {{ form|crispy }}
             {% post_to_twitter object_or_url "Post to Twitter" %}
             <input class="btn btn-primary" type="submit" name="submit" value="Submit"/>
         </form>
