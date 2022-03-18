@@ -13,10 +13,39 @@
     <p>Here are the most recent reviews</p>
     <!-- sorting should be buttons as on Discover, but also do not know how to make it work just yet –Kate -->
 
-    <!-- todo maybe need js? not sure add it later-->
+    <div id="filtering" class="filtering-ordering-options btn-group">
+
+        <div class="dropdown mb-3 mr-3">
+            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton"
+                    data-toggle="dropdown"
+                    onclick="resetFilter()"
+                    aria-haspopup="true" aria-expanded="false">
+                Display By
+            </button>
+            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                <a class="dropdown-item" href="#" onclick="filterBy('number_of_upvotes')">Upvote</a>
+                <a class="dropdown-item" href="#" onclick="filterBy('posted_at')">Published Time</a>
+            </div>
+        </div>
+
+
+        <!-- Ordering options -->
+        <div class="dropdown mb-3">
+            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton"
+                    data-toggle="dropdown"
+                    onclick="orderReset()"
+                    aria-haspopup="true" aria-expanded="false">
+                Ordering
+            </button>
+            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                <a class="dropdown-item" href="#" onclick="orderLowToHigh()">Low to High</a>
+                <a class="dropdown-item" href="#" onclick="orderHighToLow()">High to Low</a>
+            </div>
+        </div>
+    </div>
 
     {% for rating in page_object_time %}
-        <div class="card mb-3">
+        <div class="card mb-3 filter">
             <div class="card-body">
                 <h5 class="card-title"><a
                         href="{% url 'clubmate:rating_detail' rating.id %}">{{ rating.title }}</a>
