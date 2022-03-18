@@ -13,34 +13,33 @@
     <p>Here are the most recent reviews</p>
     <!-- sorting should be buttons as on Discover, but also do not know how to make it work just yet –Kate -->
 
-    <!-- todo maybe need js? not sure add it later-->
     <div id="filtering" class="filtering-ordering-options btn-group">
 
         <div class="dropdown mb-3 mr-3">
-            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton"
+            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1"
                     data-toggle="dropdown"
                     onclick="resetFilter()"
                     aria-haspopup="true" aria-expanded="false">
                 Display By
             </button>
             <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                <a class="dropdown-item" href="#" onclick="rateDisplay('default_display')">Upvote</a>
-                <a class="dropdown-item" href="#" onclick="rateDisplay('upvote_display')">Published Time</a>
+                <a class="dropdown-item" href="#" onclick="rateDisplay('upvote_display')">Upvote</a>
+                <a class="dropdown-item" href="#" onclick="rateDisplay('default_display')">Published Time</a>
             </div>
         </div>
 
 
         <!-- Ordering options -->
         <div class="dropdown mb-3">
-            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton"
+            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton2"
                     data-toggle="dropdown"
                     onclick="orderReset()"
                     aria-haspopup="true" aria-expanded="false">
                 Ordering
             </button>
             <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                <a class="dropdown-item" href="#" onclick="orderLowToHigh()">Low to High</a>
-                <a class="dropdown-item" href="#" onclick="orderHighToLow()">High to Low</a>
+                <a id="order_first" class="dropdown-item" href="#" onclick="rateOrder()">Earliest to Latest</a>
+                <a id="order_second" class="dropdown-item" href="#" onclick="rateOrder()">High to Low</a>
             </div>
         </div>
     </div>
@@ -94,7 +93,7 @@
         </div>
     </div>
 
-        <div id="upvote_display">
+    <div id="upvote_display" style="display: none">
         {% for rating in page_object_upvote %}
             <div class="card mb-3 filter">
                 <div class="card-body">
@@ -125,21 +124,21 @@
         {% endfor %}
 
         <div class="pagination">
-        <span class="step-links">
-            {% if page_object_upvote.has_previous %}
-                <a href="?page=1">&laquo; first</a>
-                <a href="?page={{ page_object_upvote.previous_page_number }}">previous</a>
-            {% endif %}
+            <span class="step-links">
+                {% if page_object_upvote.has_previous %}
+                    <a href="?page=1">&laquo; first</a>
+                    <a href="?page={{ page_object_upvote.previous_page_number }}">previous</a>
+                {% endif %}
 
-            <span class="current">
-                Page {{ page_object_upvote.number }} of {{ page_object_upvote.paginator.num_pages }}.
+                <span class="current">
+                    Page {{ page_object_upvote.number }} of {{ page_object_upvote.paginator.num_pages }}.
+                </span>
+
+                {% if page_object_upvote.has_next %}
+                    <a href="?page={{ page_object_upvote.next_page_number }}">next</a>
+                    <a href="?page={{ page_object_upvote.paginator.num_pages }}">last &raquo;</a>
+                {% endif %}
             </span>
-
-            {% if page_object_upvote.has_next %}
-                <a href="?page={{ page_object_upvote.next_page_number }}">next</a>
-                <a href="?page={{ page_object_upvote.paginator.num_pages }}">last &raquo;</a>
-            {% endif %}
-        </span>
         </div>
     </div>
 

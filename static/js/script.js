@@ -125,14 +125,22 @@ function appendDiv(array, parent) {
 function rateDisplay(condition) {
     if (condition === "default_display") {
         let displayDiv = document.getElementById("default_display")
-        displayDiv.style.display = "none";
-        let hideDiv = document.getElementById("upvote_display")
-        hideDiv.style.display = "";
-    }
-    if (condition === "upvote_display") {
-        let displayDiv = document.getElementById("default_display")
         displayDiv.style.display = "";
         let hideDiv = document.getElementById("upvote_display")
         hideDiv.style.display = "none";
+        let ele = document.getElementById("dropdownMenuButton1")
+        ele.innerText = "Published Time"
     }
+    if (condition === "upvote_display") {
+        let displayDiv = document.getElementById("default_display")
+        displayDiv.style.display = "none";
+        let hideDiv = document.getElementById("upvote_display")
+        hideDiv.style.display = "";
+        let ele = document.getElementById("dropdownMenuButton1")
+        ele.innerText = "Upvote"
+    }
+}
+
+function rateOrder(condition) {
+
 }
