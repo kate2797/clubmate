@@ -23,24 +23,24 @@
     <div>
         <form method="post" action=".">
             {% csrf_token %}
-            <div>
-                <label for="title">Title</label>
+            <div class="form-group">
+                <label for="title">Title*</label>
                 <input type="text" class="form-control" id="rating_id" name="title">
             </div>
 
-            <div>
-                <label for="user_commentary">Your Commentary</label>
-                <textarea type="text" class="form-control" id="rating_id" name="user_commentary" rows="10"></textarea>
+            <div class="form-group">
+                <label for="rating_score">Rating Score*</label>
+                <input type="text" class="form-control" id="rating_score" name="rating_score">
             </div>
 
-            <div>
-                <label for="is_safe">Safe or Not</label>
+            <div class="form-group">
+                <label for="is_safe">Is it safe?</label>
                 <input type="checkbox" value="True" id="is_safe" name="is_safe">
             </div>
 
-            <div>
-                <label for="rating_score">Rating Score</label>
-                <input type="text" class="form-control" id="rating_score" name="rating_score">
+            <div class="form-group">
+                <label for="user_commentary">Your Comment*</label>
+                <textarea type="text" class="form-control" id="rating_id" name="user_commentary" rows="10"></textarea>
             </div>
 
             <!-- Test the button link, need to repalce with the rate_club.html -->

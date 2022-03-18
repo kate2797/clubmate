@@ -19,7 +19,7 @@
 {% endblock %}
 
 {% block body_block %}
-    <h1>Rate a Club</h1>
+    <h1>Rate Club</h1>
     <form id="form" method="post" action="{% url 'clubmate:rate' %}" enctype="multipart/form-data">
         {% csrf_token %}
         {{ form|crispy }}

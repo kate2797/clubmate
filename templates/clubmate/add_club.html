@@ -9,59 +9,59 @@
 {% endblock %}
 
 {% block body_block %}
-    <h1>Add a Club</h1>
+    <h1>Add Club</h1>
     <form id="form" method="post" action="{% url 'clubmate:add_club' %}" enctype="multipart/form-data">
         {% csrf_token %}
 
         {{ form.as_p }}
         <div class="form-group">
-            <label for="name">Club name</label>
+            <label for="name">Name*</label>
             <input type="text" class="form-control" id="name" name="name">
         </div>
         <div class="form-group">
-            <label for="club_description">Briefly describe your club to users</label>
+            <label for="club_description">Club Description*</label>
             <textarea type="text" class="form-control" id="club_description" name="club_description" rows="5"></textarea>
         </div>
         <div class="form-group">
-            <label for="city">City</label>
+            <label for="city">City*</label>
             <input type="text" class="form-control" id="city" name="city">
         </div>
         <div class="form-group">
-            <label for="website_url">Website</label>
+            <label for="website_url">Website*</label>
             <input type="url" class="form-control" id="website_url" name="website_url">
         </div>
         <div class="form-group">
-            <label for="genre">Genre</label>
+            <label for="genre">Genre*</label>
             <input type="text" class="form-control" id="genre" name="genre">
         </div>
         <div class="form-group">
-            <label for="location_coordinates">Location (Please input club's coordinates so that we can use it in our location services)</label>
+            <label for="location_coordinates">GPS Coordinates (e.g., 51.5195856 -0.1024735)*</label>
             <input type="text" class="form-control" id="location_coordinates" name="location_coordinates">
         </div>
         <div class="form-group">
-            <label for="entry_fee">Entry fee</label>
+            <label for="entry_fee">Minimum Entry Fee*</label>
             <input type="text" class="form-control" id="entry_fee" name="entry_fee">
         </div>
         <div class="form-group">
-            <label for="opening_hours_week">Opening hours on weekdays (e.g.,: 8PM–12AM)</label>
+            <label for="opening_hours_week">Opening hours on weekdays (e.g.,: 8PM–12AM)*</label>
             <input type="text" class="form-control" id="opening_hours_week" name="opening_hours_week">
         </div>
         <div class="form-group">
-            <label for="opening_hours_weekend">Opening hours on weekends(e.g.,: 12PM–12AM)</label>
+            <label for="opening_hours_weekend">Opening hours on weekends(e.g.,: 12PM–12AM)*</label>
             <input type="text" class="form-control" id="opening_hours_weekend" name="opening_hours_weekend">
         </div>
         <div class="form-group">
             <label for="picture">Picture</label>
             <input type="file" id="picture" name="picture">
         </div>
-        <div class="checkbox">
-            <label for="covid_test_required">COVID test required</label>
+        <div class="checkbox form-group">
+            <label for="covid_test_required">COVID Test Required*</label>
             <input type="checkbox" name="covid_test_required" value="True">
         </div>
-        <div class="checkbox">
-            <label for="underage_visitors_allowed">18+ entry</label>
+        <div class="checkbox form-group">
+            <label for="underage_visitors_allowed">18+ Entry*</label>
             <input type="checkbox" name="underage_visitors_allowed" value="True">
         </div>
-        <input class="btn btn-primary" type="submit" value="Add Club">
+        <input class="btn btn-primary" type="submit" value="Submit">
     </form>
 {% endblock %}
