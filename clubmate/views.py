@@ -176,6 +176,7 @@ def add_club(request):
         new_covid_test_required = request.POST.get('covid_test_required')
         new_underage_visitors_allowed = request.POST.get('underage_visitors_allowed')
         new_website_url = request.POST.get('website_url')
+        new_city = request.POST.get('city')
         new_location_coordinates = request.POST.get('location_coordinates')
         new_picture = request.FILES.get('picture')
         if new_covid_test_required == None:
@@ -191,6 +192,7 @@ def add_club(request):
                             covid_test_required=new_covid_test_required,
                             underage_visitors_allowed=new_underage_visitors_allowed,
                             website_url=new_website_url,
+                            city=new_city,
                             location_coordinates=new_location_coordinates,
                             picture=new_picture)
         club = Club.objects.get(name=new_club_name)  # Get the club
@@ -223,6 +225,7 @@ def edit_club(request, club_id):
         new_covid_test_required = request.POST.get('covid_test_required')
         new_underage_visitors_allowed = request.POST.get('underage_visitors_allowed')
         new_website_url = request.POST.get('website_url')
+        new_city = request.POST.get('city')
         new_location_coordinates = request.POST.get('location_coordinates')
         new_picture = request.FILES.get('picture')
         if new_covid_test_required == None:
@@ -238,6 +241,7 @@ def edit_club(request, club_id):
         club.covid_test_required = new_covid_test_required
         club.underage_visitors_allowed = new_underage_visitors_allowed
         club.website_url = new_website_url
+        club.city = new_city
         club.location_coordinates = new_location_coordinates
         club.picture = new_picture
         club.save()
