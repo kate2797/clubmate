@@ -52,17 +52,12 @@
         </div>
         <div class="form-group">
             <label for="location_coordinates">Location (Please input club's coordinates so that we can use it in our location services)</label>
-            <!-- <input type="hidden" id="location_coordinates" name="location_coordinates" value="{{ club.location_coordinates }}">
-            <div id="map"></div> -->
             <input type="text" class="form-control" id="location_coordinates" name="location_coordinates">
         </div>
         <div class="form-group">
             <label for="picture">Picture</label>
-            <input type="file" id="picture">
+            <input type="file" id="picture" name="picture">
         </div>
-        <!-- <button type="submit">Add club</button> -->
-        <!-- COVID test required <input type="checkbox" name="covid_test_required" value="1"><br>
-        18+ entry <input type="checkbox" name="underage_visitors_allowed" value="1"><br> -->
         <input class="btn btn-primary" type="submit" value="Add Club">
     </form>
 {% endblock %}
