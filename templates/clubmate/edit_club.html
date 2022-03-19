@@ -20,7 +20,6 @@
     <h1>Edit Club</h1>
     <form id="form" method="post" action="{% url 'clubmate:edit_club' club_id %}" enctype="multipart/form-data">
         {% csrf_token %}
-
         {{ form.as_p }}
         <div class="form-group">
             <label for="name">Name*</label>
@@ -28,7 +27,8 @@
         </div>
         <div class="form-group">
             <label for="club_description">Club Description*</label>
-            <textarea type="text" class="form-control" id="club_description" name="club_description" rows="5" required="required">{{ club.club_description }}</textarea>
+            <textarea type="text" class="form-control" id="club_description" name="club_description" rows="5"
+                      required="required">{{ club.club_description }}</textarea>
         </div>
         <div class="form-group">
             <label for="city">City*</label>
@@ -36,31 +36,45 @@
         </div>
         <div class="form-group">
             <label for="website_url">Website*</label>
-            <input type="url" class="form-control" id="website_url" name="website_url" value="{{ club.website_url }}" required="required">
+            <input type="url" class="form-control" id="website_url" name="website_url" value="{{ club.website_url }}"
+                   required="required">
         </div>
         <div class="form-group">
             <label for="genre">Genre*</label>
-            <input type="text" class="form-control" id="genre" name="genre" value="{{ club.genre }}" required="required">
+            <input type="text" class="form-control" id="genre" name="genre" value="{{ club.genre }}"
+                   required="required">
         </div>
         <div class="form-group">
-            <label for="location_coordinates">GPS Coordinates (e.g., 51.5195856 -0.1024735)*</label>
-            <input type="text" class="form-control" id="location_coordinates" name="location_coordinates" value="{{ club.location_coordinates }}" required="required">
+            <label for="location_coordinates">GPS Coordinates*</label>
+            <input type="text" class="form-control" id="location_coordinates" name="location_coordinates"
+                   value="{{ club.location_coordinates }}" required="required">
+            <small id="hint_id_username" class="form-text text-muted" style="-webkit-user-select: auto;">E.g.,
+                51.5195856 -0.1024735.</small>
         </div>
         <div class="form-group">
             <label for="entry_fee">Minimum Entry Fee*</label>
-            <input type="text" class="form-control" id="entry_fee" name="entry_fee" value="{{ club.entry_fee }}" required="required">
+            <input type="text" class="form-control" id="entry_fee" name="entry_fee" value="{{ club.entry_fee }}"
+                   required="required">
         </div>
         <div class="form-group">
-            <label for="opening_hours_week">Opening hours on weekdays (e.g.,: 8PM–12AM)*</label>
-            <input type="text" class="form-control" id="opening_hours_week" name="opening_hours_week" value="{{ club.opening_hours_week }}" required="required">
+            <label for="opening_hours_week">Opening hours on weekdays*</label>
+            <input type="text" class="form-control" id="opening_hours_week" name="opening_hours_week"
+                   value="{{ club.opening_hours_week }}" required="required">
+            <small id="hint_id_username" class="form-text text-muted" style="-webkit-user-select: auto;">E.g.,
+                8PM–12AM.</small>
         </div>
         <div class="form-group">
-            <label for="opening_hours_weekend">Opening hours on weekends(e.g.,: 12PM–12AM)*</label>
-            <input type="text" class="form-control" id="opening_hours_weekend" name="opening_hours_weekend" value="{{ club.opening_hours_weekend }}" required="required">
+            <label for="opening_hours_weekend">Opening hours on weekends*</label>
+            <input type="text" class="form-control" id="opening_hours_weekend" name="opening_hours_weekend"
+                   value="{{ club.opening_hours_weekend }}" required="required">
+            <small id="hint_id_username" class="form-text text-muted" style="-webkit-user-select: auto;">E.g.,
+                12PM–12AM.</small>
         </div>
         <div class="form-group">
             <label for="picture">Picture</label>
             <input type="file" id="picture" name="picture">
+            <small id="hint_id_username" class="form-text text-muted"
+                   style="-webkit-user-select: auto;">Optional.</small>
         </div>
         <div class="checkbox form-group">
             <label for="covid_test_required">COVID Test Required*</label>
