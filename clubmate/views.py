@@ -180,7 +180,9 @@ def add_club(request):
         if new_underage_visitors_allowed is None:
             new_underage_visitors_allowed = False
         if 'picture' in request.FILES:
-                new_club_form.picture = request.FILES['picture']
+            new_picture = request.FILES['picture']
+        else:
+            new_picture = Club.default
         club = Club.objects.get_or_create(name=new_club_name,
                                           club_description=new_club_description,
                                           city=new_city,
@@ -190,7 +192,7 @@ def add_club(request):
                                           entry_fee=new_entry_fee,
                                           opening_hours_week=new_opening_hours_week,
                                           opening_hours_weekend=new_opening_hours_weekend,
-                                          # picture=new_picture,
+                                          picture=new_picture,
                                           covid_test_required=new_covid_test_required,
                                           underage_visitors_allowed=new_underage_visitors_allowed,
                                           average_rating=0.0,
@@ -267,7 +269,9 @@ def edit_club(request, club_id):
         if new_underage_visitors_allowed is None:
             new_underage_visitors_allowed = False
         if 'picture' in request.FILES:
-                new_club_form.picture = request.FILES['picture']
+            new_picture = request.FILES['picture']
+        else:
+            new_picture = Club.default
         club.name = new_club_name
         club.club_description = new_club_description
         club.city = new_city
@@ -277,10 +281,11 @@ def edit_club(request, club_id):
         club.entry_fee = new_entry_fee
         club.opening_hours_week = new_opening_hours_week
         club.opening_hours_weekend = new_opening_hours_weekend
-        # club.picture = new_picture
+        club.picture = new_picture
         club.covid_test_required = new_covid_test_required
         club.underage_visitors_allowed = new_underage_visitors_allowed
         club.save()
+
         return render(request, 'clubmate/operation_successful.html')
     else:
         return render(request, 'clubmate/edit_club.html', context=context_dict)

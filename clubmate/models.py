@@ -3,7 +3,8 @@ from django.db import models
 from django.db.models import Avg
 from django.core.validators import MaxValueValidator, MinValueValidator
 from django.urls import reverse
-
+import os
+from django.conf import settings
 
 class Club(models.Model):
     name = models.CharField(max_length=30)
@@ -16,8 +17,9 @@ class Club(models.Model):
     opening_hours_week = models.CharField(max_length=20)
     opening_hours_weekend = models.CharField(max_length=20)
     picture = models.ImageField(upload_to='club_pictures', default='club_pictures/default_club.png', blank=True)
-    covid_test_required = models.BooleanField(default=0)
-    underage_visitors_allowed = models.BooleanField(default=0)
+    default = os.path.join(settings.MEDIA_DIR, 'club_pictures/default_club.png')
+    covid_test_required = models.BooleanField(default=False)
+    underage_visitors_allowed = models.BooleanField(default=False)
     average_rating = models.FloatField(default=0.0, blank=True)
     user_reported_safety = models.BooleanField(default=False, blank=True)
 
