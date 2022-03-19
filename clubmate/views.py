@@ -292,6 +292,8 @@ def edit_rating(request, rating_id):
         new__title = request.POST.get('title')
         new_score = request.POST.get('rating_score')
         new_safe = request.POST.get('is_safe')
+        if new_safe is None:
+            new_safe = False
         new_rating = request.POST.get('user_commentary')
         rating.title = new__title
         rating.rating_score = new_score
