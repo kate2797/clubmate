@@ -1,8 +1,6 @@
 from datetime import datetime
-
 from django.test import TestCase
 from django.urls import reverse
-
 from clubmate.models import Club, Rating, UserProfile, User
 
 
@@ -87,10 +85,10 @@ class RatingTests(TestCase):
                                                          number_of_upvotes=0)[0]
 
         test_club_rating2 = \
-        Rating.objects.get_or_create(title='testRating2', club=test_club2, author=test_user_profile2,
-                                     rating_score=4, is_safe=True,
-                                     user_commentary='texttesttesttest2',
-                                     number_of_upvotes=0)[0]
+            Rating.objects.get_or_create(title='testRating2', club=test_club2, author=test_user_profile2,
+                                         rating_score=4, is_safe=True,
+                                         user_commentary='texttesttesttest2',
+                                         number_of_upvotes=0)[0]
         test_club_rating1.save()
         test_club_rating2.save()
 
@@ -122,3 +120,23 @@ class AboutTests(TestCase):
         content = 'ClubMate also intends to help club owners get their clubs noticed' in response.content.decode()
         self.assertTrue(heading)
         self.assertTrue(content)
+
+
+class RateDetailTests(TestCase):
+    def setUp(self):
+        test_club = Club.objects.get_or_create(name='testClub', club_description='Test', city='Test',
+                                               website_url='https://swg3.tv/',
+                                               genre='Test', location_coordinates='Test', opening_hours_week='Test',
+                                               opening_hours_weekend='Test')[0]
+        test_club.save()
+
+    def invalid_club(self):
+        response = self.client.get(reverse('clubmate:rate_detail', kwargs={'club_id': 51515151}))
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, 'Invalid Club')
+        self.assertIsNone(response.context['club'])
+
+    def normal_club(self):
+        response = self.client.get(reverse('clubmate:rate_detail', kwargs={'club_id': 1}))
+        heading = 'Rate testClub' in response.content.decode()
+        self.assertTrue(heading)
