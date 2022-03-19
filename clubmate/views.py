@@ -224,10 +224,13 @@ def profile(request, username):
 @login_required
 def edit_picture(request, username):
     context_dict = {}
-    if  request.method == 'POST':
+    if request.method == 'POST':
         user = request.user
-        clubmate_user=UserProfile.objects.get_or_create(user=user)[0]
-        new_picture = request.FILES.get('picture')
+        clubmate_user = UserProfile.objects.get(user=user)
+        if 'picture' in request.FILES:
+            new_picture = request.FILES['picture']
+        else:
+            new_picture = UserProfile.default
         clubmate_user.picture = new_picture
         clubmate_user.save()
         context_dict['clubmate_user'] = clubmate_user

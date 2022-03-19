@@ -51,6 +51,7 @@ class UserProfile(models.Model):
     bio = models.CharField(max_length=100, blank=True)
     clubs = models.ManyToManyField(Club, blank=True)  # Storing the clubs users saved/added
     is_club_owner = models.BooleanField(help_text="Tick this if you are a club owner.", default=False)
+    default = os.path.join(settings.MEDIA_DIR, 'profile_pictures/default_user.png')
 
     def __str__(self):
         return self.user.username
