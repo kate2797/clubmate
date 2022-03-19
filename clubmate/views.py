@@ -215,20 +215,6 @@ def profile(request, username):
     return render(request, 'clubmate/profile.html', context=context_dict)
 
 
-# @login_required
-# def edit_picture(request, username):
-#     if  request.method == 'POST':
-#         user = request.user
-#         clubmate_user=UserProfile.objects.get_or_create(user=user)[0]
-#         new_picture = request.FILES.get('picture')
-#         clubmate_user.picture = new_picture
-#         clubmate_user.save()
-#         return redirect((reverse('clubmate:profile', kwargs={'username': user.username})))
-#     else:
-#         context_dict = {'clubmate_user': clubmate_user}
-#         return render(request, 'clubmate/edit_picture.html', context_dict)
-
-
 @login_required
 def edit_picture(request, username):
     context_dict = {}
@@ -236,13 +222,10 @@ def edit_picture(request, username):
         user = request.user
         clubmate_user = UserProfile.objects.get(user=user)
         if 'picture' in request.FILES:
-            new_picture = request.FILES['picture']
-        else:
-            new_picture = UserProfile.default
-        clubmate_user.picture = new_picture
-        clubmate_user.save()
-        context_dict['clubmate_user'] = clubmate_user
-        return redirect((reverse('clubmate:profile', kwargs={'username': user.username})))
+            new_picture = request.FILES['picture']  # Get the new profile picture
+            clubmate_user.picture = new_picture
+            clubmate_user.save()
+        return redirect((reverse('clubmate:profile', kwargs={'username': username})))
     else:
         permissions_check_clubmate_user(request, context_dict)
         return render(request, 'clubmate/edit_picture.html', context_dict)
