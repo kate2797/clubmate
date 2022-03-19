@@ -329,6 +329,8 @@ def add_rating(title, club, author, rating_score, is_safe, user_commentary, post
                                      number_of_upvotes=number_of_upvotes)[0]
     r.user_reported_safety = False  # Default
     r.save()
+    r.posted_at = posted_at  # Enforce the new date
+    r.save(update_fields=['posted_at'])
     return r
 
 
