@@ -10,19 +10,16 @@
 {% endblock %}
 
 {% block body_block %}
-  <h1>Register</h1>
-
-  {% if registered %}
-  Thanks for registering.
-  <a href="{% url 'clubmate:index' %}">Return to the homepage.</a>
-  {% else %}
-  <form id="user_form" method="post" action="{% url 'clubmate:register' %}" enctype="multipart/form-data">
-    {% csrf_token %}
-    
-    {{ user_form|crispy}}
-    {{ profile_form|crispy }}
-
-    <input class="btn btn-primary" type="submit" name="submit" value="Register" />
-  </form>
-  {% endif %}
+    <h1>Register</h1>
+    {% if registered %}
+        Thanks for registering.
+        <a href="{% url 'clubmate:index' %}">Return to the homepage.</a>
+    {% else %}
+        <form id="user_form" method="post" action="{% url 'clubmate:register' %}" enctype="multipart/form-data">
+            {% csrf_token %}
+            {{ user_form|crispy }}
+            {{ profile_form|crispy }}
+            <input class="btn btn-primary" type="submit" name="submit" value="Register"/>
+        </form>
+    {% endif %}
 {% endblock %}

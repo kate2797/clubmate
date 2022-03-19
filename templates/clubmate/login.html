@@ -11,18 +11,17 @@
 
 {% block body_block %}
     <h1>Login</h1>
-    <FORM id="login_form" method="post" action="{% url 'clubmate:log_in' %}">
+    <form id="login_form" method="post" action="{% url 'clubmate:log_in' %}">
         {% csrf_token %}
-        <div>
-            <label for="username">Username</label>
+        <div class="form-group">
+            <label for="username">Username*</label>
             <input type="text" class="form-control" id="username" name="username">
         </div>
-
         <div>
-            <label for="password">Password</label>
+            <label for="password">Password*</label>
             <input type="password" class="form-control" id="password" name="password">
         </div>
         <br>
-        <INPUT class="btn btn-primary" type="submit" name="submit" value="Submit"/>
-    </FORM>
+        <input class="btn btn-primary" type="submit" name="submit" value="Submit"/>
+    </form>
 {% endblock %}
