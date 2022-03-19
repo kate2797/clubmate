@@ -327,7 +327,7 @@ def log_in(request):
                 return HttpResponse("Your account is disabled.")
         else:
             # Return an 'invalid login' error message.
-            print("invalid login details " + username + " " + password)
+            return render(request,'clubmate/wrong_credentials.html')
     else:
         # the login is a  GET request, so just show the user the login form.
         return render(request, 'clubmate/login.html')
