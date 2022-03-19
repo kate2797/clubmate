@@ -55,7 +55,6 @@ function resetFilter() {
     let filters = document.getElementsByClassName("filter"); // All filterable elements
     let filtersArr = [].slice.call(filters);
     conditionalDisplay(filtersArr);
-
     let message = document.getElementById("div-filtering-message");
     if (message.style.display === 'block') { // Hide the error message if it is there
         message.style.display = 'none';
@@ -90,22 +89,37 @@ function orderReset() {
     conditionalDisplay(filtersArr);
 }
 
-function orderHighToLow() {
+function orderHighToLow(defaultSorting) {
+    let defaultFirst = defaultSorting[0]['fields']['name']; // Taken from Django
     let filters = document.getElementsByClassName("filter"); // All filterable elements
     let filtersArr = [].slice.call(filters);
+    let currentFirst = filtersArr[0].className.split(" ")[0];
     let div = document.getElementById("filtering");
-    let filtersArrLowToHigh = filtersArr.reverse();
-    removeDiv(filtersArrLowToHigh, div); // Reset the previous state
-    appendDiv(filtersArr, div); // Append in the correct order
+    let filtersArrLowToHigh = filtersArr.reverse(); // The div which elements are manipulated
+
+    if (currentFirst !== defaultFirst) { // Only sort if it is not already in the correct order
+        removeDiv(filtersArrLowToHigh, div); // Reset the previous state
+        appendDiv(filtersArr, div); // Append in the correct order
+    }
 }
 
-function orderLowToHigh() {
+function orderLowToHigh(defaultSortingReverse) {
+    let defaultFirst = defaultSortingReverse[0]['fields']['name'].split(" ")[0]; // Handle multi-name clubs
     let filters = document.getElementsByClassName("filter"); // All filterable elements
     let filtersArr = [].slice.call(filters);
+    let currentFirst = filtersArr[0].className.split(" ")[0];
     let filtersArrLowToHigh = filtersArr.reverse(); // Low to High
     let div = document.getElementById("filtering");
-    removeDiv(filtersArr, div);
-    appendDiv(filtersArrLowToHigh, div); // Append in the correct order
+
+    if (currentFirst !== defaultFirst) { // Only sort if it is not already in the correct order
+        removeDiv(filtersArr, div);
+        appendDiv(filtersArrLowToHigh, div); // Append in the correct order
+    }
+}
+
+function showSuccessMessage() {
+    let message = document.getElementById("success-operation");
+    message.style.display = 'block';
 }
 
 /** Helper function to remove a div from another div. */
