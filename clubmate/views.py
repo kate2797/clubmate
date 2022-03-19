@@ -4,7 +4,7 @@ from django.shortcuts import render, redirect
 from django.urls import reverse
 from clubmate.models import UserProfile, Rating
 from django.contrib.auth import login, authenticate, logout
-from clubmate.forms import UserForm, UserProfileForm
+from clubmate.forms import UserForm, UserProfileForm, ClubForm
 from django.contrib import messages
 from django.http import HttpResponseRedirect
 from django.http import HttpResponse
@@ -161,6 +161,8 @@ def save_club(request, club_id):
 @login_required  # Restrict to club owner
 def add_club(request):
     if request.method == 'POST':
+        club_form = ClubForm(request.POST)
+        new_club_form = club_form.save(commit=False)
         new_club_name = request.POST.get('name')
         new_club_description = request.POST.get('club_description')
         new_city = request.POST.get('city')
@@ -170,13 +172,15 @@ def add_club(request):
         new_entry_fee = request.POST.get('entry_fee')
         new_opening_hours_week = request.POST.get('opening_hours_week')
         new_opening_hours_weekend = request.POST.get('opening_hours_weekend')
-        new_picture = request.FILES.get('picture')
+        # new_picture = request.FILES.get('picture')
         new_covid_test_required = request.POST.get('covid_test_required')
         new_underage_visitors_allowed = request.POST.get('underage_visitors_allowed')
         if new_covid_test_required is None:
             new_covid_test_required = False
         if new_underage_visitors_allowed is None:
             new_underage_visitors_allowed = False
+        if 'picture' in request.FILES:
+                new_club_form.picture = request.FILES['picture']
         club = Club.objects.get_or_create(name=new_club_name,
                                           club_description=new_club_description,
                                           city=new_city,
@@ -186,7 +190,7 @@ def add_club(request):
                                           entry_fee=new_entry_fee,
                                           opening_hours_week=new_opening_hours_week,
                                           opening_hours_weekend=new_opening_hours_weekend,
-                                          picture=new_picture,
+                                          # picture=new_picture,
                                           covid_test_required=new_covid_test_required,
                                           underage_visitors_allowed=new_underage_visitors_allowed,
                                           average_rating=0.0,
@@ -244,6 +248,8 @@ def edit_club(request, club_id):
     context_dict = {'club_id': club_id, 'club': club}
     permissions_check_clubmate_user(request, context_dict)
     if request.method == 'POST':
+        club_form = ClubForm(request.POST)
+        new_club_form = club_form.save(commit=False)
         new_club_name = request.POST.get('name')
         new_club_description = request.POST.get('club_description')
         new_city = request.POST.get('city')
@@ -253,13 +259,15 @@ def edit_club(request, club_id):
         new_entry_fee = request.POST.get('entry_fee')
         new_opening_hours_week = request.POST.get('opening_hours_week')
         new_opening_hours_weekend = request.POST.get('opening_hours_weekend')
-        new_picture = request.FILES.get('picture')
+        # new_picture = request.FILES.get('picture')
         new_covid_test_required = request.POST.get('covid_test_required')
         new_underage_visitors_allowed = request.POST.get('underage_visitors_allowed')
         if new_covid_test_required is None:
             new_covid_test_required = False
         if new_underage_visitors_allowed is None:
             new_underage_visitors_allowed = False
+        if 'picture' in request.FILES:
+                new_club_form.picture = request.FILES['picture']
         club.name = new_club_name
         club.club_description = new_club_description
         club.city = new_city
@@ -269,7 +277,7 @@ def edit_club(request, club_id):
         club.entry_fee = new_entry_fee
         club.opening_hours_week = new_opening_hours_week
         club.opening_hours_weekend = new_opening_hours_weekend
-        club.picture = new_picture
+        # club.picture = new_picture
         club.covid_test_required = new_covid_test_required
         club.underage_visitors_allowed = new_underage_visitors_allowed
         club.save()
