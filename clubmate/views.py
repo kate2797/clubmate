@@ -161,8 +161,6 @@ def save_club(request, club_id):
 @login_required  # Restrict to club owner
 def add_club(request):
     if request.method == 'POST':
-        club_form = ClubForm(request.POST)
-        new_club_form = club_form.save(commit=False)
         new_club_name = request.POST.get('name')
         new_club_description = request.POST.get('club_description')
         new_city = request.POST.get('city')
@@ -172,7 +170,6 @@ def add_club(request):
         new_entry_fee = request.POST.get('entry_fee')
         new_opening_hours_week = request.POST.get('opening_hours_week')
         new_opening_hours_weekend = request.POST.get('opening_hours_weekend')
-        # new_picture = request.FILES.get('picture')
         new_covid_test_required = request.POST.get('covid_test_required')
         new_underage_visitors_allowed = request.POST.get('underage_visitors_allowed')
         if new_covid_test_required is None:
@@ -250,8 +247,6 @@ def edit_club(request, club_id):
     context_dict = {'club_id': club_id, 'club': club}
     permissions_check_clubmate_user(request, context_dict)
     if request.method == 'POST':
-        club_form = ClubForm(request.POST)
-        new_club_form = club_form.save(commit=False)
         new_club_name = request.POST.get('name')
         new_club_description = request.POST.get('club_description')
         new_city = request.POST.get('city')
@@ -261,7 +256,6 @@ def edit_club(request, club_id):
         new_entry_fee = request.POST.get('entry_fee')
         new_opening_hours_week = request.POST.get('opening_hours_week')
         new_opening_hours_weekend = request.POST.get('opening_hours_weekend')
-        # new_picture = request.FILES.get('picture')
         new_covid_test_required = request.POST.get('covid_test_required')
         new_underage_visitors_allowed = request.POST.get('underage_visitors_allowed')
         if new_covid_test_required is None:
