@@ -74,7 +74,7 @@ def ratings(request):
     page_reverse_object_time = reverse_paginator_time.get_page(page_number)
 
     context_dict = {'page_object_time': page_object_time,
-                    'reverse_rating_by_time': page_reverse_object_time,}
+                    'reverse_rating_by_time': page_reverse_object_time, }
     permissions_check_clubmate_user(request, context_dict)
     return render(request, 'clubmate/ratings.html', context_dict)
 
@@ -106,7 +106,7 @@ def rate(request):
         form = RatingDetailForm()
         context_dict = {'form': form}
         return render(request, 'clubmate/rate_club.html',
-                      context=context_dict)  # The template that was there before was incorrect
+                      context=context_dict)
 
 
 @login_required  # Anonymous users never even get access to this URL / Restrict to students
@@ -132,7 +132,6 @@ def rate_detail(request, club_id):
         else:
             print(form.errors)
     context_dict = {'club_id': club_id, 'form': form, 'club': club}
-
     return render(request, 'clubmate/rate_club_detail.html', context_dict)
 
 
@@ -142,7 +141,7 @@ def upvote_rating(request, rating_id):
     rating.number_of_upvotes += 1  # Increment the number of votes
     rating.save()
     return HttpResponseRedirect(
-        request.META.get('HTTP_REFERER'))  # Redirects to the same page. TODO: Try handling with AJAX?
+        request.META.get('HTTP_REFERER'))  # Redirects to the same page
 
 
 @login_required  # Anonymous users never even get access to this URL
@@ -193,7 +192,7 @@ def add_club(request):
         club.save()
         user = request.user
         clubmate_user = UserProfile.objects.get_or_create(user=user)[0]
-        clubmate_user.clubs.add(club)  # FIX: Add newly created club to the club owner's profile
+        clubmate_user.clubs.add(club)  # Add newly created club to the club owner's profile
         return redirect(reverse('clubmate:profile', kwargs={'username': user.username}))
     else:
         return render(request, 'clubmate/add_club.html')
@@ -321,7 +320,7 @@ def log_in(request):
                 return HttpResponse("Your account is disabled.")
         else:
             # Return an 'invalid login' error message.
-            return render(request,'clubmate/wrong_credentials.html')
+            return render(request, 'clubmate/wrong_credentials.html')
     else:
         # the login is a  GET request, so just show the user the login form.
         return render(request, 'clubmate/login.html')

@@ -29,10 +29,10 @@
             </button>
             <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                 <a class="dropdown-item" href="#" onclick="rateDisplay('default_display')">Rating Newest to Oldest</a>
-                <a class="dropdown-item" href="#" onclick="rateDisplay('reverse_rating_by_time')">Rating Oldest to Newest</a>
+                <a class="dropdown-item" href="#" onclick="rateDisplay('reverse_rating_by_time')">Rating Oldest to
+                    Newest</a>
             </div>
         </div>
-
     </div>
 
     <div id="default_display">
@@ -64,26 +64,29 @@
             </div>
         {% endfor %}
 
-    <nav aria-label="Pagination in Rating">
-      <ul class="pagination justify-content-center">
-        {% if page_object_time.has_previous %}
-            <li class="page-item"><a class="page-link" href="?page={{ page_object_time.previous_page_number }}">Previous</a></li>
-            <li class="page-item"><a class="page-link" href="?page=1"> 1</a>
-        {% else %}
-            <li class="page-item disabled"><a class="page-link">Previous</a></li>
-            <li class="page-item disabled"><a class="page-link">1</a></li>
-        {% endif %}
-        <li class="page-item"><a class="page-link">{{ page_object_time.number }} / {{ page_object_time.paginator.num_pages }}</a></li>
+        <nav aria-label="Pagination in Rating">
+            <ul class="pagination justify-content-center">
+                {% if page_object_time.has_previous %}
+                    <li class="page-item"><a class="page-link" href="?page={{ page_object_time.previous_page_number }}">Previous</a>
+                    </li>
+                    <li class="page-item"><a class="page-link" href="?page=1"> 1</a>
+                        {% else %}
+                    <li class="page-item disabled"><a class="page-link">Previous</a></li>
+                    <li class="page-item disabled"><a class="page-link">1</a></li>
+                {% endif %}
+                <li class="page-item"><a class="page-link">{{ page_object_time.number }}
+                    / {{ page_object_time.paginator.num_pages }}</a></li>
 
-        <li class="page-item"><a class="page-link" href="?page={{ page_object_time.paginator.num_pages }}">
-            {{ page_object_time.paginator.num_pages }}</a></li>
-        {% if page_object_time.has_next %}
-            <li class="page-item"><a class="page-link" href="?page={{ page_object_time.next_page_number }}">Next</a></li>
-        {% else %}
-            <li class="page-item disabled"><a class="page-link">Next</a></li>
-        {% endif %}
-      </ul>
-    </nav>
+                <li class="page-item"><a class="page-link" href="?page={{ page_object_time.paginator.num_pages }}">
+                    {{ page_object_time.paginator.num_pages }}</a></li>
+                {% if page_object_time.has_next %}
+                    <li class="page-item"><a class="page-link"
+                                             href="?page={{ page_object_time.next_page_number }}">Next</a></li>
+                {% else %}
+                    <li class="page-item disabled"><a class="page-link">Next</a></li>
+                {% endif %}
+            </ul>
+        </nav>
     </div>
 
     <div id="reverse_rating_by_time" style="display: none">
@@ -116,44 +119,30 @@
             </div>
         {% endfor %}
 
-    <nav aria-label="Pagination in Rating">
-      <ul class="pagination justify-content-center">
-        {% if reverse_rating_by_time.has_previous %}
-            <li class="page-item"><a class="page-link" href="?page={{ reverse_rating_by_time.previous_page_number }}">Previous</a></li>
-            <li class="page-item"><a class="page-link" href="?page=1"> 1</a>
-        {% else %}
-            <li class="page-item disabled"><a class="page-link">Previous</a></li>
-            <li class="page-item disabled"><a class="page-link">1</a></li>
-        {% endif %}
-        <li class="page-item"><a class="page-link">{{ reverse_rating_by_time.number }} / {{ reverse_rating_by_time.paginator.num_pages }}</a></li>
+        <nav aria-label="Pagination in Rating">
+            <ul class="pagination justify-content-center">
+                {% if reverse_rating_by_time.has_previous %}
+                    <li class="page-item"><a class="page-link"
+                                             href="?page={{ reverse_rating_by_time.previous_page_number }}">Previous</a>
+                    </li>
+                    <li class="page-item"><a class="page-link" href="?page=1"> 1</a>
+                        {% else %}
+                    <li class="page-item disabled"><a class="page-link">Previous</a></li>
+                    <li class="page-item disabled"><a class="page-link">1</a></li>
+                {% endif %}
+                <li class="page-item"><a class="page-link">{{ reverse_rating_by_time.number }}
+                    / {{ reverse_rating_by_time.paginator.num_pages }}</a></li>
 
-        <li class="page-item"><a class="page-link" href="?page={{ reverse_rating_by_time.paginator.num_pages }}">
-            {{ reverse_rating_by_time.paginator.num_pages }}</a></li>
-        {% if reverse_rating_by_time.has_next %}
-            <li class="page-item"><a class="page-link" href="?page={{ reverse_rating_by_time.next_page_number }}">Next</a></li>
-        {% else %}
-            <li class="page-item disabled"><a class="page-link">Next</a></li>
-        {% endif %}
-      </ul>
-    </nav>
-
+                <li class="page-item"><a class="page-link"
+                                         href="?page={{ reverse_rating_by_time.paginator.num_pages }}">
+                    {{ reverse_rating_by_time.paginator.num_pages }}</a></li>
+                {% if reverse_rating_by_time.has_next %}
+                    <li class="page-item"><a class="page-link"
+                                             href="?page={{ reverse_rating_by_time.next_page_number }}">Next</a></li>
+                {% else %}
+                    <li class="page-item disabled"><a class="page-link">Next</a></li>
+                {% endif %}
+            </ul>
+        </nav>
     </div>
-
-{#        <div class="pagination">#}
-{#            <span class="step-links">#}
-{#                {% if reverse_rating_by_time.has_previous %}#}
-{#                    <a href="?page=1">&laquo; first</a>#}
-{#                    <a href="?page={{ reverse_rating_by_time.previous_page_number }}">previous</a>#}
-{#                {% endif %}#}
-{##}
-{#                <span class="current">#}
-{#                    Page {{ reverse_rating_by_time.number }} of {{ reverse_rating_by_time.paginator.num_pages }}.#}
-{#                </span>#}
-{##}
-{#                {% if reverse_rating_by_time.has_next %}#}
-{#                    <a href="?page={{ reverse_rating_by_time.next_page_number }}">next</a>#}
-{#                    <a href="?page={{ reverse_rating_by_time.paginator.num_pages }}">last &raquo;</a>#}
-{#                {% endif %}#}
-{#            </span>#}
-{#        </div>#}
 {% endblock %}
