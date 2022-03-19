@@ -115,7 +115,10 @@ def rate(request):
 @login_required  # Anonymous users never even get access to this URL / Restrict to students
 def rate_detail(request, club_id):
     form = RateDetailForm()
-    club = Club.objects.get_or_create(id=club_id)[0]
+    try:
+        club = Club.objects.get(id=club_id)
+    except Club.DoesNotExist:
+        club = None
 
     if request.method == 'POST':
         form = RateDetailForm(request.POST)
