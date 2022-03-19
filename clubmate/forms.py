@@ -19,7 +19,7 @@ class UserProfileForm(forms.ModelForm):
 
 
 class RatingDetailForm(forms.ModelForm):
-    title = forms.CharField(label='Title', max_length=30) 
+    title = forms.CharField(label='Title', max_length=30)
     club = forms.ModelChoiceField(queryset=Club.objects.all(), required=True)
     rating_score = forms.FloatField(label='Rating Score', initial=0.0, min_value=0.0, max_value=5.0, )
     is_safe = forms.BooleanField(label='Is it safe?', initial=False, required=False)
@@ -32,7 +32,7 @@ class RatingDetailForm(forms.ModelForm):
 
 class RateDetailForm(forms.ModelForm):
     title = forms.CharField(label='Title', max_length=30)
-    
+
     rating_score = forms.FloatField(label='Rating Score', initial=0.0, min_value=0.0, max_value=5.0, )
     is_safe = forms.BooleanField(label='Is it safe?', initial=False, required=False)
     user_commentary = forms.CharField(label='Your Comment', max_length=9999, widget=forms.Textarea(attrs={'rows': 3}))
