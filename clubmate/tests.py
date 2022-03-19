@@ -72,7 +72,7 @@ class RatingTests(TestCase):
         test_user = User.objects.get_or_create(name='testUser', email='text@text.com', password='testtesttest',
                                                date_join=datetime.date.today(), is_staff=False)[0]
         test_user2 = User.objects.get_or_create(name='testUser2', email='text2@text.com', password='testtesttest2',
-                                               date_join=datetime.date.today(), is_staff=False)[0]
+                                                date_join=datetime.date.today(), is_staff=False)[0]
         test_user.save()
         test_user2.save()
 
@@ -86,10 +86,11 @@ class RatingTests(TestCase):
                                                          user_commentary='texttesttesttest',
                                                          number_of_upvotes=0)[0]
 
-        test_club_rating2 = Rating.objects.get_or_create(title='testRating2', club=test_club2, author=test_user_profile2,
-                                                         rating_score=4, is_safe=True,
-                                                         user_commentary='texttesttesttest2',
-                                                         number_of_upvotes=0)[0]
+        test_club_rating2 = \
+        Rating.objects.get_or_create(title='testRating2', club=test_club2, author=test_user_profile2,
+                                     rating_score=4, is_safe=True,
+                                     user_commentary='texttesttesttest2',
+                                     number_of_upvotes=0)[0]
         test_club_rating1.save()
         test_club_rating2.save()
 
@@ -113,3 +114,11 @@ class RatingTests(TestCase):
         self.assertEqual(test_rating_content2.club, club2)
         self.assertEqual(test_rating_content2.author, test_profile_content2)
 
+
+class AboutTests(TestCase):
+    def about_display(self):
+        response = self.client.get(reverse('clubmate:about'))
+        heading = '<h1>About</h1>' in response.content.decode()
+        content = 'ClubMate also intends to help club owners get their clubs noticed' in response.content.decode()
+        self.assertTrue(heading)
+        self.assertTrue(content)
