@@ -17,9 +17,7 @@
 {% endblock %}
 
 {% block body_block %}
-
     <!-- Common to both user roles -->
-
     <div class="d-flex pb-2 pt-2 pr-2 pb-2 pl-2 row align-items-start justify-content-start">
         <div class="d-inline-flex pb-2 pt-2 pr-5 pb-2 pl-2 d-sm-inline-flex">
             <div>
@@ -28,7 +26,6 @@
                     <p>Edit profile picture</p>
                 </a>
             </div>
-
         </div>
         <div class="d-inline-flex pb-2 pt-2 pr-2 pb-2 d-sm-inline-flex">
             <div>
@@ -37,7 +34,6 @@
             </div>
         </div>
     </div>
-
     <!-- Render conditionally, based on user role: Club Owner -->
     {% if clubmate_user.is_club_owner %}
         <!-- Display clubs added -->
@@ -55,7 +51,6 @@
                 </div>
             </div>
         {% endfor %}
-
         <!-- Render conditionally, based on user role: Student -->
     {% else %}
         <!-- Display saved clubs -->
@@ -75,7 +70,6 @@
                 </div>
             {% endfor %}
         </div>
-
         <!-- Display ratings -->
         <div>
         <h2 class="mt-3 mb-3">Ratings Written</h2>
@@ -95,7 +89,6 @@
                         <span class="badge badge-pill badge-dark">❤️‍🩹 {{ rating.user_reported_safety_ }}</span>
                     </p>
                     <p class="card-text">{{ rating.user_commentary }}</p>
-
                     {% if user.is_authenticated %}
                         <a href="{% url 'clubmate:edit_rating' rating.id %}" class="btn btn-primary btn">Edit Rating</a>
                         <a href="{% url 'clubmate:delete_rating' rating.id %}" class="btn btn-primary btn">Delete Rating</a>
@@ -104,5 +97,4 @@
             </div>
         {% endfor %}
     {% endif %}
-
 {% endblock %}
