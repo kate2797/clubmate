@@ -60,28 +60,21 @@ def club_detail(request, club_id):
 def ratings(request):
     # use for reverse
     all_rating_by_time = sorted(Rating.objects.all(), key=lambda c: c.posted_at, reverse=True)
-    all_rating_by_upvote = sorted(Rating.objects.all(), key=lambda c: c.number_of_upvotes, reverse=True)
 
     # use for not reverse
     reverse_rating_by_time = sorted(Rating.objects.all(), key=lambda c: c.posted_at, reverse=False)
-    reverse_rating_by_upvote = sorted(Rating.objects.all(), key=lambda c: c.number_of_upvotes, reverse=False)
 
     paginator_time = Paginator(all_rating_by_time, 3)
-    paginator_upvote = Paginator(all_rating_by_upvote, 3)
 
     reverse_paginator_time = Paginator(reverse_rating_by_time, 3)
-    reverse_paginator_upvote = Paginator(reverse_rating_by_upvote, 3)
 
     page_number = request.GET.get('page')
     page_object_time = paginator_time.get_page(page_number)
-    page_object_upvote = paginator_upvote.get_page(page_number)
 
     page_reverse_object_time = reverse_paginator_time.get_page(page_number)
-    page_reverse_object_upvote = reverse_paginator_upvote.get_page(page_number)
 
-    context_dict = {'page_object_time': page_object_time, 'page_object_upvote': page_object_upvote,
-                    'reverse_rating_by_time': page_reverse_object_time,
-                    'reverse_rating_by_upvote': page_reverse_object_upvote}
+    context_dict = {'page_object_time': page_object_time,
+                    'reverse_rating_by_time': page_reverse_object_time,}
     permissions_check_clubmate_user(request, context_dict)
     return render(request, 'clubmate/ratings.html', context_dict)
 
