@@ -25,16 +25,16 @@
 {% block body_block %}
     {% if club %}
         <h1>Rate {{ club.name }}</h1>
+        <div>
+            <form id="form" method="post" action="{% url 'clubmate:rate_detail' club_id %}">
+                {% csrf_token %}
+                {{ form|crispy }}
+                {% post_to_twitter object_or_url "Post to Twitter" %}
+                <br>
+                <input class="btn btn-primary" type="submit" name="submit" value="Submit"/>
+            </form>
+        </div>
     {% else %}
-        <h1>Rate Detail</h1>
+        <h1>Invalid Club</h1>
     {% endif %}
-    <div>
-        <form id="form" method="post" action="{% url 'clubmate:rate_detail' club_id %}">
-            {% csrf_token %}
-            {{ form|crispy }}
-            {% post_to_twitter object_or_url "Post to Twitter" %}
-            <br>
-            <input class="btn btn-primary" type="submit" name="submit" value="Submit"/>
-        </form>
-    </div>
 {% endblock %}
