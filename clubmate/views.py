@@ -1,5 +1,8 @@
+import time
+
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
+from django.core import serializers
 from django.shortcuts import render, redirect
 from django.urls import reverse
 from clubmate.models import UserProfile, Rating, Club
@@ -37,8 +40,11 @@ def discover(request):
     clubs_by_rating = sorted(Club.objects.all(), key=lambda c: c.average_rating_, reverse=True)[:3]  # High to low
     safe_clubs = sorted(Club.objects.all(), key=lambda c: c.user_reported_safety_)[:3]
     cheapest_clubs = Club.objects.order_by('entry_fee')[:3]
+    default_sorting = serializers.serialize("json", all_clubs)  # For JavaScript
+    default_sorting_reverse = serializers.serialize("json", sorted(Club.objects.all(), key=lambda c: c.average_rating_))
     context_dict = {'all_clubs': all_clubs, 'clubs_by_rating': clubs_by_rating, 'safe_clubs': safe_clubs,
-                    'cheapest_clubs': cheapest_clubs}
+                    'cheapest_clubs': cheapest_clubs, 'default_sorting': default_sorting,
+                    'default_sorting_reverse': default_sorting_reverse}
     permissions_check_clubmate_user(request, context_dict)
     return render(request, 'clubmate/discover.html', context=context_dict)
 
@@ -154,6 +160,7 @@ def save_club(request, club_id):
     user = request.user  # Get the current user
     clubmate_user = UserProfile.objects.get_or_create(user=user)[0]
     clubmate_user.clubs.add(club)  # Add it to the user's profile
+    time.sleep(3)
     return redirect(reverse('clubmate:profile', kwargs={'username': user.username}))  # Redirect to profile
 
 
@@ -209,6 +216,7 @@ def profile(request, username):
     rating_list = Rating.objects.filter(author=clubmate_user)
     context_dict = {'clubmate_user': clubmate_user, 'ratingList': rating_list}
     return render(request, 'clubmate/profile.html', context=context_dict)
+
 
 # @login_required
 # def edit_picture(request, username):
