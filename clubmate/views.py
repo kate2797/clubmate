@@ -194,7 +194,7 @@ def add_club(request):
         user = request.user
         clubmate_user = UserProfile.objects.get_or_create(user=user)[0]
         clubmate_user.clubs.add(club)  # FIX: Add newly created club to the club owner's profile
-        return render(request, 'clubmate/operation_successful.html')
+        return redirect(reverse('clubmate:profile', kwargs={'username': user.username}))
     else:
         return render(request, 'clubmate/add_club.html')
 
@@ -262,8 +262,7 @@ def edit_club(request, club_id):
         club.covid_test_required = new_covid_test_required
         club.underage_visitors_allowed = new_underage_visitors_allowed
         club.save()
-
-        return render(request, 'clubmate/operation_successful.html')
+        return redirect(reverse('clubmate:profile', kwargs={'username': request.user.username}))
     else:
         return render(request, 'clubmate/edit_club.html', context=context_dict)
 
