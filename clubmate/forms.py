@@ -49,9 +49,3 @@ class RateDetailForm(forms.ModelForm):
     class Meta:
         model = Rating
         fields = ('title', 'rating_score', 'is_safe', 'user_commentary')
-
-
-class ClubForm(forms.ModelForm):
-    class Meta:
-        model = Club
-        fields = ('picture',)

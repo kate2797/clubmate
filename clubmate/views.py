@@ -2,16 +2,12 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.shortcuts import render, redirect
 from django.urls import reverse
-from clubmate.models import UserProfile, Rating
+from clubmate.models import UserProfile, Rating, Club
 from django.contrib.auth import login, authenticate, logout
-from clubmate.forms import UserForm, UserProfileForm, ClubForm
+from clubmate.forms import UserForm, UserProfileForm, RatingDetailForm, RateDetailForm
 from django.contrib import messages
-from django.http import HttpResponseRedirect
-from django.http import HttpResponse
-from clubmate.forms import RatingDetailForm, RateDetailForm
-
+from django.http import HttpResponseRedirect, HttpResponse
 from django.core.paginator import Paginator
-from .models import Club
 
 
 def permissions_check_clubmate_user(request, context_dict):
