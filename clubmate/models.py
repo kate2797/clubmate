@@ -18,7 +18,7 @@ class Club(models.Model):
     opening_hours_week = models.CharField(max_length=20)
     opening_hours_weekend = models.CharField(max_length=20)
     picture = models.ImageField(upload_to='club_pictures', default='club_pictures/default_club.png', blank=True)
-    default = os.path.join(settings.MEDIA_DIR, 'club_pictures/default_club.png')
+    default = os.path.join(settings.MEDIA_DIR, 'club_pictures/default_club.png')  # For return default picture in views
     covid_test_required = models.BooleanField(default=False)
     underage_visitors_allowed = models.BooleanField(default=False)
     average_rating = models.FloatField(default=0.0, blank=True)

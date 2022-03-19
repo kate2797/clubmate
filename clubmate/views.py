@@ -167,14 +167,14 @@ def add_club(request):
         new_opening_hours_weekend = request.POST.get('opening_hours_weekend')
         new_covid_test_required = request.POST.get('covid_test_required')
         new_underage_visitors_allowed = request.POST.get('underage_visitors_allowed')
-        if new_covid_test_required is None:
+        if new_covid_test_required is None:  # Checkbox would be None, rather than false if users don't check checkbox
             new_covid_test_required = False
         if new_underage_visitors_allowed is None:
             new_underage_visitors_allowed = False
         if 'picture' in request.FILES:
             new_picture = request.FILES['picture']
         else:
-            new_picture = Club.default
+            new_picture = Club.default  # Return to default picture, if users don't choose a picture
         club = Club.objects.get_or_create(name=new_club_name,
                                           club_description=new_club_description,
                                           city=new_city,
@@ -187,11 +187,11 @@ def add_club(request):
                                           picture=new_picture,
                                           covid_test_required=new_covid_test_required,
                                           underage_visitors_allowed=new_underage_visitors_allowed,
-                                          average_rating=0.0,
+                                          average_rating=0.0,  # Give a default value
                                           user_reported_safety=True)[0]
         club.save()
         user = request.user
-        clubmate_user = UserProfile.objects.get_or_create(user=user)[0]
+        clubmate_user = UserProfile.objects.get_or_create(user=user)[0]  # Match it with our custom user
         clubmate_user.clubs.add(club)  # Add newly created club to the club owner's profile
         return redirect(reverse('clubmate:profile', kwargs={'username': user.username}))
     else:
@@ -240,14 +240,14 @@ def edit_club(request, club_id):
         new_opening_hours_weekend = request.POST.get('opening_hours_weekend')
         new_covid_test_required = request.POST.get('covid_test_required')
         new_underage_visitors_allowed = request.POST.get('underage_visitors_allowed')
-        if new_covid_test_required is None:
+        if new_covid_test_required is None:  # Checkbox would be None, rather than false if users don't check checkbox
             new_covid_test_required = False
         if new_underage_visitors_allowed is None:
             new_underage_visitors_allowed = False
         if 'picture' in request.FILES:
             new_picture = request.FILES['picture']
         else:
-            new_picture = Club.default
+            new_picture = Club.default  # Return to default picture, if users don't choose a picture
         club.name = new_club_name
         club.club_description = new_club_description
         club.city = new_city
