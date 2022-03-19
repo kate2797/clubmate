@@ -35,7 +35,7 @@ To install system-level dependencies, please also run the following, to install 
 ### Installation
 Before starting the application server, please run the following commands to configure and pre-populate the database with useful data.
 ```
-(clubmate) $ python manage.py makemigrations
+(clubmate) $ python manage.py makemigrations clubmate
 (clubmate) $ python manage.py migrate
 (clubmate) $ python populate_clubmate.py
 ```
