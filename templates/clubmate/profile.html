@@ -24,8 +24,8 @@
         <div class="d-inline-flex pb-2 pt-2 pr-5 pb-2 pl-2 d-sm-inline-flex">
             <div>
                 <a href="{% url 'clubmate:edit_picture' user.username %}">
-                <img src="{{ clubmate_user.picture.url }}" width="200" class="mb-2" alt="Default Profile Image">
-                <p>Edit profile picture</p>
+                    <img src="{{ clubmate_user.picture.url }}" width="200" class="mb-2" alt="Default Profile Image">
+                    <p>Edit profile picture</p>
                 </a>
             </div>
 
@@ -49,12 +49,9 @@
                             href="{% url 'clubmate:club_detail' club.id %}">{{ club.name }}</a>
                     </h5>
                     <p class="card-text">{{ club.club_description }}</p>
-                    <a href="{% url 'clubmate:edit_club' club.id %}">
-                        <button type="button" class="btn btn-primary">Edit Club</button>
-                    </a>
-                    <a href="{% url 'clubmate:delete_club' club.id %}" class="card-link">
-                        <button type="button" class="btn btn-primary">Delete Club</button>
-                    </a>
+
+                    <a href="{% url 'clubmate:edit_club' club.id %}" class="btn btn-primary btn">Edit Club</a>
+                    <a href="{% url 'clubmate:delete_club' club.id %}" class="btn btn-primary btn">Delete Club</a>
                 </div>
             </div>
         {% endfor %}
@@ -100,12 +97,8 @@
                     <p class="card-text">{{ rating.user_commentary }}</p>
 
                     {% if user.is_authenticated %}
-                        <a href="{% url 'clubmate:edit_rating' rating.id %}">
-                            <button type="button" class="btn btn-primary">Edit Rating</button>
-                        </a>
-                        <a href="{% url 'clubmate:delete_rating' rating.id %}" class="card-link">
-                            <button type="button" class="btn btn-primary">Delete Rating</button>
-                        </a>
+                        <a href="{% url 'clubmate:edit_rating' rating.id %}" class="btn btn-primary btn">Edit Rating</a>
+                        <a href="{% url 'clubmate:delete_rating' rating.id %}" class="btn btn-primary btn">Delete Rating</a>
                     {% endif %}
                 </div>
             </div>
