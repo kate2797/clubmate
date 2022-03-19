@@ -25,22 +25,22 @@
             {% csrf_token %}
             <div class="form-group">
                 <label for="title">Title*</label>
-                <input type="text" class="form-control" id="rating_id" name="title">
+                <input type="text" class="form-control" id="rating_id" name="title" value="{{ rating.title }}">
             </div>
 
             <div class="form-group">
                 <label for="rating_score">Rating Score*</label>
-                <input type="text" class="form-control" id="rating_score" name="rating_score">
+                <input type="text" class="form-control" id="rating_score" name="rating_score" value="{{ rating.rating_score }}">
             </div>
 
             <div class="form-group">
                 <label for="is_safe">Is it safe?</label>
-                <input type="checkbox" value="True" id="is_safe" name="is_safe">
+                <input type="checkbox" value="True" id="is_safe" name="is_safe" value="{{ rating.is_safe }}">
             </div>
 
             <div class="form-group">
                 <label for="user_commentary">Your Comment*</label>
-                <textarea type="text" class="form-control" id="rating_id" name="user_commentary" rows="10"></textarea>
+                <input type="text" class="form-control" id="rating_id" name="user_commentary" rows="10" value="{{ rating.user_commentary }}" >
             </div>
 
             <!-- Test the button link, need to repalce with the rate_club.html -->
