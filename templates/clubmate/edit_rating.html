@@ -7,9 +7,9 @@
 
 {% block is_club_owner %}
     {% if clubmate_user.is_club_owner %}
-        <!-- Empty, remove the Rate link -->
+   
     {% else %}
-        <!-- Student, show Rate -->
+        
         <li class="nav-item">
             <a class="nav-link" href="{% url 'clubmate:rate' %}">Rate</a>
         </li>
@@ -42,8 +42,6 @@
                 <label for="user_commentary">Your Comment*</label>
                 <input type="text" class="form-control" id="rating_id" name="user_commentary" rows="10" value="{{ rating.user_commentary }}" >
             </div>
-
-            <!-- Test the button link, need to repalce with the rate_club.html -->
             <div>
                 <a href="{% url 'clubmate:discover' %}" class="card-link">
                     <button type="submit" class="btn btn-primary">Submit</button>
