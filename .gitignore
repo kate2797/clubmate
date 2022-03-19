@@ -10,7 +10,7 @@ migrations/
 media
 .env
 dump.json
-secret.key
+#secret.key
 
 # Byte-compiled / optimized / DLL files
 *.py[cod]
