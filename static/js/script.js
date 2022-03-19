@@ -117,11 +117,6 @@ function orderLowToHigh(defaultSortingReverse) {
     }
 }
 
-function showSuccessMessage() {
-    let message = document.getElementById("success-operation");
-    message.style.display = 'block';
-}
-
 /** Helper function to remove a div from another div. */
 function removeDiv(array, parent) {
     array.forEach(function (element) {

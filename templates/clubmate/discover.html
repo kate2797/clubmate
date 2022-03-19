@@ -162,7 +162,7 @@
                     {% if clubmate_user.is_club_owner %}
                     {% else %}
                         <a href="{% url 'clubmate:rate_detail' club.id %}" class="btn btn-primary">Rate Club</a>
-                        <a href="{% url 'clubmate:save_club' club.id %}" class="btn btn-primary" onclick="showSuccessMessage()">Save Club</a>
+                        <a href="{% url 'clubmate:save_club' club.id %}" class="btn btn-primary">Save Club</a>
                     {% endif %}
                 {% endif %}
             </div>

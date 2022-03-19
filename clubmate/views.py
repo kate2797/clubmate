@@ -1,5 +1,3 @@
-import time
-
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.core import serializers
@@ -160,7 +158,6 @@ def save_club(request, club_id):
     user = request.user  # Get the current user
     clubmate_user = UserProfile.objects.get_or_create(user=user)[0]
     clubmate_user.clubs.add(club)  # Add it to the user's profile
-    time.sleep(3)
     return redirect(reverse('clubmate:profile', kwargs={'username': user.username}))  # Redirect to profile
 
 
