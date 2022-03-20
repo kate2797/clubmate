@@ -8,7 +8,7 @@ Students can browse and select clubs depending on their location, genre, and cri
 The project was developed by Group 33 as an assessed coursework for the ITECH 21-22 module and is hosted on PythonAnywhere under the following link: [itech33.pythonanywhere.com](http://itech33.pythonanywhere.com/). To see the wireframes that guided the visuals of the project, visit this [AdobeXD](https://xd.adobe.com/view/48d98a5e-9a3f-4c8a-84ab-2eb515e9cdd6-1d8a/) link.
 
 ## Getting Started
-To run the project on your machine, please follow the instructions below to clone and install the project properly ☺️.
+To run the project on your machine, please follow the instructions below to clone and install it ☺️.
 
 ### Cloning
 ```
