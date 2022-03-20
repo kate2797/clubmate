@@ -11,9 +11,9 @@ from django.http import HttpResponseRedirect, HttpResponse
 from django.core.paginator import Paginator
 
 
-def permissions_check_clubmate_user(request, context_dict):
+def template_permissions_check_clubmate_user(request, context_dict):
     """ Helper method to allow rendering of content based on user permissions within templates by passing our custom
-    user into the context dictionary. """
+    user into the context dictionary. In the template, the is_club_owner boolean is checked. """
     if not request.user.is_anonymous:
         user = request.user  # Get user from the request
         clubmate_user = UserProfile.objects.get_or_create(user=user)[0]  # Map it to our user
@@ -23,13 +23,13 @@ def permissions_check_clubmate_user(request, context_dict):
 def index(request):
     clubs = Club.objects.all()
     context_dict = {'clubs': clubs}
-    permissions_check_clubmate_user(request, context_dict)
+    template_permissions_check_clubmate_user(request, context_dict)
     return render(request, 'clubmate/index.html', context=context_dict)
 
 
 def about(request):
     context_dict = {}
-    permissions_check_clubmate_user(request, context_dict)
+    template_permissions_check_clubmate_user(request, context_dict)
     return render(request, 'clubmate/about.html', context=context_dict)
 
 
@@ -43,7 +43,7 @@ def discover(request):
     context_dict = {'all_clubs': all_clubs, 'clubs_by_rating': clubs_by_rating, 'safe_clubs': safe_clubs,
                     'cheapest_clubs': cheapest_clubs, 'default_sorting': default_sorting,
                     'default_sorting_reverse': default_sorting_reverse}
-    permissions_check_clubmate_user(request, context_dict)
+    template_permissions_check_clubmate_user(request, context_dict)
     return render(request, 'clubmate/discover.html', context=context_dict)
 
 
@@ -53,29 +53,22 @@ def club_detail(request, club_id):
     except Club.DoesNotExist:
         club = None
     context_dict = {'club': club}
-    permissions_check_clubmate_user(request, context_dict)
+    template_permissions_check_clubmate_user(request, context_dict)
     return render(request, 'clubmate/club_detail.html', context=context_dict)
 
 
 def ratings(request):
-    # use for reverse
-    all_rating_by_time = sorted(Rating.objects.all(), key=lambda c: c.posted_at, reverse=True)
-
-    # use for not reverse
-    reverse_rating_by_time = sorted(Rating.objects.all(), key=lambda c: c.posted_at, reverse=False)
+    all_rating_by_time = sorted(Rating.objects.all(), key=lambda c: c.posted_at, reverse=True)  # Use for reverse
+    reverse_rating_by_time = sorted(Rating.objects.all(), key=lambda c: c.posted_at, reverse=False)  # For not reverse
 
     paginator_time = Paginator(all_rating_by_time, 3)
-
     reverse_paginator_time = Paginator(reverse_rating_by_time, 3)
-
     page_number = request.GET.get('page')
     page_object_time = paginator_time.get_page(page_number)
-
     page_reverse_object_time = reverse_paginator_time.get_page(page_number)
-
     context_dict = {'page_object_time': page_object_time,
                     'reverse_rating_by_time': page_reverse_object_time, }
-    permissions_check_clubmate_user(request, context_dict)
+    template_permissions_check_clubmate_user(request, context_dict)
     return render(request, 'clubmate/ratings.html', context_dict)
 
 
@@ -85,11 +78,11 @@ def rating_detail(request, rating_id):
     except Rating.DoesNotExist:
         rating = None
     context_dict = {'rating': rating}
-    permissions_check_clubmate_user(request, context_dict)
+    template_permissions_check_clubmate_user(request, context_dict)
     return render(request, 'clubmate/rating_detail.html', context=context_dict)
 
 
-@login_required  # Anonymous users never even get access to this URL / Restrict to students
+@login_required
 def rate(request):
     if request.method == 'POST':
         form = RatingDetailForm(request.POST)
@@ -109,7 +102,7 @@ def rate(request):
                       context=context_dict)
 
 
-@login_required  # Anonymous users never even get access to this URL / Restrict to students
+@login_required
 def rate_detail(request, club_id):
     form = RateDetailForm()
     try:
@@ -135,7 +128,7 @@ def rate_detail(request, club_id):
     return render(request, 'clubmate/rate_club_detail.html', context_dict)
 
 
-@login_required  # Anonymous users never even get access to this URL
+@login_required
 def upvote_rating(request, rating_id):
     rating = Rating.objects.get(id=rating_id)  # Get the rating to be modified
     rating.number_of_upvotes += 1  # Increment the number of votes
@@ -144,7 +137,7 @@ def upvote_rating(request, rating_id):
         request.META.get('HTTP_REFERER'))  # Redirects to the same page
 
 
-@login_required  # Anonymous users never even get access to this URL
+@login_required
 def save_club(request, club_id):
     club = Club.objects.get(id=club_id)  # Get the club in question
     user = request.user  # Get the current user
@@ -153,7 +146,7 @@ def save_club(request, club_id):
     return redirect(reverse('clubmate:profile', kwargs={'username': user.username}))  # Redirect to profile
 
 
-@login_required  # Restrict to club owner
+@login_required
 def add_club(request):
     if request.method == 'POST':
         new_club_name = request.POST.get('name')
@@ -219,15 +212,15 @@ def edit_picture(request, username):
             clubmate_user.save()
         return redirect((reverse('clubmate:profile', kwargs={'username': username})))
     else:
-        permissions_check_clubmate_user(request, context_dict)
+        template_permissions_check_clubmate_user(request, context_dict)
         return render(request, 'clubmate/edit_picture.html', context_dict)
 
 
-@login_required  # Restrict to club owner
+@login_required
 def edit_club(request, club_id):
     club = Club.objects.get(id=club_id)
     context_dict = {'club_id': club_id, 'club': club}
-    permissions_check_clubmate_user(request, context_dict)
+    template_permissions_check_clubmate_user(request, context_dict)
     if request.method == 'POST':
         new_club_name = request.POST.get('name')
         new_club_description = request.POST.get('club_description')
@@ -266,7 +259,7 @@ def edit_club(request, club_id):
         return render(request, 'clubmate/edit_club.html', context=context_dict)
 
 
-@login_required  # Restrict to club owner
+@login_required
 def delete_club(request, club_id):
     user = request.user
     club = Club.objects.get(id=club_id)
@@ -274,7 +267,7 @@ def delete_club(request, club_id):
     return redirect(reverse('clubmate:profile', kwargs={'username': user.username}))
 
 
-@login_required  # Restrict to students
+@login_required
 def edit_rating(request, rating_id):
     rating = Rating.objects.get(id=rating_id)  # Get the rating
 
@@ -297,7 +290,7 @@ def edit_rating(request, rating_id):
         return render(request, 'clubmate/edit_rating.html', context_dict)
 
 
-@login_required  # Restrict to students
+@login_required
 def delete_rating(request, rating_id):
     rating = Rating.objects.filter(id=rating_id)
     user = request.user

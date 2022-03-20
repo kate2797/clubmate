@@ -88,7 +88,7 @@ class Rating(models.Model):
         return "SAFE" if self.is_safe is True else "UNSAFE"
 
     class Meta:
-        ordering = ['-number_of_upvotes']  # Default ordering is high to low
+        ordering = ['-posted_at']  # Default ordering is high to low
 
     def __str__(self):
         return self.title

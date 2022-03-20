@@ -84,7 +84,7 @@ def populate():
             'entry_fee': '8.0',
             'opening_hours_week': '10PM–12AM',
             'opening_hours_weekend': '10PM–12AM',
-            'picture': 'club_pictures/swg3.jpeg',
+            'picture': 'club_pictures/swg3.jpg',
             'covid_test_required': 'True',  # Change to human-friendly names next time
             'underage_visitors_allowed': 'True',
             'average_rating': '0.0',
@@ -92,7 +92,7 @@ def populate():
         },
 
         'Inn Deep': {
-            'club_description': 'Craft ale pub with an arched wooden ceiling, a terrace, quirky murals and an American-style menu.',
+            'club_description': 'Set in a lively space with quirky murals adorning the walls and a beer garden overlooking the scenic River Kelvin.',
             'city': 'Glasgow',
             'website_url': 'https://www.inndeep.com/',
             'genre': 'Alternative',
@@ -100,7 +100,7 @@ def populate():
             'entry_fee': '5.0',
             'opening_hours_week': '10AM–6PM',
             'opening_hours_weekend': '10AM–4AM',
-            'picture': 'club_pictures/inndeep.jpeg',
+            'picture': 'club_pictures/inndeep.jpg',
             'covid_test_required': 'False',
             'underage_visitors_allowed': 'True',
             'average_rating': '0.0',
@@ -116,7 +116,7 @@ def populate():
             'entry_fee': '9.0',
             'opening_hours_week': '6PM–3AM',
             'opening_hours_weekend': '6PM–6AM',
-            'picture': 'club_pictures/subclub.png',
+            'picture': 'club_pictures/subclub.jpg',
             'covid_test_required': 'False',
             'underage_visitors_allowed': 'False',
             'average_rating': '0.0',
@@ -131,7 +131,7 @@ def populate():
             'entry_fee': '13.0',
             'opening_hours_week': '11PM–12AM',
             'opening_hours_weekend': '11PM–12AM',
-            'picture': 'club_pictures/fabric.jpeg',
+            'picture': 'club_pictures/fabric.jpg',
             'covid_test_required': 'False',
             'underage_visitors_allowed': 'True',
             'average_rating': '0.0',
@@ -163,9 +163,9 @@ def populate():
             'capacity': '200'
         },
 
-        'Palaye Royale': {
+        'Indietronica': {
             'club': club_map['Inn Deep'],
-            'picture': 'event_pictures/inndeep_palayeroyale.jpg',
+            'picture': 'event_pictures/inndeep_indietronica.jpg',
             'happening_at': dateutil.parser.parse('03/31/22 20:00'),
             'capacity': '100'
         },
@@ -186,15 +186,22 @@ def populate():
 
         'After Dark': {
             'club': club_map['Fabric'],
-            'picture': 'event_pictures/fabric_afterdark.jpeg',
+            'picture': 'event_pictures/fabric_afterdark.jpg',
             'happening_at': dateutil.parser.parse('04/17/22 23:00'),
             'capacity': '400'
         },
 
         '10 Years of Livity Sound': {
             'club': club_map['Fabric'],
-            'picture': 'event_pictures/fabric_10yearsoflivitysound.jpeg',
+            'picture': 'event_pictures/fabric_10yearsoflivitysound.jpg',
             'happening_at': dateutil.parser.parse('05/04/22 23:00'),
+            'capacity': '400'
+        },
+
+        'End of Term Easter Rave': {
+            'club': club_map['Fabric'],
+            'picture': 'event_pictures/fabric_endterm.jpg',
+            'happening_at': dateutil.parser.parse('03/28/22 22:00'),
             'capacity': '400'
         },
     }
@@ -204,10 +211,50 @@ def populate():
         print(f'– {e} was added')
 
     ratings = [
+        {'title': 'Great Venue and Vibe',
+         'club': club_map['SWG3'],
+         'author': user_map['MrsDracoMalfoy'],
+         'rating_score': '4.0',
+         'is_safe': 'True',
+         'user_commentary': "The venue is amazing and has a great vibe. The bar is reasonably priced and well staffed during busy periods. Security is very tight entering the venue and is only a short taxi journey from the centre of Glasgow",
+         'posted_at': dateutil.parser.parse('03/16/22 12:30'),
+         'number_of_upvotes': '56',
+         },
+
+        {'title': 'Fabric was the best night of my life',
+         'club': club_map['Fabric'],
+         'author': user_map['MrsDracoMalfoy'],
+         'rating_score': '5.0',
+         'is_safe': 'True',
+         'user_commentary': "Fabric was the best night of my life. My friends and I went here. The bouncers were the best set of men I've ever met. They trusted, respected, and loved us. Even if you're here for twenty minutes please go to Fabric. Ive never been happier in my life than when I was at Fabric, especially when the bouncy castle was there",
+         'posted_at': dateutil.parser.parse('03/15/22 10:00'),
+         'number_of_upvotes': '70',
+         },
+
+        {'title': 'What’s was all the fuss about??',
+         'club': club_map['SWG3'],
+         'author': user_map['emilyramo'],
+         'rating_score': '3.5',
+         'is_safe': 'True',
+         'user_commentary': "They have good theme night but the club is quite average in general",
+         'posted_at': dateutil.parser.parse('03/11/22 03:30'),
+         'number_of_upvotes': '65',
+         },
+
+        {'title': 'Perfect for a cheap night out',
+         'club': club_map['Inn Deep'],
+         'author': user_map['averagestudent'],
+         'rating_score': '3.0',
+         'is_safe': 'True',
+         'user_commentary': "Perfect for a cheap night out with the uni crowd, the music is normally pretty good, a few alt tunes, but drinks are well priced and some of their parties can be really good different and fun",
+         'posted_at': dateutil.parser.parse('03/03/22 13:34'),
+         'number_of_upvotes': '22',
+         },
+
         {'title': 'Great club',
          'club': club_map['SWG3'],
          'author': user_map['averagestudent'],
-         'rating_score': '4.5',
+         'rating_score': '4.8',
          'is_safe': 'True',
          'user_commentary': "Awesome vibes, great club. A true gem. Their door policy is the best. 'Why are you here?' Perfect question. I always tell my friends about this place and the bouncer and the rumour about how the only fight ever to break out in the place was met by the dancers being so offended they took it upon themselves to throw the perpetrators themselves out the doors and into traffic. Staff hadn't needed to a thing. Who knows if it's true. Legend.",
          'posted_at': dateutil.parser.parse('02/26/22 23:22'),
@@ -217,7 +264,7 @@ def populate():
         {'title': 'Good but would not recommend',
          'club': club_map['SWG3'],
          'author': user_map['ironmansnap'],
-         'rating_score': '2.0',
+         'rating_score': '2.5',
          'is_safe': 'False',
          'user_commentary': "It's a good place, but it's very dangerous outside. Yesterday was my first day in Glasgow, and we've been attacked by 5 people. 1 girl 4 boys. So we had to leave the place...",
          'posted_at': dateutil.parser.parse('02/20/22 13:05'),
@@ -293,9 +340,10 @@ def populate():
     user_map['emilyramo'].clubs.add(club_map['Fabric'])
 
     # Add some clubs to club owners, the clubs they added
-    user_map['SuperMagnificentExtreme'].clubs.add(club_map['Sub Club'])
+    user_map['SuperMagnificentExtreme'].clubs.add(club_map['Fabric'])
     user_map['RidleyRich'].clubs.add(club_map['SWG3'])
     user_map['RidleyRich'].clubs.add(club_map['Inn Deep'])
+    user_map['RidleyRich'].clubs.add(club_map['Sub Club'])
 
 
 def add_user(username, password, email, bio, first_name, last_name, is_club_owner):
