@@ -3,8 +3,6 @@ from django.db import models
 from django.db.models import Avg
 from django.core.validators import MaxValueValidator, MinValueValidator
 from django.urls import reverse
-import os
-from django.conf import settings
 
 
 class Club(models.Model):
@@ -18,11 +16,10 @@ class Club(models.Model):
     opening_hours_week = models.CharField(max_length=20)
     opening_hours_weekend = models.CharField(max_length=20)
     picture = models.ImageField(upload_to='club_pictures', default='club_pictures/default_club.png', blank=True)
-    default = os.path.join(settings.MEDIA_DIR, 'club_pictures/default_club.png')  # For return default picture in views
     covid_test_required = models.BooleanField(default=False)
     underage_visitors_allowed = models.BooleanField(default=False)
-    average_rating = models.FloatField(default=0.0, blank=True)
-    user_reported_safety = models.BooleanField(default=False, blank=True)
+    average_rating = models.FloatField(default=0.0, blank=True)  # For @property
+    user_reported_safety = models.BooleanField(default=False, blank=True)  # For @property
 
     def __str__(self):
         return self.name
@@ -81,7 +78,7 @@ class Rating(models.Model):
     user_commentary = models.TextField()
     posted_at = models.DateTimeField(auto_now_add=True)
     number_of_upvotes = models.IntegerField(default=0)
-    user_reported_safety = models.BooleanField(default=False, blank=True)
+    user_reported_safety = models.BooleanField(default=False, blank=True)  # For @property
 
     @property
     def user_reported_safety_(self):

@@ -164,10 +164,7 @@ def add_club(request):
             new_covid_test_required = False
         if new_underage_visitors_allowed is None:
             new_underage_visitors_allowed = False
-        if 'picture' in request.FILES:
-            new_picture = request.FILES['picture']
-        else:
-            new_picture = Club.default  # Return to default picture, if users don't choose a picture
+        # Create a club given the data #
         club = Club.objects.get_or_create(name=new_club_name,
                                           club_description=new_club_description,
                                           city=new_city,
@@ -177,12 +174,18 @@ def add_club(request):
                                           entry_fee=new_entry_fee,
                                           opening_hours_week=new_opening_hours_week,
                                           opening_hours_weekend=new_opening_hours_weekend,
-                                          picture=new_picture,
                                           covid_test_required=new_covid_test_required,
                                           underage_visitors_allowed=new_underage_visitors_allowed,
                                           average_rating=0.0,  # Give a default value
                                           user_reported_safety=True)[0]
         club.save()
+        # Handle setting a profile picture #
+        if 'picture' in request.FILES:
+            new_picture = request.FILES['picture']  # Got it from the user
+        else:
+            new_picture = club.picture  # Fall back to default
+        club.picture = new_picture  # Set it, either default or new
+        # Add the club to user's club list #
         user = request.user
         clubmate_user = UserProfile.objects.get_or_create(user=user)[0]  # Match it with our custom user
         clubmate_user.clubs.add(club)  # Add newly created club to the club owner's profile
@@ -240,7 +243,7 @@ def edit_club(request, club_id):
         if 'picture' in request.FILES:
             new_picture = request.FILES['picture']
         else:
-            new_picture = Club.default  # Return to default picture, if users don't choose a picture
+            new_picture = club.picture  # Return to default picture, if users don't choose a picture
         club.name = new_club_name
         club.club_description = new_club_description
         club.city = new_city
