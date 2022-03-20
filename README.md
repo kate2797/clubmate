@@ -8,7 +8,7 @@ Students can browse and select clubs depending on their location, genre, and cri
 The project was developed by Group 33 as an assessed coursework for the ITECH 21-22 module and is hosted on PythonAnywhere under the following link: [itech33.pythonanywhere.com](http://itech33.pythonanywhere.com/). To see the wireframes that guided the visuals of the project, visit this [AdobeXD](https://xd.adobe.com/view/48d98a5e-9a3f-4c8a-84ab-2eb515e9cdd6-1d8a/) link.
 
 ## Getting Started
-To run the project on your machine, please follow the instructions below to clone and install the project properly.
+To run the project on your machine, please follow the instructions below to clone and install the project properly ☺️.
 
 ### Cloning
 ```
@@ -23,15 +23,11 @@ $ conda create -n clubmate python=3.7.5
 $ conda activate clubmate
 ```
 ### Dependencies
-To properly run the project, several packages from the `requirements.txt` file need to be installed prior. To install them, run the command below.
+To properly run the project, several packages from the `requirements.txt` file need to be installed prior. To install them, please run the command below.
 ```
 (clubmate) $ pip install -r requirements.txt
 ```
-To install system-level dependencies, please also run the following, to install the dateutil and six package.
-```
-(clubmate) $ pip install python-dateutil
-(clubmate) $ pip install six
-```
+
 ### Installation
 Before starting the application server, please run the following commands to configure and pre-populate the database with useful data.
 ```
