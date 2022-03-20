@@ -65,6 +65,7 @@ The project comes with several unit tests testing its implementation. To run the
 Several technologies were used to build this project. Please see the full list below.
 - Python 3.7
 - Django 2.1
+- SQLite3
 - Bootstrap 5
 - HTML5
 - CSS3
