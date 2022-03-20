@@ -40,7 +40,8 @@ Finally, start the application server and go to port [127.0.0.1:8000](http://127
 (clubmate) $ python manage.py runserver
 ```
 ### Usage
-Although the web application allows new students and club owners to register and login, it also comes pre-populated with several student and club owner users. Please see the credentials below to login as one of the existing users and note that, in all cases, the password is the same as username.
+Although the web application allows new students and club owners to register and login, it also comes pre-populated with several student and club owner users. Please see the credentials below to login as one of the existing users and note that, in all cases, the password is the same as username. Many parts of the application are also accessible to users without a ClubMate account, such as the Discover page.
+
 #### Student Credentials
 - averagestudent
 - ironmansnap
