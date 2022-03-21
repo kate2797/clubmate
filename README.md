@@ -5,7 +5,7 @@ ClubMate also intends to help club owners get their clubs noticed amid the losse
 
 Students can browse and select clubs depending on their location, genre, and criteria such as whether 18+ entry or COVID test are required, user reviews of the venues in terms of the club’s number of stars, user commentary, and whether a club is deemed safe by others. Through its focus on student health safety, ClubMate brings a new spin-off to traditional club rating applications.
 
-The project was developed by Group 33 as an assessed coursework for the ITECH 21-22 module and is hosted on PythonAnywhere under the following link: [itech33.pythonanywhere.com](http://itech33.pythonanywhere.com/). To see the wireframes that guided the visuals of the project, visit this [AdobeXD](https://xd.adobe.com/view/48d98a5e-9a3f-4c8a-84ab-2eb515e9cdd6-1d8a/) link.
+The project was developed by Group 33 as an assessed coursework for the ITECH 21-22 module and is hosted on PythonAnywhere under the following link [itech33.pythonanywhere.com](http://itech33.pythonanywhere.com/). To see the wireframes that guided the visuals of the project, please visit this [AdobeXD](https://xd.adobe.com/view/48d98a5e-9a3f-4c8a-84ab-2eb515e9cdd6-1d8a/) link.
 
 ## Getting Started
 To run the project on your machine, please follow the instructions below to clone and install it ☺️.
@@ -23,7 +23,7 @@ $ conda create -n clubmate python=3.7.5
 $ conda activate clubmate
 ```
 ### Dependencies
-To properly run the project, several packages from the `requirements.txt` file need to be installed prior. To install them, please run the command below.
+For the project to run properly, all packages from the `requirements.txt` file need to be installed prior. To install them, please run the command below.
 ```
 (clubmate) $ pip install -r requirements.txt
 ```
@@ -35,12 +35,12 @@ Before starting the application server, please run the following commands to con
 (clubmate) $ python manage.py migrate
 (clubmate) $ python populate_clubmate.py
 ```
-Finally, start the application server and go to port [127.0.0.1:8000](http://127.0.0.1:8000/) to view the project.
+Finally, start the application server and navigate to port [127.0.0.1:8000](http://127.0.0.1:8000/) to view the project.
 ```
 (clubmate) $ python manage.py runserver
 ```
 ### Usage
-Although the web application allows new students and club owners to register and login, it also comes pre-populated with several student and club owner users. Please see the credentials below to login as one of the existing users and note that, in all cases, the password is the same as username. Many parts of the application are also accessible to users without a ClubMate account, such as the Discover page.
+Although the web application allows new students and club owners to register and login, it also comes pre-populated with several student and club owner users. Please see the credentials below to login as one of the existing users and note that, in all cases, the password is the same as username. However, many parts of the application are also accessible to users without a ClubMate account, such as the Discover or Ratings page.
 
 #### Student Credentials
 - averagestudent

@@ -149,7 +149,3 @@ function rateDisplay(condition) {
         ele.innerText = "Ordering" // Before was: "Now to Last"
     }
 }
-
-function rateOrder(condition) {
-
-}
