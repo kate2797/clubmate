@@ -1,14 +1,15 @@
 # ClubMate
-Going clubbing during your university years can be very enjoyable but also risky. How does one know if the new club in the town is good? Club ratings to the rescue. The aim of ClubMate is to help guide rave-seeking freshers and the student population more broadly through a plethora of venues and clubs throughout the UK not only to get their money's worth, but also ensure they are clubbing safely. Students will have to create an account to be able to leave ratings for clubs and vote for existing ratings.
 
-ClubMate also intends to help club owners get their clubs noticed amid the losses from the pandemic. Club owners can list their venues on ClubMate and include venue address, opening times, a small description of the bar and where it is on a map, so that students can easily choose the venue of their choice for the night.
+Venturing into the club scene during your university days can be thrilling yet daunting. Enter ClubMate: your go-to companion for navigating the UK's nightlife safely and sensibly. Catering to both eager freshers and seasoned students, ClubMate offers a platform where users can rate and review venues, ensuring a vibrant yet secure clubbing experience.
 
-Students can browse and select clubs depending on their location, genre, and criteria such as whether 18+ entry or COVID test are required, user reviews of the venues in terms of the club’s number of stars, user commentary, and whether a club is deemed safe by others. Through its focus on student health safety, ClubMate brings a new spin-off to traditional club rating applications.
+But ClubMate isn't just for the partygoers; it's a lifeline for club owners too. Amidst the pandemic's challenges, ClubMate provides a spotlight for venues, allowing owners to showcase their offerings and safety measures, attracting students eager for a night out.
 
-The project was developed by Group 33 as an assessed coursework for the ITECH 21-22 module and is hosted on PythonAnywhere under the following link [itech33.pythonanywhere.com](http://itech33.pythonanywhere.com/). To see the wireframes that guided the visuals of the project, please visit this [AdobeXD](https://xd.adobe.com/view/48d98a5e-9a3f-4c8a-84ab-2eb515e9cdd6-1d8a/) link.
+Designed by Group 33 as part of the ITECH 21-22 module, ClubMate is more than just an app; it's a community-driven initiative prioritising student well-being. Dive into the world of ClubMate and discover a new era of club rating applications.
+
+Curious to see the project's visual journey? Check out our wireframes on AdobeXD [here](https://xd.adobe.com/view/48d98a5e-9a3f-4c8a-84ab-2eb515e9cdd6-1d8a/).
 
 ## Getting Started
-To run the project on your machine, please follow the instructions below to clone and install it ☺️.
+To set up the project on your machine, kindly follow the instructions below for cloning and installation.
 
 ### Cloning
 ```
